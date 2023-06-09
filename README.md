@@ -1,2 +1,2 @@
-# Jakarta-Application-Development-Second-Edition-
+# Jakarta-Application-Development-
 , published by Packt
