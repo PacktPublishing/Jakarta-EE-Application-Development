@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Stock Ticker Monitor</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body onload="getStockTickerValues()">
+        <h2>Super fancy stock ticker monitor</h2>
+        <table cellspacing="0" cellpadding="0">
+            <tr>
+                <td>ENSD Stock Ticker Value: </td><td>&nbsp;<span id="stickerVal"></span></td>
+            </tr>
+            <tr>
+                <td></td><td><button>Buy!</button></td>
+            </tr>
+        </table>
+        <script>
+            function getStockTickerValues() {
+                var source = new EventSource("resources/serversentevents/subscribe");
+
+                source.addEventListener('ENSD stock ticker value', function (e) {
+                    console.log('event received', e);
+                    document.getElementById("stickerVal").innerHTML = event.data;
+                });
+            }
+        </script>
+    </body>
+</html>

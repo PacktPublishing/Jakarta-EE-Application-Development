@@ -1,0 +1,24 @@
+Received the following event:
+Event name: ENSD stock ticker value
+Event data: 10.00
+
+Received the following event:
+Event name: ENSD stock ticker value
+Event data: 10.90
+
+Received the following event:
+Event name: ENSD stock ticker value
+Event data: 11.80
+
+Received the following event:
+Event name: ENSD stock ticker value
+Event data: 12.70
+
+Received the following event:
+Event name: ENSD stock ticker value
+Event data: 13.60
+
+Received the following event:
+Event name: ENSD stock ticker value
+Event data: 14.50
+
