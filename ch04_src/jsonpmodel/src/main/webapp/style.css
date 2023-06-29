@@ -1,6 +1,7 @@
-/*Shamelessly taken from https://stackoverflow.com/questions/11049149/how-to-achieve-table-layout-without-using-tables*/
 .table {
     display: table;
+    border-collapse: separate;
+    border-spacing: 10px;
 }
 .table-row {
     display: table-row;
