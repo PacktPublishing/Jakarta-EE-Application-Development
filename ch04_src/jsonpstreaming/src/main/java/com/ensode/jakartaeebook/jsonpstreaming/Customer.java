@@ -38,26 +38,13 @@ public class Customer implements Serializable {
 
   @Override
   public String toString() {
-    String localFirstName = firstName;
-    String localLastName = lastName;
-    String localEmail = email;
-
-    if (localEmail == null) {
-      localEmail = "";
-    }
-
-    if (localFirstName == null) {
-      localFirstName = "";
-    }
-    if (localLastName == null) {
-      localLastName = "";
-    }
-
-    String toString;
-    toString = "firstName = " + localFirstName + "\n";
-    toString += "lastName = " + localLastName + "\n";
-    toString += "email = " + localEmail;
-
-    return toString;
+    StringBuilder sb = new StringBuilder();
+    sb.append("Customer{");
+    sb.append("firstName=").append(firstName);
+    sb.append(", lastName=").append(lastName);
+    sb.append(", email=").append(email);
+    sb.append('}');
+    return sb.toString();
   }
+
 }

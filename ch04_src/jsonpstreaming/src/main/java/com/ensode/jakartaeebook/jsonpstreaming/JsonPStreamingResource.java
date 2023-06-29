@@ -1,27 +1,26 @@
 package com.ensode.jakartaeebook.jsonpstreaming;
 
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.json.Json;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import jakarta.json.stream.JsonParser.Event;
-import java.io.Serializable;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-@Named
-@SessionScoped
-public class JsonpBean implements Serializable {
+@Path("jsonpstreaming")
+public class JsonPStreamingResource {
 
-  private String jsonStr;
-
-  @Inject
-  private Customer customer;
-
+  @Path("build")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
   public String buildJson() {
 
     StringWriter stringWriter = new StringWriter();
@@ -32,13 +31,18 @@ public class JsonpBean implements Serializable {
               write("email", "lgates@example.com").
               writeEnd();
     }
-    setJsonStr(stringWriter.toString());
 
-    return "display_json";
+    return stringWriter.toString();
 
   }
 
-  public String parseJson() {
+  @Path("parse")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public String parseJson(String jsonStr) {
+
+    Customer customer = new Customer();
 
     StringReader stringReader = new StringReader(jsonStr);
 
@@ -64,23 +68,6 @@ public class JsonpBean implements Serializable {
     customer.setLastName(keyValueMap.get("lastName"));
     customer.setEmail(keyValueMap.get("email"));
 
-    return "display_parsed_json";
+    return customer.toString();
   }
-
-  public String getJsonStr() {
-    return jsonStr;
-  }
-
-  public void setJsonStr(String jsonStr) {
-    this.jsonStr = jsonStr;
-  }
-
-  public Customer getCustomer() {
-    return customer;
-  }
-
-  public void setCustomer(Customer customer) {
-    this.customer = customer;
-  }
-
 }
