@@ -1,0 +1,11 @@
+/*Shamelessly taken from https://stackoverflow.com/questions/11049149/how-to-achieve-table-layout-without-using-tables*/
+.table {
+    display: table;
+}
+.table-row {
+    display: table-row;
+}
+.table-cell {
+    display: table-cell;
+}
+
