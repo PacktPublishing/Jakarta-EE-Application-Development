@@ -1,4 +1,4 @@
-package com.ensode.jakartaee8book.jsonpobject;
+package com.ensode.jakartaeebook.jsonpobject;
 
 public class Customer {
 

@@ -1,4 +1,4 @@
-package com.ensode.jakartaee8book.jsonpobject;
+package com.ensode.jakartaeebook.jsonpobject;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -12,9 +12,13 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Path("jsonpmodel")
 public class JsonPModelResource {
+
+  private static final Logger LOG = Logger.getLogger(JsonPModelResource.class.getName());
 
   @Path("build")
   @GET
@@ -41,6 +45,7 @@ public class JsonPModelResource {
   @Produces(MediaType.TEXT_PLAIN)
   @Consumes(MediaType.APPLICATION_JSON)
   public String jsonpModelParseJson(String jsonStr) {
+    LOG.log(Level.INFO, String.format("received the following JSON string: %s", jsonStr));
     Customer customer = new Customer();
 
     JsonObject jsonObject;
