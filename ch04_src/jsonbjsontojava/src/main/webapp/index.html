@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>JSON-P Model API Examples Client</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="table">
+            <div class="table-row">
+                <div class="table-cell"><button onclick="postData()">Send POST request</button></div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell" id="post-response"></div>
+            </div>
+        </div>
+        <script>
+            async function postData() {
+                const response = await fetch('http://localhost:8080/jsonbjsontojava/resources/customercontroller', {
+                    method: 'POST',
+                    body: JSON.stringify({"salutation": "Mr.", "firstName": "John", "middleName": "Quinn", "lastName": "Doe", "email": "jdoe@example.com"}),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const postResponse = await response.text(); //extract JSON from the http response
+                document.getElementById("post-response").innerHTML = JSON.stringify(postResponse);
+
+            }
+        </script>
+    </body>
+</html>
