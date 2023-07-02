@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>JSON-P Model API Examples Client</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="table">
+            <div class="table-row">
+                <div class="table-cell"><button onclick="getData()">Send GET request</button></div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell" id="get-response"></div>
+            </div>
+        </div>
+        <script>
+            async function getData() {
+                const response = await fetch('http://localhost:8080/jsonbjavatojson/resources/customercontroller', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const getResponse = await response.json();
+                document.getElementById("get-response").innerHTML = JSON.stringify(getResponse);
+
+            }
+        </script>
+    </body>
+</html>
