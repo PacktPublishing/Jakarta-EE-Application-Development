@@ -36,7 +36,7 @@
                         'Content-Type': 'application/json'
                     }
                 });
-                const postResponse = await response.text(); //extract JSON from the http response
+                const postResponse = await response.text();
                 document.getElementById("post-response").innerHTML = JSON.stringify(postResponse);
 
             }

@@ -10,3 +10,9 @@
 /ch03_src/queryparamsclient/target/
 /ch03_src/serversentevents/target/
 /ch03_src/serversenteventsclient/target/
+/ch04_src/jsonpmodel/target/
+/ch04_src/jsonpstreaming/target/
+/ch04_src/jsonpointer/target/
+/ch04_src/jsonpatch/target/
+/ch04_src/jsonbjsontojava/target/
+/ch04_src/jsonbjavatojson/target/
