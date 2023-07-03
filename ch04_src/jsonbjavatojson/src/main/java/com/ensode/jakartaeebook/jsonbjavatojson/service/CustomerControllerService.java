@@ -2,8 +2,6 @@ package com.ensode.jakartaeebook.jsonbjavatojson.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import com.ensode.jakartaeebook.jsonbjavatojson.dto.Customer;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
