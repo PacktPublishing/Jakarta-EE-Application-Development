@@ -1,4 +1,4 @@
-package com.ensode.jakartaee8book.jakartarestintro.service;
+package com.ensode.jakartaeebook.jakartarestintro.service;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
