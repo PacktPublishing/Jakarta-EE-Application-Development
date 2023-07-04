@@ -18,10 +18,8 @@ public class App {
             queryParam("id", 1L).
             request().get(Customer.class);
 
-    System.out.println("Received the following customer information:");
-    System.out.println("Id: " + customer.getId());
-    System.out.println("First Name: " + customer.getFirstName());
-    System.out.println("Middle Name: " + customer.getMiddleName());
-    System.out.println("Last Name: " + customer.getLastName());
+    System.out.println(String.format(
+            "Received the following customer information:\n%s",
+            customer));
   }
 }
