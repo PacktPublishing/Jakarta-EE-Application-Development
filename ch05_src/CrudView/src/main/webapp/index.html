@@ -54,55 +54,44 @@
                 <div class="table-row">
                     <div class="table-cell"></div>
                     <div class="table-cell">
-                        <button type="button" id="submitBtn">Submit</button>
+                        <button type="submit" id="submitBtn" >Submit</button>
                     </div>
                 </div>
             </div>
         </form>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="./js/libs/jquery/jquery.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script>
-            $(document).ready(function () {
-                // click on button submit
-                $("#submitBtn").on('click', function () {
-                    var formData = $("#customerForm").serializeArray();
-                    console.log("customerData = " + JSON.stringify(formData));
-                    var data = {};
-                    $(formData).each(function (index, obj) {
-                        data[obj.name] = obj.value;
-                    });
-
-                    console.log("data = " + JSON.stringify(data));
-
-                    $.ajax({
+            async function createCustomer(json) {
+                try {
+                    const response = await fetch('http://localhost:8080/CrudController/resources/customercontroller/', {
+                        method: 'POST',
+                        body: json,
                         headers: {
                             'Content-Type': 'application/json'
-                        },
-                        crossDomain: true,
-                        dataType: "json",
-                        type: "POST",
-                        url: "http://localhost:8080/CrudController/resources/customercontroller/",
-                        data: JSON.stringify(data)
-                    }).done(function (data, textStatus, jqXHR) {
-                        if (jqXHR.status === 200) {
-                            $("#msg").removeClass();
-                            $("#msg").toggleClass("alert alert-success");
-                            $("#msg").html("Customer saved successfully.");
-                        } else {
-                            $("#msg").removeClass();
-                            $("#msg").toggleClass("alert alert-danger");
-                            $("#msg").html("There was an error saving customer data.");
                         }
-                    }).fail(function (data, textStatus, jqXHR) {
-                        console.log("ajax call failed");
-                        console.log("data = " + JSON.stringify(data));
-                        console.log("textStatus = " + textStatus);
-                        console.log("jqXHR = " + jqXHR);
-                        console.log("jqXHR.status = " + jqXHR.status);
                     });
+                    document.querySelector("#msg").innerHTML = "Customer saved successfully."
+
+                } catch (error) {
+                    document.querySelector("#msg").innerHTML = "There was an error saving customer data.";
+
+                }
+            }
+
+            function handleSubmit(event) {
+                event.preventDefault();
+                console.log("form submitted");
+                const formData = new FormData(event.target);
+
+                var formDataObject = {};
+                formData.forEach(function (value, key) {
+                    formDataObject[key] = value;
                 });
-            });
+                var json = JSON.stringify(formDataObject);
+
+                createCustomer(json);
+            }
+            const form = document.querySelector('#customerForm');
+            form.addEventListener('submit', handleSubmit);
         </script>
     </body>
 </html>
