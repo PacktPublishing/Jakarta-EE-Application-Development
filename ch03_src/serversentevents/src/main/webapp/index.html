@@ -3,17 +3,18 @@
     <head>
         <title>Stock Ticker Monitor</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="style.css">
     </head>
     <body onload="getStockTickerValues()">
         <h2>Super fancy stock ticker monitor</h2>
-        <table cellspacing="0" cellpadding="0">
-            <tr>
-                <td>ENSD Stock Ticker Value: </td><td>&nbsp;<span id="stickerVal"></span></td>
-            </tr>
-            <tr>
-                <td></td><td><button>Buy!</button></td>
-            </tr>
-        </table>
+        <div class="table">
+            <div class="table-row">
+                <div class="table-cell">ENSD Stock Ticker Value: </div><div class="table-cell">&nbsp;<span id="stickerVal"></span></div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell"></div> <div class="table-cell"><button>Buy!</button></div>
+            </div>
+        </div>
         <script>
             function getStockTickerValues() {
                 var source = new EventSource("resources/serversentevents/subscribe");
