@@ -13,6 +13,8 @@
     <version>1.0</version>
   </parent>
     
+  <!-- This war file contains no Java code, 
+  only HTML and CSS, therefore no Jakarta EE dependencies are needed. -->
  
   <build>
     <finalName>CrudView</finalName>
