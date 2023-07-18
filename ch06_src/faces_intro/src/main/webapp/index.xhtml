@@ -19,8 +19,7 @@
                      label="First Name"
                      value="#{customer.firstName}"
                      required="true">
-          <f:validateLength minimum="2" maximum="30">
-          </f:validateLength>
+          <f:validateLength minimum="2" maximum="30"/>
         </h:inputText>
         <h:outputLabel for="lastName" value="Last Name:">
         </h:outputLabel>
@@ -28,18 +27,16 @@
                      label="Last Name"
                      value="#{customer.lastName}"
                      required="true">
-          <f:validateLength minimum="2" maximum="30">
-          </f:validateLength>
+          <f:validateLength minimum="2" maximum="30"/>
         </h:inputText>
         <h:outputLabel for="email" value="Email:">
         </h:outputLabel>
         <h:inputText id="email"
                      label="Email"
                      value="#{customer.email}">
-          <f:validateLength minimum="3" maximum="30">
-          </f:validateLength>
+          <f:validateLength minimum="3" maximum="30"/>
         </h:inputText>
-        <h:panelGroup></h:panelGroup>
+        <h:panelGroup/>
         <h:commandButton action="confirmation" value="Save">
         </h:commandButton>
       </h:panelGrid>
