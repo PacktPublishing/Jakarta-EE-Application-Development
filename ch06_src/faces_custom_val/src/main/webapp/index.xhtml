@@ -10,33 +10,29 @@
   <h:body>
     <h:outputStylesheet library="css" name="styles.css"/>
     <h:form>
-      <h:messages></h:messages>
+      <h:messages/>
       <h:panelGrid columns="2"
                    columnClasses="rightAlign,leftAlign">
-        <h:outputText value="First Name:">
-        </h:outputText>
+        <h:outputText value="First Name:"/>
         <h:inputText label="First Name"
                      value="#{customer.firstName}"
                      required="true" validator="#{alphaValidator.validateAlpha}">
-          <f:validateLength minimum="2" maximum="30">
-          </f:validateLength>
+          <f:validateLength minimum="2" maximum="30"/>
         </h:inputText>
-        <h:outputText value="Last Name:"></h:outputText>
+        <h:outputText value="Last Name:"/>
         <h:inputText label="Last Name"
                      value="#{customer.lastName}"
                      required="true"
                      validator="#{alphaValidator.validateAlpha}">
-          <f:validateLength minimum="2" maximum="30">
-          </f:validateLength>
+          <f:validateLength minimum="2" maximum="30"/>
         </h:inputText>
         <h:outputText value="Email:">
         </h:outputText>
         <h:inputText label="Email" value="#{customer.email}">
           <f:validator validatorId="emailValidator" />
         </h:inputText>
-        <h:panelGroup></h:panelGroup>
-        <h:commandButton action="confirmation" value="Save">
-        </h:commandButton>
+        <h:panelGroup/>
+        <h:commandButton action="confirmation" value="Save"/>
       </h:panelGrid>
     </h:form>
   </h:body>

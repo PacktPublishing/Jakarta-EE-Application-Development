@@ -8,22 +8,22 @@ import jakarta.faces.validator.FacesValidator;
 import jakarta.faces.validator.Validator;
 import jakarta.faces.validator.ValidatorException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.validator.routines.EmailValidator;
 
 @FacesValidator(value = "emailValidator")
-public class EmailValidator implements Validator {
+public class EmailAddressValidator implements Validator {
 
   @Override
   public void validate(FacesContext facesContext,
           UIComponent uiComponent,
           Object value) throws ValidatorException {
-    org.apache.commons.validator.routines.EmailValidator emailValidator
-            = org.apache.commons.validator.routines.EmailValidator.getInstance();
+    EmailValidator emailValidator = EmailValidator.getInstance();
     HtmlInputText htmlInputText = (HtmlInputText) uiComponent;
 
-    String email = (String) value;
+    String emailAddress = (String) value;
 
-    if (!StringUtils.isEmpty(email)) {
-      if (!emailValidator.isValid(email)) {
+    if (!StringUtils.isEmpty(emailAddress)) {
+      if (!emailValidator.isValid(emailAddress)) {
         FacesMessage facesMessage = new FacesMessage(htmlInputText.
                 getLabel()
                 + ": email format is not valid");
