@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,9 +37,8 @@ public class CustomerController {
         customerFile = Files.createFile(Path.of(tmpDir, "customer-file.txt"));
       }
 
-      //alternate between making the file read-only or writable
-      //when the file is read only, we get an IO exception and navigate back to the input page
-      //otherwise we navigate to the confirmation page
+      //alternate between making the file read-only or writable,
+      //making the file read-only forces an exception and allows us to illustrate dynamic navigation.
       customerFile.toFile().setWritable(!customerFile.toFile().canWrite());
 
       LOG.log(Level.INFO, String.format("Saving customer data to %s", customerFile.toString()));
