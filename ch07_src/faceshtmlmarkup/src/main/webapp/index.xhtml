@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:faces="jakarta.faces">
+  <head faces:id="head">
+    <title>Jakarta Faces Page with HTML5 Markup</title>
+    <link faces:library="css" faces:name="styles.css" rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
+  </head>
+  <body faces:id="body">
+    <form faces:prependId="false">
+      <table style="border-spacing: 0; border-collapse: collapse">
+        <tr>
+          <td class="rightAlign"><label faces:for="firstName">First Name</label></td>
+          <td class="leftAlign"><input type="text" faces:id="firstName" faces:value="#{customer.firstName}"/></td>
+        </tr>
+        <tr>
+          <td class="rightAlign"><label faces:for="lastName">Last Name</label></td>
+          <td class="leftAlign"><input type="text" faces:id="lastName" faces:value="#{customer.lastName}"/></td>
+        </tr>
+        <tr>
+          <td class="rightAlign"><label faces:for="email">Email Address</label></td>
+          <td class="leftAlign"><input type="email" faces:id="email" faces:value="#{customer.email}"/></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="submit" faces:action="confirmation" value="Submit"/></td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>
