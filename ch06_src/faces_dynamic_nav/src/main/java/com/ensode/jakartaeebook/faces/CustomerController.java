@@ -34,7 +34,8 @@ public class CustomerController {
       customerFile = Path.of(tmpDir, "customer-file.txt");
 
       if (!Files.exists(customerFile)) {
-        customerFile = Files.createFile(Path.of(tmpDir, "customer-file.txt"));
+        customerFile = Files.createFile(Path.of(tmpDir,
+                "customer-file.txt"));
       }
 
       //alternate between making the file read-only or writable,
@@ -42,11 +43,13 @@ public class CustomerController {
       customerFile.toFile().setWritable(!customerFile.toFile().canWrite());
 
       LOG.log(Level.INFO, String.format("Saving customer data to %s", customerFile.toString()));
-      Files.writeString(customerFile, customer.toString(), StandardOpenOption.APPEND);
+      Files.writeString(customerFile, customer.toString(),
+              StandardOpenOption.APPEND);
     } catch (IOException ex) {
       LOG.log(Level.SEVERE, "IO exception caught", ex);
       landingPage = "index";
-      FacesMessage facesMessage = new FacesMessage("Error saving customer");
+      FacesMessage facesMessage = new FacesMessage(
+              "Error saving customer");
       facesContext.addMessage(null, facesMessage);
 
     }
