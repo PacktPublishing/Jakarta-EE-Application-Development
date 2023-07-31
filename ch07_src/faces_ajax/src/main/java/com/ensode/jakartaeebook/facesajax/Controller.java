@@ -1,9 +1,14 @@
 package com.ensode.jakartaeebook.facesajax;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Named
 @ViewScoped
@@ -14,7 +19,20 @@ public class Controller implements Serializable {
   private int secondOperand;
   private int total;
 
+  private static final Logger LOG = Logger.getLogger(Controller.class.getName());
+
+  @Inject
+  private FacesContext facesContext;
+
   public Controller() {
+  }
+
+  @PostConstruct
+  public void init() {
+
+    String projectStage = facesContext.getApplication().getProjectStage().toString();
+    LOG.log(Level.INFO, String.format("--- Project stage is: %s", projectStage));
+
   }
 
   public void calculateTotal(ActionEvent actionEvent) {
