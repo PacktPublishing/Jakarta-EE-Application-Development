@@ -1,5 +1,19 @@
-root { 
+root {
     display: block;
+}
+
+.table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-cell {
+    display: table-cell;
 }
 
 .leftAlign {

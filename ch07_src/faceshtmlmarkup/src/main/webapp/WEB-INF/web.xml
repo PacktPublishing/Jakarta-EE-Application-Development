@@ -10,9 +10,9 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>/faces/*</url-pattern>
+    <url-pattern>*.faces</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
-    <welcome-file>faces/index.xhtml</welcome-file>
+    <welcome-file>index.faces</welcome-file>
   </welcome-file-list>
 </web-app>

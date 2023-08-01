@@ -1,37 +1,36 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:faces="jakarta.faces">
   <head faces:id="head">
     <title>Customer Data Entered</title>
-    <link faces:library="css" faces:name="styles.css" rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
   </head>
   <body faces:id="body">
-    <table>
-      <tr>
-        <td class="rightAlign">
+    <div class="table">
+      <div class="table-row">
+        <div class="table-cell">
           First Name:
-        </td>
-        <td class="leftAlign">
+        </div>
+        <div class="table-cell">
           #{customer.firstName}
-        </td>
-      </tr>
-      <tr>
-        <td class="rightAlign">
+        </div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell">
           Last Name:
-        </td>
-        <td class="leftAlign">
+        </div>
+        <div class="table-cell">
           #{customer.lastName}
-        </td>
-      </tr>
-      <tr>
-        <td class="rightAlign">
+        </div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell">
           Email:
-        </td>
-        <td class="leftAlign">
+        </div>
+        <div class="table-cell">
           #{customer.email}
-        </td>
-      </tr>
-    </table>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
