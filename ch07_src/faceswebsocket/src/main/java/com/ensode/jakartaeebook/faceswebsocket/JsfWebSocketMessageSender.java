@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class JsfWebSocketMessageSender implements Serializable {
 
   @Inject
-  @Push
+  @Push(channel = "websocketdemo")
   private PushContext pushContext;
 
   public void send(String message) {

@@ -7,8 +7,6 @@
     <title>JSF WebSocket Demo</title>
   </h:head>
   <h:body>
-    <f:websocket channel="pushContext" onmessage="socketListener" />
-
     <h:form prependId="false">
       <h:panelGrid columns="2">
         <h:outputLabel for="chatWindow" value="Chat Window:"/>
@@ -35,5 +33,6 @@
           textArea.scrollTop = textArea.scrollHeight;
         }
     </script>
+    <f:websocket id="webSocketTag" channel="websocketdemo" onmessage="socketListener" />
   </h:body>
 </html>
