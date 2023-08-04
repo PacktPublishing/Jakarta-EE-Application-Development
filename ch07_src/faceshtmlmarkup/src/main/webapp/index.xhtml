@@ -9,20 +9,35 @@
     <form faces:prependId="false">
       <div class="table">
         <div class="table-row">
-          <div class="table-cell"><label faces:for="firstName">First Name</label></div>
-          <div class="table-cell"><input type="text" faces:id="firstName" faces:value="#{customer.firstName}"/></div>
+          <div class="table-cell">
+            <label faces:for="firstName">First Name</label></div>
+          <div class="table-cell">
+            <input type="text" faces:id="firstName"
+                   faces:value="#{customer.firstName}"/>
+          </div>
         </div>
         <div class="table-row">
-          <div class="table-cell"><label faces:for="lastName">Last Name</label></div>
-          <div class="table-cell"><input type="text" faces:id="lastName" faces:value="#{customer.lastName}"/></div>
+          <div class="table-cell">
+            <label faces:for="lastName">Last Name</label></div>
+          <div class="table-cell">
+            <input type="text" faces:id="lastName"
+                   faces:value="#{customer.lastName}"/>
+          </div>
         </div>
         <div class="table-row">
-          <div class="table-cell"><label faces:for="email">Email Address</label></div>
-          <div class="table-cell"><input type="email" faces:id="email" faces:value="#{customer.email}"/></div>
+          <div class="table-cell">
+            <label faces:for="email">Email Address</label></div>
+          <div class="table-cell">
+            <input type="email" faces:id="email"
+                   faces:value="#{customer.email}"/>
+          </div>
         </div>
         <div class="table-row">
           <div class="table-cell"></div>
-          <div class="table-cell"><input type="submit" faces:action="confirmation" value="Submit"/></div>
+          <div class="table-cell">
+            <input type="submit" faces:action="confirmation"
+                   value="Submit"/>
+          </div>
         </div>
       </div>
     </form>
