@@ -18,6 +18,7 @@ public class FacesWebSocketController implements Serializable {
   public void sendMessage() {
     facesWebSocketMessageSender.send(
             String.format("%s: %s", userName, message));
+    message = "";
   }
 
   public String navigateToChatPage() {

@@ -18,7 +18,7 @@
         <h:commandButton
             actionListener="#{facesWebSocketController.sendMessage()}"
             value="Send message">
-          <f:ajax execute="chatInput" render="chatWindow"/>
+          <f:ajax execute="chatInput" render="chatWindow chatInput"/>
         </h:commandButton>
       </h:panelGrid>
     </h:form>
