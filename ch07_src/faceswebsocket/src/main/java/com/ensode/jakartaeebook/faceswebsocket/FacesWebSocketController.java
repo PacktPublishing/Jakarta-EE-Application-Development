@@ -7,28 +7,29 @@ import java.io.Serializable;
 
 @Named
 @SessionScoped
-public class JsfWebSocketController implements Serializable {
+public class FacesWebSocketController implements Serializable {
 
   @Inject
-  private JsfWebSocketMessageSender jsfWebSocketMessageSender;
+  private FacesWebSocketMessageSender facesWebSocketMessageSender;
 
   private String userName;
   private String message;
 
   public void sendMessage() {
-    jsfWebSocketMessageSender.send(String.format("%s: %s", userName, message));
+    facesWebSocketMessageSender.send(
+            String.format("%s: %s", userName, message));
   }
 
   public String navigateToChatPage() {
     return "chat";
   }
 
-  public JsfWebSocketMessageSender getJsfWebSocketMessageSender() {
-    return jsfWebSocketMessageSender;
+  public FacesWebSocketMessageSender getJsfWebSocketMessageSender() {
+    return facesWebSocketMessageSender;
   }
 
-  public void setJsfWebSocketMessageSender(JsfWebSocketMessageSender jsfWebSocketMessageSender) {
-    this.jsfWebSocketMessageSender = jsfWebSocketMessageSender;
+  public void setJsfWebSocketMessageSender(FacesWebSocketMessageSender jsfWebSocketMessageSender) {
+    this.facesWebSocketMessageSender = jsfWebSocketMessageSender;
   }
 
   public String getUserName() {
