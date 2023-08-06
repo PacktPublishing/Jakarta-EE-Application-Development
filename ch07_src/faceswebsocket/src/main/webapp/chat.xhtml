@@ -4,7 +4,7 @@
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core">
   <h:head>
-    <title>JSF WebSocket Demo</title>
+    <title>Faces WebSocket Demo</title>
   </h:head>
   <h:body>
     <h:form prependId="false">
@@ -12,9 +12,12 @@
         <h:outputLabel for="chatWindow" value="Chat Window:"/>
         <textarea id="chatWindow" rows="10"/>
         <h:outputLabel for="chatInput" value="Type something here:"/>
-        <h:inputText id="chatInput" value="#{jsfWebSocketController.message}"/>
+        <h:inputText id="chatInput"
+                     value="#{facesWebSocketController.message}"/>
         <h:panelGroup/>
-        <h:commandButton actionListener="#{jsfWebSocketController.sendMessage()}" value="Send message">
+        <h:commandButton
+            actionListener="#{facesWebSocketController.sendMessage()}"
+            value="Send message">
           <f:ajax execute="chatInput" render="chatWindow"/>
         </h:commandButton>
       </h:panelGrid>
@@ -33,6 +36,7 @@
           textArea.scrollTop = textArea.scrollHeight;
         }
     </script>
-    <f:websocket id="webSocketTag" channel="websocketdemo" onmessage="socketListener" />
+    <f:websocket id="webSocketTag" channel="websocketdemo"
+                 onmessage="socketListener" />
   </h:body>
 </html>

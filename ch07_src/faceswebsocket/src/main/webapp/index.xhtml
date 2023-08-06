@@ -9,9 +9,9 @@
     <h:form>
       <h:panelGrid columns="2">
         <h:outputLabel for="userName" value="Enter a username"/>
-        <h:inputText id="userName" value="#{jsfWebSocketController.userName}"/>
+        <h:inputText id="userName" value="#{facesWebSocketController.userName}"/>
         <h:panelGroup/>
-        <h:commandButton value="Submit" action="#{jsfWebSocketController.navigateToChatPage()}"/>
+        <h:commandButton value="Submit" action="#{facesWebSocketController.navigateToChatPage()}"/>
       </h:panelGrid>
     </h:form>
   </h:body>
