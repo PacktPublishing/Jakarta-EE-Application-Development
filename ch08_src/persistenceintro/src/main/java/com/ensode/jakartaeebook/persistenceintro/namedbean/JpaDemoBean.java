@@ -2,7 +2,6 @@ package com.ensode.jakartaeebook.persistenceintro.namedbean;
 
 import com.ensode.jakartaeebook.persistenceintro.entity.Customer;
 import jakarta.annotation.Resource;
-import jakarta.annotation.sql.DataSourceDefinition;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
