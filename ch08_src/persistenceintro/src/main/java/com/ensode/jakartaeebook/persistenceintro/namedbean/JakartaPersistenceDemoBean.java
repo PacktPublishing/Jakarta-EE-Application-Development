@@ -16,7 +16,7 @@ import jakarta.transaction.UserTransaction;
 @Named
 @RequestScoped
 
-public class JakartaPersistence {
+public class JakartaPersistenceDemoBean {
 
   @PersistenceContext
   private EntityManager entityManager;
