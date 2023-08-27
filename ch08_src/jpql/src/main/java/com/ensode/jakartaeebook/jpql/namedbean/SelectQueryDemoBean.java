@@ -14,43 +14,37 @@ import jakarta.persistence.Query;
 @RequestScoped
 public class SelectQueryDemoBean {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+  @PersistenceContext
+  private EntityManager entityManager;
 
-    private Stream<UsState> matchingStatesStream;
-    private List<UsState> matchingStatesList;
+  private List<UsState> matchingStatesList;
 
-    public String findStates() {
-        String retVal = "confirmation";
+  public String findStates() {
+    String retVal = "confirmation";
 
-        try {
-            Query query = entityManager
-                    .createQuery(
-                            "SELECT s FROM UsState s WHERE s.usStateNm "
-                            + "LIKE :name");
+    try {
+      Query query = entityManager
+              .createQuery(
+                      "SELECT s FROM UsState s WHERE s.usStateNm "
+                      + "LIKE :name");
 
-            query.setParameter("name", "New%");
+      query.setParameter("name", "New%");
 
-            matchingStatesStream = query.getResultStream();
-
-            if (matchingStatesStream != null) {
-                matchingStatesList = matchingStatesStream.collect(Collectors.toList());
-            }
-
-        } catch (Exception e) {
-            retVal = "error";
-            e.printStackTrace();
-        }
-
-        return retVal;
+      matchingStatesList = query.getResultList();
+    } catch (Exception e) {
+      retVal = "error";
+      e.printStackTrace();
     }
 
-    public List<UsState> getMatchingStatesList() {
-        return matchingStatesList;
-    }
+    return retVal;
+  }
 
-    public void setMatchingStatesList(List<UsState> matchingStatesList) {
-        this.matchingStatesList = matchingStatesList;
-    }
+  public List<UsState> getMatchingStatesList() {
+    return matchingStatesList;
+  }
+
+  public void setMatchingStatesList(List<UsState> matchingStatesList) {
+    this.matchingStatesList = matchingStatesList;
+  }
 
 }
