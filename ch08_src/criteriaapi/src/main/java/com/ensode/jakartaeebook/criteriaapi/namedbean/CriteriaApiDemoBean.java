@@ -1,8 +1,6 @@
 package com.ensode.jakartaeebook.criteriaapi.namedbean;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import com.ensode.jakartaeebook.criteriaapi.entity.UsState;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
@@ -25,7 +23,6 @@ public class CriteriaApiDemoBean {
   @PersistenceContext
   private EntityManager entityManager;
 
-  private Stream<UsState> matchingStatesStream;
   private List<UsState> matchingStatesList;
 
   public String findStates() {
@@ -51,11 +48,7 @@ public class CriteriaApiDemoBean {
       TypedQuery typedQuery = entityManager.createQuery(
               criteriaQuery);
 
-      matchingStatesStream = typedQuery.getResultStream();
-
-      if (matchingStatesStream != null) {
-        matchingStatesList = matchingStatesStream.collect(Collectors.toList());
-      }
+      matchingStatesList = typedQuery.getResultList();
 
     } catch (Exception e) {
       retVal = "error";
