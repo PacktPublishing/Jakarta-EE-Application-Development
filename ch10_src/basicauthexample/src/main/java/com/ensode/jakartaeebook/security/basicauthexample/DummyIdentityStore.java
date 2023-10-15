@@ -33,11 +33,11 @@ public class DummyIdentityStore implements IdentityStore {
     if (usernamePasswordCredential.compareTo(
             "david", "secret")) {
       credentialValidationResult = new CredentialValidationResult("david", adminRoleSet);
-    }
-    else if (usernamePasswordCredential.compareTo("alan", "iforgot")) {
+    } else if (usernamePasswordCredential.compareTo("alan", "iforgot")) {
       credentialValidationResult = new CredentialValidationResult("alan", userAdminRoleSet);
-    }
-    else {
+    } else if (usernamePasswordCredential.compareTo("alice", "password")) {
+      credentialValidationResult = new CredentialValidationResult("alice", userRoleSet);
+    } else {
       credentialValidationResult = CredentialValidationResult.INVALID_RESULT;
     }
 
