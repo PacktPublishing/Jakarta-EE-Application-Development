@@ -1,6 +1,5 @@
 package com.ensode.jakartaeebook.httpauthdbidentitystore;
 
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
 import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import jakarta.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
@@ -32,7 +31,6 @@ import java.io.IOException;
             "Pbkdf2PasswordHash.SaltSizeBytes=64"
         }
 )
-@DeclareRoles({"user", "admin"})
 @WebServlet("/securedServlet")
 @ServletSecurity(
         @HttpConstraint(rolesAllowed = {"admin"}))

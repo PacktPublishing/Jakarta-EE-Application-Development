@@ -58,16 +58,4 @@ public class SecurityConfig {
       throw new IllegalStateException(e);
     }
   }
-
-  @PreDestroy
-  public void destroy() {
-    try {
-      executeUpdate(dataSource, "DROP TABLE IF EXISTS USERS");
-      executeUpdate(dataSource, "DROP TABLE IF EXISTS GROUPS");
-      executeUpdate(dataSource, "DROP TABLE IF EXISTS USER_GROUPS");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
 }
