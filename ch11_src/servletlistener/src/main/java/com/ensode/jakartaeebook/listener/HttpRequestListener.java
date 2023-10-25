@@ -4,19 +4,22 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.annotation.WebListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebListener()
 public class HttpRequestListener implements ServletRequestListener {
 
+  private static final Logger LOG
+          = Logger.getLogger(HttpRequestListener.class.getName());
+
   @Override
   public void requestInitialized(ServletRequestEvent servletRequestEvent) {
-    ServletContext servletContext = servletRequestEvent.getServletContext();
-    servletContext.log("New request initialized");
+    LOG.log(Level.INFO, "New request initialized");
   }
 
   @Override
   public void requestDestroyed(ServletRequestEvent servletRequestEvent) {
-    ServletContext servletContext = servletRequestEvent.getServletContext();
-    servletContext.log("Request destroyed");
+    LOG.log(Level.INFO, "Request destroyed");
   }
 }
