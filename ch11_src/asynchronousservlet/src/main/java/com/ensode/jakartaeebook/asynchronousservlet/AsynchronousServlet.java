@@ -12,15 +12,15 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "AsynchronousServlet", urlPatterns = {
   "/AsynchronousServlet"},
-asyncSupported = true)
+        asyncSupported = true)
 public class AsynchronousServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest request,
           HttpServletResponse response)
           throws ServletException, IOException {
-    final Logger logger =
-            Logger.getLogger(AsynchronousServlet.class.getName());
+    final Logger logger = Logger.getLogger(AsynchronousServlet.class.
+            getName());
     logger.log(Level.INFO, "--- Entering doGet()");
     final AsyncContext ac = request.startAsync();
     logger.log(Level.INFO, "---- invoking ac.start()");
@@ -31,15 +31,10 @@ public class AsynchronousServlet extends HttpServlet {
         logger.log(Level.INFO, "inside thread");
         try {
           Thread.sleep(10000);
-        } catch (InterruptedException ex) {
-          Logger.getLogger(AsynchronousServlet.class.getName()).
-                  log(Level.SEVERE, null, ex);
-        }
-        try {
           ac.getResponse().getWriter().
                   println("You should see this after a brief wait");
           ac.complete();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
           Logger.getLogger(AsynchronousServlet.class.getName()).
                   log(Level.SEVERE, null, ex);
         }
