@@ -1,4 +1,4 @@
-package com.ensode.jakartabook;
+package com.ensode.jakartaeebook;
 
 import jakarta.ejb.Remote;
 import jakarta.ejb.Timer;
