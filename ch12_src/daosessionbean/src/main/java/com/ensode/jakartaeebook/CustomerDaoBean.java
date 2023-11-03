@@ -1,18 +1,15 @@
 package com.ensode.jakartaeebook;
 
-import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateful;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @Stateful
-@LocalBean
-public class CustomerDaoBean implements CustomerDao {
+public class CustomerDaoBean {
 
   @PersistenceContext
   private EntityManager entityManager;
 
-  @Override
   public void saveCustomer(Customer customer) {
     if (customer.getCustomerId() == null) {
       entityManager.persist(customer);
@@ -21,7 +18,6 @@ public class CustomerDaoBean implements CustomerDao {
     }
   }
 
-  @Override
   public Customer getCustomer(Long customerId) {
     Customer customer;
 
@@ -30,7 +26,6 @@ public class CustomerDaoBean implements CustomerDao {
     return customer;
   }
 
-  @Override
   public void deleteCustomer(Customer customer) {
     entityManager.remove(customer);
   }
