@@ -15,18 +15,10 @@ public class CustomerDaoBean implements CustomerDao {
   @Override
   public void saveCustomer(Customer customer) {
     if (customer.getCustomerId() == null) {
-      saveNewCustomer(customer);
+      entityManager.persist(customer);
     } else {
-      updateCustomer(customer);
+      entityManager.merge(customer);
     }
-  }
-
-  private void saveNewCustomer(Customer customer) {
-    entityManager.persist(customer);
-  }
-
-  private void updateCustomer(Customer customer) {
-    entityManager.merge(customer);
   }
 
   @Override
