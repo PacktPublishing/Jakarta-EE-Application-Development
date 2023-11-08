@@ -21,22 +21,16 @@ public class JebTimerExampleBean implements JebTimerExample {
 
   @Override
   public void startTimer(Serializable info) {
-    Timer timer = timerService.createTimer(new Date(), 5000, info);
+    timerService.createTimer(new Date(), 5000, info);
   }
 
   @Override
   public void stopTimer(Serializable info) {
-    Timer timer;
-    Collection timers = timerService.getTimers();
+    Collection<Timer> timers = timerService.getTimers();
 
-    for (Object object : timers) {
-      timer = ((Timer) object);
-
-      if (timer.getInfo().equals(info)) {
-        timer.cancel();
-        break;
-      }
-    }
+    timers.stream().filter(
+        t -> t.getInfo().equals(info)).
+        forEach(t -> t.cancel());
   }
 
   @Timeout
