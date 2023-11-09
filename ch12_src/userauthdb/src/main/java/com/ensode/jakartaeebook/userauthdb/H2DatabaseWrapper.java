@@ -1,4 +1,4 @@
-package com.ensode.jakartaeebook.customerdb;
+package com.ensode.jakartaeebook.userauthdb;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.h2.tools.Server;
@@ -24,16 +25,16 @@ public class H2DatabaseWrapper {
 
     try {
 
-      String inMemoryJdbcUrl = "jdbc:h2:mem:customerdb;DB_CLOSE_DELAY=-1";
+      String inMemoryJdbcUrl = "jdbc:h2:mem:userauthdb;DB_CLOSE_DELAY=-1";
       String tcpJdbcUrl;
 
-      server = Server.createTcpServer("-tcpPort", "9094", "-tcpAllowOthers").start();
+      server = Server.createTcpServer("-tcpPort", "9093", "-tcpAllowOthers").start();
 
-      tcpJdbcUrl = String.format("jdbc:h2:%s/mem:customerdb", server.getURL());
+      tcpJdbcUrl = String.format("jdbc:h2:%s/mem:userauthdb", server.getURL());
       Class.forName("org.h2.Driver");
 
       connection = DriverManager.getConnection(String.format(
-          inMemoryJdbcUrl), "sa", "");
+              inMemoryJdbcUrl), "sa", "");
       System.out.println(String.format("Connection Established: %s/%s", connection.getMetaData().getDatabaseProductName(), connection.getCatalog()));
 
       System.out.println(String.format("JDBC URL: %s", tcpJdbcUrl));
@@ -66,7 +67,10 @@ public class H2DatabaseWrapper {
     List<String> scriptLines = new ArrayList<>();
 
     try (InputStream inputStream = this.getClass().getClassLoader()
-        .getResourceAsStream("create_populate_tables.sql"); InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8); BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+            .getResourceAsStream("user_auth_db.sql");
+            InputStreamReader inputStreamReader = new InputStreamReader(
+                    inputStream, StandardCharsets.UTF_8);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
 
       String scriptLine;
       while ((scriptLine = bufferedReader.readLine()) != null) {
@@ -76,6 +80,10 @@ public class H2DatabaseWrapper {
 
     //remove empty lines and comments
     scriptLines = scriptLines.stream().filter(line -> !line.isBlank()).filter(line -> !line.startsWith("--")).collect(Collectors.toList());
+
+    //The database script splits sql statements into multiple lines, join all lines into one long string, then split that string using the semicolon
+    //character as a delimiter, we end up with a complete SQL statement per line.
+    scriptLines = Arrays.asList(String.join("\n", scriptLines).split(";"));
 
     return scriptLines;
   }

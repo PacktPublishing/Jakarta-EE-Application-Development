@@ -5,15 +5,13 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-
 @Stateless
-@RolesAllowed("appadmin")
-public class SecureCustomerDaoBean implements SecureCustomerDao {
+@RolesAllowed("admin")
+public class SecureCustomerDaoBean {
 
   @PersistenceContext
   private EntityManager entityManager;
 
-  @Override
   public void saveCustomer(Customer customer) {
     if (customer.getCustomerId() == null) {
       saveNewCustomer(customer);
@@ -22,21 +20,17 @@ public class SecureCustomerDaoBean implements SecureCustomerDao {
     }
   }
 
-  @Override
   public Long saveNewCustomer(Customer customer) {
     entityManager.persist(customer);
 
     return customer.getCustomerId();
   }
 
-  @Override
   public void updateCustomer(Customer customer) {
     entityManager.merge(customer);
   }
 
-  @RolesAllowed(
-      {"appuser", "appadmin"})
-  @Override
+  @RolesAllowed({"user", "admin"})
   public Customer getCustomer(Long customerId) {
     Customer customer;
 
@@ -45,7 +39,6 @@ public class SecureCustomerDaoBean implements SecureCustomerDao {
     return customer;
   }
 
-  @Override
   public void deleteCustomer(Customer customer) {
     entityManager.remove(customer);
   }
