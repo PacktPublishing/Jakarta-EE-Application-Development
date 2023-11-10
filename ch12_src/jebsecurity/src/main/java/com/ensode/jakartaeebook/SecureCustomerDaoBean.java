@@ -12,22 +12,13 @@ public class SecureCustomerDaoBean {
   @PersistenceContext
   private EntityManager entityManager;
 
-  public void saveCustomer(Customer customer) {
+  public Long saveCustomer(Customer customer) {
     if (customer.getCustomerId() == null) {
-      saveNewCustomer(customer);
+      entityManager.persist(customer);
     } else {
-      updateCustomer(customer);
+      entityManager.merge(customer);
     }
-  }
-
-  public Long saveNewCustomer(Customer customer) {
-    entityManager.persist(customer);
-
     return customer.getCustomerId();
-  }
-
-  public void updateCustomer(Customer customer) {
-    entityManager.merge(customer);
   }
 
   @RolesAllowed({"user", "admin"})
@@ -35,7 +26,6 @@ public class SecureCustomerDaoBean {
     Customer customer;
 
     customer = entityManager.find(Customer.class, customerId);
-
     return customer;
   }
 

@@ -55,7 +55,7 @@ public class SecuredServlet extends HttpServlet {
     customer.setEmail("butcher@phony.org");
 
     response.getWriter().write("Saving New Customer...\n");
-    newCustomerId = secureCustomerDao.saveNewCustomer(customer);
+    newCustomerId = secureCustomerDao.saveCustomer(customer);
 
     response.getWriter().write("Retrieving customer...\n");
     customer = secureCustomerDao.getCustomer(newCustomerId);
