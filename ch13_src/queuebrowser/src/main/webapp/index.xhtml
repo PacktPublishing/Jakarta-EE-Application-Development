@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html">
   <h:head>
-    <title>Browse JMS Messages</title>
+    <title>Browse Messages</title>
   </h:head>
   <h:body>
     <h:form prependId="false">
       <h:panelGrid columns="1">
-        <span>Click the "Browse JMS Messages" button then check your server log to view messages in the queue</span>
-        <h:commandButton value="Browse JMS Messages" actionListener="#{messageQueueBrowser.browseMessages()}"/>
+        <span>Click the "Browse Messages" button then check your server log to view messages in the queue</span>
+        <h:commandButton value="Browse Messages" actionListener="#{messageQueueBrowser.browseMessages()}"/>
       </h:panelGrid>
     </h:form>
   </h:body>

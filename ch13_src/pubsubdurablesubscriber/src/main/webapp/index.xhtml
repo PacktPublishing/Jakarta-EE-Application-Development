@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html">
   <h:head>
-    <title>Receive Pub/Sub JMS Messages with Durable Subscribers</title>
+    <title>Receive Pub/Sub Messages with Durable Subscribers</title>
   </h:head>
   <h:body>
     <h:form prependId="false">
       <h:panelGrid columns="1">
-        <span>Click the "Receive JMS Messages" button then check your server log to verify that JMS messages were received correctly</span>
-        <h:commandButton value="Receive JMS Messages" actionListener="#{messageReceiver.receiveMessages()}"/>
+        <span>Click the "Receive Messages" button then check your server log to verify that messages were received correctly</span>
+        <h:commandButton value="Receive Messages" actionListener="#{messageReceiver.receiveMessages()}"/>
       </h:panelGrid>
     </h:form>
   </h:body>
