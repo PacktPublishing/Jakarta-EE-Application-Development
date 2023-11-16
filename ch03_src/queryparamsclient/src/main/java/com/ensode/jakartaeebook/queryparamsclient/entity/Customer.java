@@ -1,7 +1,5 @@
 package com.ensode.jakartaeebook.queryparamsclient.entity;
 
-import java.io.Serializable;
-
 public class Customer {
 
   private Long id;

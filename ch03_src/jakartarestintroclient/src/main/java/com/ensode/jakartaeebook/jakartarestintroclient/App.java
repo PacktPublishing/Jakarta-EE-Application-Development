@@ -26,7 +26,8 @@ public class App {
                           """;
 
     client.target(
-            "http://localhost:8080/jakartarestintro/resources/customer").
+            "http://localhost:8080/"
+            + "jakartarestintro/resources/customer").
             request().put(
                     Entity.entity(customerJson, MediaType.APPLICATION_JSON),
                     String.class);

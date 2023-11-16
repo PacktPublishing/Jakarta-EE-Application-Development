@@ -14,7 +14,8 @@ public class App {
   public void getCustomer() {
     Client client = ClientBuilder.newClient();
     Customer customer = client.target(
-            "http://localhost:8080/queryparams/resources/customer").
+            "http://localhost:8080/"
+            + "queryparams/resources/customer").
             queryParam("id", 1L).
             request().get(Customer.class);
 
