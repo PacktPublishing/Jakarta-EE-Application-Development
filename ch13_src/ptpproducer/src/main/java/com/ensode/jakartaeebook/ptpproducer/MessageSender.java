@@ -5,10 +5,17 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.jms.ConnectionFactory;
 import jakarta.jms.JMSContext;
+import jakarta.jms.JMSDestinationDefinition;
 import jakarta.jms.JMSProducer;
 import jakarta.jms.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+@JMSDestinationDefinition(
+    name = "java:global/queue/JakartaEEBookQueue",
+    interfaceName = "jakarta.jms.Queue",
+    destinationName = "JakartaEEBookQueue"
+)
 
 @Named
 @RequestScoped
@@ -17,7 +24,7 @@ public class MessageSender {
     @Resource
     private ConnectionFactory connectionFactory;
 
-    @Resource(mappedName = "jms/JavaEE8BookQueue")
+    @Resource(mappedName = "java:global/queue/JakartaEEBookQueue")
     private Queue queue;
 
     private static final Logger LOG = Logger.getLogger(MessageSender.class.getName());
