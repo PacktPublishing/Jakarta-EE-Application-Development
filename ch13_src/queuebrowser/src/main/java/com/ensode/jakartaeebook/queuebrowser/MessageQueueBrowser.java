@@ -56,8 +56,4 @@ public class MessageQueueBrowser {
       LOG.log(Level.SEVERE, "JMS Exception caught", e);
     }
   }
-
-  public static void main(String[] args) {
-    new MessageQueueBrowser().browseMessages();
-  }
 }
