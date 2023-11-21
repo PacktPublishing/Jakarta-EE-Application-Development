@@ -14,8 +14,7 @@ import java.util.logging.Logger;
 
 @JMSDestinationDefinition(
     name = "java:global/queue/JakartaEEBookQueue",
-    interfaceName = "jakarta.jms.Queue",
-    destinationName = "JakartaEEBookQueue"
+    interfaceName = "jakarta.jms.Queue"
 )
 
 @Named
