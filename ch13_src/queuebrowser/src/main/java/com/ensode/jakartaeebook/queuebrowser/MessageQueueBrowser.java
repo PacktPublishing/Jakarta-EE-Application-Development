@@ -29,31 +29,27 @@ public class MessageQueueBrowser {
   private Queue queue;
   private static final Logger LOG = Logger.getLogger(MessageQueueBrowser.class.getName());
 
-  public void browseMessages() {
-    try {
-      Enumeration messageEnumeration;
-      TextMessage textMessage;
-      JMSContext jmsContext = connectionFactory.createContext();
-      QueueBrowser browser = jmsContext.createBrowser(queue);
+  public void browseMessages() throws JMSException {
+    Enumeration messageEnumeration;
+    TextMessage textMessage;
+    JMSContext jmsContext = connectionFactory.createContext();
+    QueueBrowser browser = jmsContext.createBrowser(queue);
 
-      messageEnumeration = browser.getEnumeration();
+    messageEnumeration = browser.getEnumeration();
 
-      if (messageEnumeration != null) {
-        if (!messageEnumeration.hasMoreElements()) {
-          LOG.log(Level.INFO, "There are no messages "
-              + "in the queue.");
-        } else {
-          LOG.log(Level.INFO,
-              "The following messages are in the queue:");
-          while (messageEnumeration.hasMoreElements()) {
-            textMessage = (TextMessage) messageEnumeration.
-                nextElement();
-            LOG.log(Level.INFO, textMessage.getText());
-          }
+    if (messageEnumeration != null) {
+      if (!messageEnumeration.hasMoreElements()) {
+        LOG.log(Level.INFO, "There are no messages "
+            + "in the queue.");
+      } else {
+        LOG.log(Level.INFO,
+            "The following messages are in the queue:");
+        while (messageEnumeration.hasMoreElements()) {
+          textMessage = (TextMessage) messageEnumeration.
+              nextElement();
+          LOG.log(Level.INFO, textMessage.getText());
         }
       }
-    } catch (JMSException e) {
-      LOG.log(Level.SEVERE, "JMS Exception caught", e);
     }
   }
 }
