@@ -13,8 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @JMSConnectionFactoryDefinition(
-    name = "java:global/messaging/JakartaEE8BookDurableConnectionFactory",
-    clientId = "JakartaEE8BookDurableConnectionFactoryClientId"
+    name = "java:global/messaging/DurableConnectionFactory",
+    clientId = "DurableConnectionFactoryClientId"
 )
 
 @JMSDestinationDefinition(
@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 @ApplicationScoped
 public class MessageReceiver {
 
-  @Resource(mappedName = "java:global/messaging/JakartaEE8BookDurableConnectionFactory")
+  @Resource(mappedName = "java:global/messaging/DurableConnectionFactory")
   private ConnectionFactory connectionFactory;
   @Resource(mappedName = "java:global/topic/JakartaEEBookTopic")
   private Topic topic;
@@ -42,13 +42,11 @@ public class MessageReceiver {
     LOG.log(Level.INFO, "Waiting for messages...");
     while (!goodByeReceived) {
       message = jMSConsumer.receiveBody(String.class);
-
-      if (message != null) {
-        LOG.log(Level.INFO, "Received the following message: {0}", message);
-        if (message.equals("Good bye!")) {
-          goodByeReceived = true;
-        }
+      LOG.log(Level.INFO, "Received message: {0}", message);
+      if (message.equals("Good bye!")) {
+        goodByeReceived = true;
       }
+
     }
 
   }
