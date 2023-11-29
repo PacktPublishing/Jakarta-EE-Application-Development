@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+  <h:head>
+    <title>JEB WebService Client</title>
+  </h:head>
+  <h:body>
+    <h3>JEB Web Service Client</h3>
+    <h:messages/>
+    <h:form>
+      <h:panelGrid columns="3">
+        <h:inputText id="intVal" value="#{jebClientModel.intVal}"/>
+        <h:commandButton value="Int to Hex" actionListener="#{jebClientController.convertIntToHex}">
+          <f:ajax execute="intVal" render="hexVal"/>
+        </h:commandButton>
+        <h:panelGroup>
+          Hex: <h:outputText id="hexVal" value="#{jebClientController.hexVal}"/>
+        </h:panelGroup>
+      </h:panelGrid>
+    </h:form>
+  </h:body>
+</html>
+
