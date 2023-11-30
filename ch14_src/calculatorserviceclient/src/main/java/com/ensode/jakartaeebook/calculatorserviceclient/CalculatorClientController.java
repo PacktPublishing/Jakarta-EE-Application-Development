@@ -12,41 +12,41 @@ import com.ensode.jakartaeebook.xmlws.CalculatorService;
 @RequestScoped
 public class CalculatorClientController {
 
-    @WebServiceRef(wsdlLocation = "http://localhost:8080/calculatorservice/CalculatorService?wsdl")
-    private CalculatorService calculatorService;
+  @WebServiceRef(wsdlLocation = "http://localhost:8080/calculatorservice/CalculatorService?wsdl")
+  private CalculatorService calculatorService;
 
-    @Inject
-    private CalculatorServiceClientModel calculatorServiceClientModel;
+  @Inject
+  private CalculatorServiceClientModel calculatorServiceClientModel;
 
-    private Integer sum;
-    private Integer difference;
+  private Integer sum;
+  private Integer difference;
 
-    public void add(ActionEvent actionEvent) {
-        Calculator calculator = calculatorService.getCalculatorPort();
+  public void add(ActionEvent actionEvent) {
+    Calculator calculator = calculatorService.getCalculatorPort();
 
-        sum = calculator.add(calculatorServiceClientModel.getAddend1(), calculatorServiceClientModel.getAddend2());
-    }
+    sum = calculator.add(calculatorServiceClientModel.getAddend1(), calculatorServiceClientModel.getAddend2());
+  }
 
-    public void subtract(ActionEvent actionEvent) {
-        Calculator calculator = calculatorService.getCalculatorPort();
+  public void subtract(ActionEvent actionEvent) {
+    Calculator calculator = calculatorService.getCalculatorPort();
 
-        difference = calculator.subtract(calculatorServiceClientModel.getMinuend(), calculatorServiceClientModel.getSubtrahend());
-    }
+    difference = calculator.subtract(calculatorServiceClientModel.getMinuend(), calculatorServiceClientModel.getSubtrahend());
+  }
 
-    public Integer getSum() {
-        return sum;
-    }
+  public Integer getSum() {
+    return sum;
+  }
 
-    public void setSum(Integer sum) {
-        this.sum = sum;
-    }
+  public void setSum(Integer sum) {
+    this.sum = sum;
+  }
 
-    public Integer getDifference() {
-        return difference;
-    }
+  public Integer getDifference() {
+    return difference;
+  }
 
-    public void setDifference(Integer difference) {
-        this.difference = difference;
-    }
+  public void setDifference(Integer difference) {
+    this.difference = difference;
+  }
 
 }
