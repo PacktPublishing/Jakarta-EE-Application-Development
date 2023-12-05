@@ -6,8 +6,8 @@ import java.util.concurrent.Future;
 @Remote
 public interface AsynchronousSessionBeanRemote {
 
-  void slowMethod();
+  void slowMethod() throws InterruptedException;
 
-  Future<Long> slowMethodWithReturnValue();
+  Future<Long> slowMethodWithReturnValue() throws InterruptedException;
 
 }

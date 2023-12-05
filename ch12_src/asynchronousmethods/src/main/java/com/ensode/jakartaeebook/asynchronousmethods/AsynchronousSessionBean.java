@@ -16,31 +16,19 @@ public class AsynchronousSessionBean implements
 
   @Asynchronous
   @Override
-  public void slowMethod() {
+  public void slowMethod() throws InterruptedException {
     long startTime = System.currentTimeMillis();
-    logger.log(Level.INFO, "entering {0}.slowMethod()", this.getClass().getCanonicalName());
-    try {
-      Thread.sleep(10000); //simulate processing for 10 seconds
-    } catch (InterruptedException ex) {
-      Logger.getLogger(AsynchronousSessionBean.class.getName()).
-          log(Level.SEVERE, null, ex);
-    }
-    logger.log(Level.INFO, "leaving {0}.slowMethod()", this.getClass().getCanonicalName());
+    logger.log(Level.INFO, "entering slowMethod()");
+    Thread.sleep(10000); //simulate processing for 10 seconds
+    logger.log(Level.INFO, "leaving slowMethod()");
     long endTime = System.currentTimeMillis();
     logger.log(Level.INFO, "execution took {0} milliseconds", endTime - startTime);
   }
 
   @Asynchronous
   @Override
-  public Future<Long> slowMethodWithReturnValue() {
-
-    try {
-      Thread.sleep(15000); //simulate processing for 15 seconds
-    } catch (InterruptedException ex) {
-      Logger.getLogger(AsynchronousSessionBean.class.getName()).
-          log(Level.SEVERE, null, ex);
-    }
-
+  public Future<Long> slowMethodWithReturnValue() throws InterruptedException {
+    Thread.sleep(15000); //simulate processing for 15 seconds
     return new AsyncResult<>(42L);
   }
 }
