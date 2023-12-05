@@ -29,16 +29,13 @@ public class CustomerDaoBmtBean implements CustomerDaoBmt {
   private DataSource dataSource;
 
   @Override
-  public void saveMultipleNewCustomers(List<Customer> customerList) {
+  public void saveMultipleNewCustomers(List<Customer> customerList)
+      throws Exception {
     for (Customer customer : customerList) {
-      try {
-        userTransaction.begin();
-        customer.setCustomerId(getNewCustomerId());
-        entityManager.persist(customer);
-        userTransaction.commit();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      userTransaction.begin();
+      customer.setCustomerId(getNewCustomerId());
+      entityManager.persist(customer);
+      userTransaction.commit();
     }
   }
 
