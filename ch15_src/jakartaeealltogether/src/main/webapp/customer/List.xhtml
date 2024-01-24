@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Listing Customer Items</title>
+    <link rel="stylesheet" type="text/css" href="/jakartaeealltogether/faces/jsfcrud.css" />
+  </head>
+  <body>
+    <h:panelGroup id="messagePanel" layout="block">
+      <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+    </h:panelGroup>
+    <h1>Listing Customer Items</h1>
+    <h:form styleClass="jsfcrud_list_form">
+      <h:outputText escape="false" value="(No Customer Items Found)" rendered="#{customer.pagingInfo.itemCount == 0}" />
+      <h:panelGroup rendered="#{customer.pagingInfo.itemCount > 0}">
+        <h:outputText value="Item #{customer.pagingInfo.firstItem + 1}..#{customer.pagingInfo.lastItem} of #{customer.pagingInfo.itemCount}"/>&nbsp;
+        <h:commandLink action="#{customer.prev}" value="Previous #{customer.pagingInfo.batchSize}" rendered="#{customer.pagingInfo.firstItem >= customer.pagingInfo.batchSize}"/>&nbsp;
+        <h:commandLink action="#{customer.next}" value="Next #{customer.pagingInfo.batchSize}" rendered="#{customer.pagingInfo.lastItem + customer.pagingInfo.batchSize le customer.pagingInfo.itemCount}"/>&nbsp;
+        <h:commandLink action="#{customer.next}" value="Remaining #{customer.pagingInfo.itemCount - customer.pagingInfo.lastItem}"
+                       rendered="#{customer.pagingInfo.lastItem lt customer.pagingInfo.itemCount and customer.pagingInfo.lastItem + customer.pagingInfo.batchSize > customer.pagingInfo.itemCount}"/>
+        <h:dataTable value="#{customer.customerItems}" var="item1" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+          <h:column>
+            <f:facet name="header">
+              <h:outputText value="CustomerId"/>
+            </f:facet>
+            <h:outputText value="#{item1.customerId}"/>
+          </h:column>
+          <h:column>
+            <f:facet name="header">
+              <h:outputText value="FirstName"/>
+            </f:facet>
+            <h:outputText value="#{item1.firstName}"/>
+          </h:column>
+          <h:column>
+            <f:facet name="header">
+              <h:outputText value="LastName"/>
+            </f:facet>
+            <h:outputText value="#{item1.lastName}"/>
+          </h:column>
+          <h:column>
+            <f:facet name="header">
+              <h:outputText value="Email"/>
+            </f:facet>
+            <h:outputText value="#{item1.email}"/>
+          </h:column>
+          <h:column>
+            <f:facet name="header">
+              <h:outputText escape="false" value="&nbsp;"/>
+            </f:facet>
+            <h:commandLink value="Show" action="#{customer.detailSetup}">
+              <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customer.converter].jsfcrud_invoke}"/>
+            </h:commandLink>
+            <h:outputText value=" "/>
+            <h:commandLink value="Edit" action="#{customer.editSetup}">
+              <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customer.converter].jsfcrud_invoke}"/>
+            </h:commandLink>
+            <h:outputText value=" "/>
+            <h:commandLink value="Destroy" action="#{customer.destroy}">
+              <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customer.converter].jsfcrud_invoke}"/>
+            </h:commandLink>
+          </h:column>
+
+        </h:dataTable>
+      </h:panelGroup>
+      <br/>
+      <h:commandLink action="#{customer.createSetup}" value="New Customer"/>
+      <br />
+      <br />
+      <h:commandLink value="Index" action="/index" immediate="true" />
+
+
+    </h:form>
+  </body>
+</html>

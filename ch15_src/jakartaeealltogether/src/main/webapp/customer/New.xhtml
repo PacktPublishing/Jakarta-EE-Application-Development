@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>New Customer</title>
+    <link rel="stylesheet" type="text/css" href="/jakartaeealltogether/faces/jsfcrud.css" />
+  </head>
+  <body>
+    <h:panelGroup id="messagePanel" layout="block">
+      <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+    </h:panelGroup>
+    <h1>New Customer</h1>
+    <h:form>
+      <h:inputHidden id="validateCreateField" validator="#{customer.validateCreate}" value="value"/>
+      <h:panelGrid columns="2">
+        <h:outputText value="FirstName:"/>
+        <h:inputText id="firstName" value="#{customer.customer.firstName}" title="FirstName" required="true"/>
+        <h:outputText value="LastName:"/>
+        <h:inputText id="lastName" value="#{customer.customer.lastName}" title="LastName" required="true"/>
+        <h:outputText value="Email:"/>
+        <h:inputText id="email" value="#{customer.customer.email}" title="Email" required="true"/>
+        <h2>Address</h2>
+        <h:panelGroup/>
+        <h:outputText id="addrType" value="Address Type"/>
+        <h:selectOneMenu id="selectOneAddr" value="#{customer.customer.addressList[0].addressTypeId}" required="true">
+          <f:selectItems id="selectOneAddrOpts" value="#{addressType.addressTypeItemsAvailableSelectOne}"/>
+        </h:selectOneMenu>
+        <h:outputText id="addrLine1Lbl" value="Line 1"/>
+        <h:inputText id="addrLine1" value="#{customer.customer.addressList[0].addrLine1}" required="true"/>
+        <h:outputText id="addrLine2Lbl" value="Line 2"/>
+        <h:inputText id="addrLine2" value="#{customer.customer.addressList[0].addrLine2}"/>
+        <h:outputText id="addrCityLbl" value="City"/>
+        <h:inputText id="addrCity" value="#{customer.customer.addressList[0].city}" required="true"/>
+        <h:outputText id="addrState" value="State"/>
+        <h:selectOneMenu id="selectOneState" value="#{customer.customer.addressList[0].usStateId}" required="true">
+          <f:selectItems id="selectOneStateOpts" value="#{usState.usStateItemsAvailableSelectOne}"/>
+        </h:selectOneMenu>
+        <h:outputText id="addrZipLbl" value="Zip Code"/>
+        <h:inputText id="addrZip" value="#{customer.customer.addressList[0].zip}" required="true"/>
+        <h2>Telephone</h2>
+        <h:panelGroup/>
+        <h:outputText id="phoneTypeLbl" value="Telephone Type"/>
+        <h:selectOneMenu id="selectOnePhoneType" value="#{customer.customer.telephoneList[0].telephoneTypeId}" required="true">
+          <f:selectItems id="selectOnePhoneTypeOpts" value="#{telephoneType.telephoneTypeItemsAvailableSelectOne}"/>
+        </h:selectOneMenu>
+        <h:outputText id="phoneLbl" value="Telephone Number"/>
+        <h:inputText id="phone" value="#{customer.customer.telephoneList[0].telephoneNumber}" required="true"/>
+      </h:panelGrid>
+      <br />
+      <h:commandLink action="#{customer.create}" value="Create"/>
+      <br />
+      <br />
+      <h:commandLink action="#{customer.listSetup}" value="Show All Customer Items" immediate="true"/>
+      <br />
+      <br />
+      <h:commandLink value="Index" action="/index" immediate="true" />
+
+    </h:form>
+  </body>
+</html>

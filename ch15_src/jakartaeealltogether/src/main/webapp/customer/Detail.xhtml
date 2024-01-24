@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Customer Detail</title>
+    <link rel="stylesheet" type="text/css" href="/jakartaeealltogether/faces/jsfcrud.css" />
+  </head>
+  <body>
+    <h:panelGroup id="messagePanel" layout="block">
+      <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+    </h:panelGroup>
+    <h1>Customer Detail</h1>
+    <h:form>
+      <h:panelGrid columns="2">
+        <h:outputText value="CustomerId:"/>
+        <h:outputText value="#{customer.customer.customerId}" title="CustomerId" />
+        <h:outputText value="FirstName:"/>
+        <h:outputText value="#{customer.customer.firstName}" title="FirstName" />
+        <h:outputText value="LastName:"/>
+        <h:outputText value="#{customer.customer.lastName}" title="LastName" />
+        <h:outputText value="Email:"/>
+        <h:outputText value="#{customer.customer.email}" title="Email" />
+
+        <h:outputText id="addrTypeLbl" value="Address Type"/>
+        <h:outputText id="addrType" value="#{customer.customer.addressList[0].addressTypeId.addressTypeText}"/>
+        <h:outputText id="addrLine1Lbl" value="Line 1"/>
+        <h:outputText id="addrLine1" value="#{customer.customer.addressList[0].addrLine1}"/>
+        <h:outputText id="addrLine2Lbl" value="Line 2"/>
+        <h:outputText id="addrLine2" value="#{customer.customer.addressList[0].addrLine2}"/>
+        <h:outputText id="addrCityLbl" value="City"/>
+        <h:outputText id="addrCity" value="#{customer.customer.addressList[0].city}"/>
+        <h:outputText id="addrStateLbl" value="State"/>
+        <h:outputText id="state" value="#{customer.customer.addressList[0].usStateId.usStateNm}"/>
+        <h:outputText id="addrZipLbl" value="Zip Code"/>
+        <h:outputText id="addrZip" value="#{customer.customer.addressList[0].zip}"/>
+
+        <h:outputText id="phoneTypeLbl" value="Telephone Type"/>
+        <h:outputText id="selectOnePhoneType" value="#{customer.customer.telephoneList[0].telephoneTypeId.telephoneTypeText}"/>
+        <h:outputText id="phoneLbl" value="Telephone Number"/>
+        <h:outputText id="phone" value="#{customer.customer.telephoneList[0].telephoneNumber}"/>
+      </h:panelGrid>
+      <br />
+      <h:commandLink action="#{customer.destroy}" value="Destroy">
+        <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customer.customer][customer.converter].jsfcrud_invoke}" />
+      </h:commandLink>
+      <br />
+      <br />
+      <h:commandLink action="#{customer.editSetup}" value="Edit">
+        <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customer.customer][customer.converter].jsfcrud_invoke}" />
+      </h:commandLink>
+      <br />
+      <h:commandLink action="#{customer.createSetup}" value="New Customer" />
+      <br />
+      <h:commandLink action="#{customer.listSetup}" value="Show All Customer Items"/>
+      <br />
+      <br />
+      <h:commandLink value="Index" action="/index" immediate="true" />
+
+    </h:form>
+  </body>
+</html>
