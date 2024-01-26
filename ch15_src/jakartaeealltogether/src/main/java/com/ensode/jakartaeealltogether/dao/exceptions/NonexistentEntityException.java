@@ -1,4 +1,4 @@
-package com.ensode.jakartaeealltogether.controller.exceptions;
+package com.ensode.jakartaeealltogether.dao.exceptions;
 
 public class NonexistentEntityException extends Exception {
     public NonexistentEntityException(String message, Throwable cause) {

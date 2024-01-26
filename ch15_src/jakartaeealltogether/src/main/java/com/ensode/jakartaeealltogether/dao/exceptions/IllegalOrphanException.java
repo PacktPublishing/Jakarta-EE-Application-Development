@@ -1,4 +1,4 @@
-package com.ensode.jakartaeealltogether.controller.exceptions;
+package com.ensode.jakartaeealltogether.dao.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
-package com.ensode.jakartaeealltogether.controller;
+package com.ensode.jakartaeealltogether.dao;
 
-import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
-import com.ensode.jakartaeealltogether.controller.exceptions.PreexistingEntityException;
-import com.ensode.jakartaeealltogether.controller.exceptions.RollbackFailureException;
+import com.ensode.jakartaeealltogether.dao.exceptions.NonexistentEntityException;
+import com.ensode.jakartaeealltogether.dao.exceptions.PreexistingEntityException;
+import com.ensode.jakartaeealltogether.dao.exceptions.RollbackFailureException;
 import com.ensode.jakartaeealltogether.entity.Address;
 import com.ensode.jakartaeealltogether.entity.UsState;
 import jakarta.annotation.Resource;

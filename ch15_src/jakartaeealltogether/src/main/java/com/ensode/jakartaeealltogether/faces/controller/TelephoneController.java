@@ -1,12 +1,13 @@
-package com.ensode.jakartaeealltogether.faces;
+package com.ensode.jakartaeealltogether.faces.controller;
 
-import com.ensode.jakartaeealltogether.controller.AddressJpaController;
+import com.ensode.jakartaeealltogether.dao.TelephoneJpaController;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import jakarta.faces.FacesException;
 import com.ensode.jakartaeealltogether.faces.util.JsfUtil;
-import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
-import com.ensode.jakartaeealltogether.entity.Address;
+import com.ensode.jakartaeealltogether.dao.exceptions.NonexistentEntityException;
+import com.ensode.jakartaeealltogether.entity.Telephone;
+import com.ensode.jakartaeealltogether.faces.converter.TelephoneConverter;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
@@ -22,69 +23,69 @@ import jakarta.transaction.UserTransaction;
 import java.io.Serializable;
 import java.util.List;
 
-@Named("address")
+@Named("telephone")
 @SessionScoped
-public class AddressController implements Serializable {
+public class TelephoneController implements Serializable {
 
-  public AddressController() {
+  public TelephoneController() {
     pagingInfo = new PagingInfo();
-    converter = new AddressConverter();
+    converter = new TelephoneConverter();
   }
-  private Address address = null;
-  private List<Address> addressItems = null;
-  private AddressConverter converter = null;
+  private Telephone telephone = null;
+  private List<Telephone> telephoneItems = null;
+  @EJB
+  private TelephoneJpaController jpaController;
+  private TelephoneConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
   private UserTransaction utx = null;
   @PersistenceUnit(unitName = "customerPersistenceUnit")
   private EntityManagerFactory emf = null;
-  @EJB
-  private AddressJpaController jpaController;
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(getJpaController().getAddressCount());
+      pagingInfo.setItemCount(getJpaController().getTelephoneCount());
     }
     return pagingInfo;
   }
 
-  public AddressJpaController getJpaController() {
+  public TelephoneJpaController getJpaController() {
     return jpaController;
   }
 
-  public SelectItem[] getAddressItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(getJpaController().findAddressEntities(), false);
+  public SelectItem[] getTelephoneItemsAvailableSelectMany() {
+    return JsfUtil.getSelectItems(getJpaController().findTelephoneEntities(), false);
   }
 
-  public SelectItem[] getAddressItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(getJpaController().findAddressEntities(), true);
+  public SelectItem[] getTelephoneItemsAvailableSelectOne() {
+    return JsfUtil.getSelectItems(getJpaController().findTelephoneEntities(), true);
   }
 
-  public Address getAddress() {
-    if (address == null) {
-      address = (Address) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentAddress", converter, null);
+  public Telephone getTelephone() {
+    if (telephone == null) {
+      telephone = (Telephone) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTelephone", converter, null);
     }
-    if (address == null) {
-      address = new Address();
+    if (telephone == null) {
+      telephone = new Telephone();
     }
-    return address;
+    return telephone;
   }
 
   public String listSetup() {
     reset(true);
-    return "address/List";
+    return "telephone_list";
   }
 
   public String createSetup() {
     reset(false);
-    address = new Address();
-    return "address_create";
+    telephone = new Telephone();
+    return "telephone_create";
   }
 
   public String create() {
     try {
-      getJpaController().create(address);
-      JsfUtil.addSuccessMessage("Address was successfully created.");
+      getJpaController().create(telephone);
+      JsfUtil.addSuccessMessage("Telephone was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
       return null;
@@ -93,37 +94,37 @@ public class AddressController implements Serializable {
   }
 
   public String detailSetup() {
-    return scalarSetup("address_detail");
+    return scalarSetup("telephone_detail");
   }
 
   public String editSetup() {
-    return scalarSetup("address_edit");
+    return scalarSetup("telephone_edit");
   }
 
   private String scalarSetup(String destination) {
     reset(false);
-    address = (Address) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentAddress", converter, null);
-    if (address == null) {
-      String requestAddressString = JsfUtil.getRequestParameter("jsfcrud.currentAddress");
-      JsfUtil.addErrorMessage("The address with id " + requestAddressString + " no longer exists.");
+    telephone = (Telephone) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTelephone", converter, null);
+    if (telephone == null) {
+      String requestTelephoneString = JsfUtil.getRequestParameter("jsfcrud.currentTelephone");
+      JsfUtil.addErrorMessage("The telephone with id " + requestTelephoneString + " no longer exists.");
       return relatedOrListOutcome();
     }
     return destination;
   }
 
   public String edit() {
-    String addressString = converter.getAsString(FacesContext.getCurrentInstance(), null, address);
-    String currentAddressString = JsfUtil.getRequestParameter("jsfcrud.currentAddress");
-    if (addressString == null || addressString.length() == 0 || !addressString.equals(currentAddressString)) {
+    String telephoneString = converter.getAsString(FacesContext.getCurrentInstance(), null, telephone);
+    String currentTelephoneString = JsfUtil.getRequestParameter("jsfcrud.currentTelephone");
+    if (telephoneString == null || telephoneString.length() == 0 || !telephoneString.equals(currentTelephoneString)) {
       String outcome = editSetup();
-      if ("address_edit".equals(outcome)) {
-        JsfUtil.addErrorMessage("Could not edit address. Try again.");
+      if ("telephone_edit".equals(outcome)) {
+        JsfUtil.addErrorMessage("Could not edit telephone. Try again.");
       }
       return outcome;
     }
     try {
-      getJpaController().edit(address);
-      JsfUtil.addSuccessMessage("Address was successfully updated.");
+      getJpaController().edit(telephone);
+      JsfUtil.addSuccessMessage("Telephone was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
       return listSetup();
@@ -135,11 +136,11 @@ public class AddressController implements Serializable {
   }
 
   public String destroy() {
-    String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentAddress");
+    String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentTelephone");
     Integer id = Integer.valueOf(idAsString);
     try {
       getJpaController().destroy(id);
-      JsfUtil.addSuccessMessage("Address was successfully deleted.");
+      JsfUtil.addSuccessMessage("Telephone was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
       return relatedOrListOutcome();
@@ -158,24 +159,24 @@ public class AddressController implements Serializable {
     return listSetup();
   }
 
-  public List<Address> getAddressItems() {
-    if (addressItems == null) {
+  public List<Telephone> getTelephoneItems() {
+    if (telephoneItems == null) {
       getPagingInfo();
-      addressItems = getJpaController().findAddressEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      telephoneItems = getJpaController().findTelephoneEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
-    return addressItems;
+    return telephoneItems;
   }
 
   public String next() {
     reset(false);
     getPagingInfo().nextPage();
-    return "address_list";
+    return "telephone_list";
   }
 
   public String prev() {
     reset(false);
     getPagingInfo().previousPage();
-    return "address_list";
+    return "telephone_list";
   }
 
   private String relatedControllerOutcome() {
@@ -202,8 +203,8 @@ public class AddressController implements Serializable {
   }
 
   private void reset(boolean resetFirstItem) {
-    address = null;
-    addressItems = null;
+    telephone = null;
+    telephoneItems = null;
     pagingInfo.setItemCount(-1);
     if (resetFirstItem) {
       pagingInfo.setFirstItem(0);
@@ -211,10 +212,10 @@ public class AddressController implements Serializable {
   }
 
   public void validateCreate(FacesContext facesContext, UIComponent component, Object value) {
-    Address newAddress = new Address();
-    String newAddressString = converter.getAsString(FacesContext.getCurrentInstance(), null, newAddress);
-    String addressString = converter.getAsString(FacesContext.getCurrentInstance(), null, address);
-    if (!newAddressString.equals(addressString)) {
+    Telephone newTelephone = new Telephone();
+    String newTelephoneString = converter.getAsString(FacesContext.getCurrentInstance(), null, newTelephone);
+    String telephoneString = converter.getAsString(FacesContext.getCurrentInstance(), null, telephone);
+    if (!newTelephoneString.equals(telephoneString)) {
       createSetup();
     }
   }

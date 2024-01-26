@@ -1,4 +1,4 @@
-package com.ensode.jakartaeealltogether.controller.exceptions;
+package com.ensode.jakartaeealltogether.dao.exceptions;
 
 public class PreexistingEntityException extends Exception {
     public PreexistingEntityException(String message, Throwable cause) {

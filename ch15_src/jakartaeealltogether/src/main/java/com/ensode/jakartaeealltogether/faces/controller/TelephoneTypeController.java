@@ -1,14 +1,13 @@
-package com.ensode.jakartaeealltogether.faces;
+package com.ensode.jakartaeealltogether.faces.controller;
 
-import com.ensode.jakartaeealltogether.controller.CustomerJpaController;
+import com.ensode.jakartaeealltogether.dao.TelephoneTypeJpaController;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import jakarta.faces.FacesException;
 import com.ensode.jakartaeealltogether.faces.util.JsfUtil;
-import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
-import com.ensode.jakartaeealltogether.entity.Address;
-import com.ensode.jakartaeealltogether.entity.Customer;
-import com.ensode.jakartaeealltogether.entity.Telephone;
+import com.ensode.jakartaeealltogether.dao.exceptions.NonexistentEntityException;
+import com.ensode.jakartaeealltogether.entity.TelephoneType;
+import com.ensode.jakartaeealltogether.faces.converter.TelephoneTypeConverter;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
@@ -22,74 +21,71 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.transaction.UserTransaction;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-@Named("customer")
+@Named("telephoneType")
 @SessionScoped
-public class CustomerController implements Serializable {
+public class TelephoneTypeController implements Serializable {
 
-  public CustomerController() {
+  public TelephoneTypeController() {
     pagingInfo = new PagingInfo();
-    converter = new CustomerConverter();
+    converter = new TelephoneTypeConverter();
   }
-  private Customer customer = null;
-  private List<Customer> customerItems = null;
-  private CustomerConverter converter = null;
+  private TelephoneType telephoneType = null;
+  private List<TelephoneType> telephoneTypeItems = null;
+  @EJB
+  private TelephoneTypeJpaController jpaController;
+  private TelephoneTypeConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
   private UserTransaction utx = null;
   @PersistenceUnit(unitName = "customerPersistenceUnit")
   private EntityManagerFactory emf = null;
-  @EJB
-  private CustomerJpaController jpaController;
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(jpaController.getCustomerCount());
+      pagingInfo.setItemCount(getJpaController().getTelephoneTypeCount());
     }
     return pagingInfo;
   }
 
-  public SelectItem[] getCustomerItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(jpaController.findCustomerEntities(), false);
+  public TelephoneTypeJpaController getJpaController() {
+    return jpaController;
   }
 
-  public SelectItem[] getCustomerItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(jpaController.findCustomerEntities(), true);
+  public SelectItem[] getTelephoneTypeItemsAvailableSelectMany() {
+    return JsfUtil.getSelectItems(getJpaController().findTelephoneTypeEntities(), false);
   }
 
-  public Customer getCustomer() {
-    if (customer == null) {
-      customer = (Customer) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentCustomer", converter, null);
+  public SelectItem[] getTelephoneTypeItemsAvailableSelectOne() {
+    return JsfUtil.getSelectItems(getJpaController().findTelephoneTypeEntities(), true);
+  }
+
+  public TelephoneType getTelephoneType() {
+    if (telephoneType == null) {
+      telephoneType = (TelephoneType) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTelephoneType", converter, null);
     }
-    if (customer == null) {
-      customer = new Customer();
+    if (telephoneType == null) {
+      telephoneType = new TelephoneType();
     }
-    return customer;
+    return telephoneType;
   }
 
   public String listSetup() {
     reset(true);
-    return "/customer/List";
+    return "telephoneType_list";
   }
 
   public String createSetup() {
     reset(false);
-    customer = new Customer();
-    List<Address> addressList = new ArrayList<>(1);
-    addressList.add(new Address());
-    List<Telephone> telephoneList = new ArrayList<>(1);
-    telephoneList.add(new Telephone());
-    customer.setAddressList(addressList);
-    customer.setTelephoneList(telephoneList);
-    return "/customer/New";
+    telephoneType = new TelephoneType();
+    return "telephoneType_create";
   }
 
   public String create() {
     try {
-      jpaController.create(customer);
-      JsfUtil.addSuccessMessage("Customer was successfully created.");
+      getJpaController().create(telephoneType);
+      JsfUtil.addSuccessMessage("TelephoneType was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
       return null;
@@ -98,37 +94,37 @@ public class CustomerController implements Serializable {
   }
 
   public String detailSetup() {
-    return scalarSetup("/customer/Detail");
+    return scalarSetup("telephoneType_detail");
   }
 
   public String editSetup() {
-    return scalarSetup("/customer/Edit");
+    return scalarSetup("telephoneType_edit");
   }
 
   private String scalarSetup(String destination) {
     reset(false);
-    customer = (Customer) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentCustomer", converter, null);
-    if (customer == null) {
-      String requestCustomerString = JsfUtil.getRequestParameter("jsfcrud.currentCustomer");
-      JsfUtil.addErrorMessage("The customer with id " + requestCustomerString + " no longer exists.");
+    telephoneType = (TelephoneType) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTelephoneType", converter, null);
+    if (telephoneType == null) {
+      String requestTelephoneTypeString = JsfUtil.getRequestParameter("jsfcrud.currentTelephoneType");
+      JsfUtil.addErrorMessage("The telephoneType with id " + requestTelephoneTypeString + " no longer exists.");
       return relatedOrListOutcome();
     }
     return destination;
   }
 
   public String edit() {
-    String customerString = converter.getAsString(FacesContext.getCurrentInstance(), null, customer);
-    String currentCustomerString = JsfUtil.getRequestParameter("jsfcrud.currentCustomer");
-    if (customerString == null || customerString.length() == 0 || !customerString.equals(currentCustomerString)) {
+    String telephoneTypeString = converter.getAsString(FacesContext.getCurrentInstance(), null, telephoneType);
+    String currentTelephoneTypeString = JsfUtil.getRequestParameter("jsfcrud.currentTelephoneType");
+    if (telephoneTypeString == null || telephoneTypeString.length() == 0 || !telephoneTypeString.equals(currentTelephoneTypeString)) {
       String outcome = editSetup();
-      if ("customer_edit".equals(outcome)) {
-        JsfUtil.addErrorMessage("Could not edit customer. Try again.");
+      if ("telephoneType_edit".equals(outcome)) {
+        JsfUtil.addErrorMessage("Could not edit telephoneType. Try again.");
       }
       return outcome;
     }
     try {
-      jpaController.edit(customer);
-      JsfUtil.addSuccessMessage("Customer was successfully updated.");
+      getJpaController().edit(telephoneType);
+      JsfUtil.addSuccessMessage("TelephoneType was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
       return listSetup();
@@ -140,11 +136,11 @@ public class CustomerController implements Serializable {
   }
 
   public String destroy() {
-    String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentCustomer");
+    String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentTelephoneType");
     Integer id = Integer.valueOf(idAsString);
     try {
-      jpaController.destroy(id);
-      JsfUtil.addSuccessMessage("Customer was successfully deleted.");
+      getJpaController().destroy(id);
+      JsfUtil.addSuccessMessage("TelephoneType was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
       return relatedOrListOutcome();
@@ -163,28 +159,24 @@ public class CustomerController implements Serializable {
     return listSetup();
   }
 
-  public List<Customer> getCustomerItems() {
-    if (customerItems == null) {
+  public List<TelephoneType> getTelephoneTypeItems() {
+    if (telephoneTypeItems == null) {
       getPagingInfo();
-      customerItems = jpaController.findCustomerEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      telephoneTypeItems = getJpaController().findTelephoneTypeEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
-    return customerItems;
-  }
-
-  public Customer findCustomer(Integer id) {
-    return jpaController.findCustomer(id);
+    return telephoneTypeItems;
   }
 
   public String next() {
     reset(false);
     getPagingInfo().nextPage();
-    return "customer_list";
+    return "telephoneType_list";
   }
 
   public String prev() {
     reset(false);
     getPagingInfo().previousPage();
-    return "customer_list";
+    return "telephoneType_list";
   }
 
   private String relatedControllerOutcome() {
@@ -211,8 +203,8 @@ public class CustomerController implements Serializable {
   }
 
   private void reset(boolean resetFirstItem) {
-    customer = null;
-    customerItems = null;
+    telephoneType = null;
+    telephoneTypeItems = null;
     pagingInfo.setItemCount(-1);
     if (resetFirstItem) {
       pagingInfo.setFirstItem(0);
@@ -220,10 +212,10 @@ public class CustomerController implements Serializable {
   }
 
   public void validateCreate(FacesContext facesContext, UIComponent component, Object value) {
-    Customer newCustomer = new Customer();
-    String newCustomerString = converter.getAsString(FacesContext.getCurrentInstance(), null, newCustomer);
-    String customerString = converter.getAsString(FacesContext.getCurrentInstance(), null, customer);
-    if (!newCustomerString.equals(customerString)) {
+    TelephoneType newTelephoneType = new TelephoneType();
+    String newTelephoneTypeString = converter.getAsString(FacesContext.getCurrentInstance(), null, newTelephoneType);
+    String telephoneTypeString = converter.getAsString(FacesContext.getCurrentInstance(), null, telephoneType);
+    if (!newTelephoneTypeString.equals(telephoneTypeString)) {
       createSetup();
     }
   }

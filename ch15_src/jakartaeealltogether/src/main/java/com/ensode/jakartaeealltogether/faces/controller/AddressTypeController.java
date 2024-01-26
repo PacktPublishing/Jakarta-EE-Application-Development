@@ -1,12 +1,13 @@
-package com.ensode.jakartaeealltogether.faces;
+package com.ensode.jakartaeealltogether.faces.controller;
 
-import com.ensode.jakartaeealltogether.controller.UsStateJpaController;
+import com.ensode.jakartaeealltogether.dao.AddressTypeJpaController;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import jakarta.faces.FacesException;
 import com.ensode.jakartaeealltogether.faces.util.JsfUtil;
-import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
-import com.ensode.jakartaeealltogether.entity.UsState;
+import com.ensode.jakartaeealltogether.dao.exceptions.NonexistentEntityException;
+import com.ensode.jakartaeealltogether.entity.AddressType;
+import com.ensode.jakartaeealltogether.faces.converter.AddressTypeConverter;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
@@ -22,19 +23,19 @@ import jakarta.transaction.UserTransaction;
 import java.io.Serializable;
 import java.util.List;
 
-@Named("usState")
+@Named("addressType")
 @SessionScoped
-public class UsStateController implements Serializable {
+public class AddressTypeController implements Serializable {
 
-  public UsStateController() {
+  public AddressTypeController() {
     pagingInfo = new PagingInfo();
-    converter = new UsStateConverter();
+    converter = new AddressTypeConverter();
   }
-  private UsState usState = null;
-  private List<UsState> usStateItems = null;
+  private AddressType addressType = null;
+  private List<AddressType> addressTypeItems = null;
   @EJB
-  private UsStateJpaController jpaController;
-  private UsStateConverter converter = null;
+  private AddressTypeJpaController jpaController;
+  private AddressTypeConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
   private UserTransaction utx = null;
@@ -43,49 +44,48 @@ public class UsStateController implements Serializable {
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(getJpaController().getUsStateCount());
+      pagingInfo.setItemCount(getJpaController().getAddressTypeCount());
     }
     return pagingInfo;
   }
 
-  public UsStateJpaController getJpaController() {
-
+  public AddressTypeJpaController getJpaController() {
     return jpaController;
   }
 
-  public SelectItem[] getUsStateItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(getJpaController().findUsStateEntities(), false);
+  public SelectItem[] getAddressTypeItemsAvailableSelectMany() {
+    return JsfUtil.getSelectItems(getJpaController().findAddressTypeEntities(), false);
   }
 
-  public SelectItem[] getUsStateItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(getJpaController().findUsStateEntities(), true);
+  public SelectItem[] getAddressTypeItemsAvailableSelectOne() {
+    return JsfUtil.getSelectItems(getJpaController().findAddressTypeEntities(), true);
   }
 
-  public UsState getUsState() {
-    if (usState == null) {
-      usState = (UsState) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentUsState", converter, null);
+  public AddressType getAddressType() {
+    if (addressType == null) {
+      addressType = (AddressType) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentAddressType", converter, null);
     }
-    if (usState == null) {
-      usState = new UsState();
+    if (addressType == null) {
+      addressType = new AddressType();
     }
-    return usState;
+    return addressType;
   }
 
   public String listSetup() {
     reset(true);
-    return "usState_list";
+    return "addressType/List";
   }
 
   public String createSetup() {
     reset(false);
-    usState = new UsState();
-    return "usState_create";
+    addressType = new AddressType();
+    return "addressType_create";
   }
 
   public String create() {
     try {
-      getJpaController().create(usState);
-      JsfUtil.addSuccessMessage("UsState was successfully created.");
+      getJpaController().create(addressType);
+      JsfUtil.addSuccessMessage("AddressType was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
       return null;
@@ -94,37 +94,37 @@ public class UsStateController implements Serializable {
   }
 
   public String detailSetup() {
-    return scalarSetup("usState_detail");
+    return scalarSetup("addressType_detail");
   }
 
   public String editSetup() {
-    return scalarSetup("usState_edit");
+    return scalarSetup("addressType_edit");
   }
 
   private String scalarSetup(String destination) {
     reset(false);
-    usState = (UsState) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentUsState", converter, null);
-    if (usState == null) {
-      String requestUsStateString = JsfUtil.getRequestParameter("jsfcrud.currentUsState");
-      JsfUtil.addErrorMessage("The usState with id " + requestUsStateString + " no longer exists.");
+    addressType = (AddressType) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentAddressType", converter, null);
+    if (addressType == null) {
+      String requestAddressTypeString = JsfUtil.getRequestParameter("jsfcrud.currentAddressType");
+      JsfUtil.addErrorMessage("The addressType with id " + requestAddressTypeString + " no longer exists.");
       return relatedOrListOutcome();
     }
     return destination;
   }
 
   public String edit() {
-    String usStateString = converter.getAsString(FacesContext.getCurrentInstance(), null, usState);
-    String currentUsStateString = JsfUtil.getRequestParameter("jsfcrud.currentUsState");
-    if (usStateString == null || usStateString.length() == 0 || !usStateString.equals(currentUsStateString)) {
+    String addressTypeString = converter.getAsString(FacesContext.getCurrentInstance(), null, addressType);
+    String currentAddressTypeString = JsfUtil.getRequestParameter("jsfcrud.currentAddressType");
+    if (addressTypeString == null || addressTypeString.length() == 0 || !addressTypeString.equals(currentAddressTypeString)) {
       String outcome = editSetup();
-      if ("usState_edit".equals(outcome)) {
-        JsfUtil.addErrorMessage("Could not edit usState. Try again.");
+      if ("addressType_edit".equals(outcome)) {
+        JsfUtil.addErrorMessage("Could not edit addressType. Try again.");
       }
       return outcome;
     }
     try {
-      getJpaController().edit(usState);
-      JsfUtil.addSuccessMessage("UsState was successfully updated.");
+      getJpaController().edit(addressType);
+      JsfUtil.addSuccessMessage("AddressType was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
       return listSetup();
@@ -136,11 +136,11 @@ public class UsStateController implements Serializable {
   }
 
   public String destroy() {
-    String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentUsState");
+    String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentAddressType");
     Integer id = Integer.valueOf(idAsString);
     try {
       getJpaController().destroy(id);
-      JsfUtil.addSuccessMessage("UsState was successfully deleted.");
+      JsfUtil.addSuccessMessage("AddressType was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
       return relatedOrListOutcome();
@@ -159,24 +159,24 @@ public class UsStateController implements Serializable {
     return listSetup();
   }
 
-  public List<UsState> getUsStateItems() {
-    if (usStateItems == null) {
+  public List<AddressType> getAddressTypeItems() {
+    if (addressTypeItems == null) {
       getPagingInfo();
-      usStateItems = getJpaController().findUsStateEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      addressTypeItems = getJpaController().findAddressTypeEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
-    return usStateItems;
+    return addressTypeItems;
   }
 
   public String next() {
     reset(false);
     getPagingInfo().nextPage();
-    return "usState_list";
+    return "addressType_list";
   }
 
   public String prev() {
     reset(false);
     getPagingInfo().previousPage();
-    return "usState_list";
+    return "addressType_list";
   }
 
   private String relatedControllerOutcome() {
@@ -203,8 +203,8 @@ public class UsStateController implements Serializable {
   }
 
   private void reset(boolean resetFirstItem) {
-    usState = null;
-    usStateItems = null;
+    addressType = null;
+    addressTypeItems = null;
     pagingInfo.setItemCount(-1);
     if (resetFirstItem) {
       pagingInfo.setFirstItem(0);
@@ -212,10 +212,10 @@ public class UsStateController implements Serializable {
   }
 
   public void validateCreate(FacesContext facesContext, UIComponent component, Object value) {
-    UsState newUsState = new UsState();
-    String newUsStateString = converter.getAsString(FacesContext.getCurrentInstance(), null, newUsState);
-    String usStateString = converter.getAsString(FacesContext.getCurrentInstance(), null, usState);
-    if (!newUsStateString.equals(usStateString)) {
+    AddressType newAddressType = new AddressType();
+    String newAddressTypeString = converter.getAsString(FacesContext.getCurrentInstance(), null, newAddressType);
+    String addressTypeString = converter.getAsString(FacesContext.getCurrentInstance(), null, addressType);
+    if (!newAddressTypeString.equals(addressTypeString)) {
       createSetup();
     }
   }

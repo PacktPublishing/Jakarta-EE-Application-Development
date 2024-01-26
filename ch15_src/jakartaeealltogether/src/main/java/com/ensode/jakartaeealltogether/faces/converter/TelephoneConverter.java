@@ -1,6 +1,7 @@
-package com.ensode.jakartaeealltogether.faces;
+package com.ensode.jakartaeealltogether.faces.converter;
 
 import com.ensode.jakartaeealltogether.entity.Telephone;
+import com.ensode.jakartaeealltogether.faces.controller.TelephoneController;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;

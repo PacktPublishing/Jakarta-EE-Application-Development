@@ -1,4 +1,4 @@
-package com.ensode.jakartaeealltogether.controller.exceptions;
+package com.ensode.jakartaeealltogether.dao.exceptions;
 
 public class RollbackFailureException extends Exception {
     public RollbackFailureException(String message, Throwable cause) {

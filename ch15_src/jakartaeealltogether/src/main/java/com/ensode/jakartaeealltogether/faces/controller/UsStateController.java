@@ -1,12 +1,13 @@
-package com.ensode.jakartaeealltogether.faces;
+package com.ensode.jakartaeealltogether.faces.controller;
 
-import com.ensode.jakartaeealltogether.controller.TelephoneJpaController;
+import com.ensode.jakartaeealltogether.dao.UsStateJpaController;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import jakarta.faces.FacesException;
 import com.ensode.jakartaeealltogether.faces.util.JsfUtil;
-import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
-import com.ensode.jakartaeealltogether.entity.Telephone;
+import com.ensode.jakartaeealltogether.dao.exceptions.NonexistentEntityException;
+import com.ensode.jakartaeealltogether.entity.UsState;
+import com.ensode.jakartaeealltogether.faces.converter.UsStateConverter;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
@@ -22,19 +23,19 @@ import jakarta.transaction.UserTransaction;
 import java.io.Serializable;
 import java.util.List;
 
-@Named("telephone")
+@Named("usState")
 @SessionScoped
-public class TelephoneController implements Serializable {
+public class UsStateController implements Serializable {
 
-  public TelephoneController() {
+  public UsStateController() {
     pagingInfo = new PagingInfo();
-    converter = new TelephoneConverter();
+    converter = new UsStateConverter();
   }
-  private Telephone telephone = null;
-  private List<Telephone> telephoneItems = null;
+  private UsState usState = null;
+  private List<UsState> usStateItems = null;
   @EJB
-  private TelephoneJpaController jpaController;
-  private TelephoneConverter converter = null;
+  private UsStateJpaController jpaController;
+  private UsStateConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
   private UserTransaction utx = null;
@@ -43,48 +44,49 @@ public class TelephoneController implements Serializable {
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(getJpaController().getTelephoneCount());
+      pagingInfo.setItemCount(getJpaController().getUsStateCount());
     }
     return pagingInfo;
   }
 
-  public TelephoneJpaController getJpaController() {
+  public UsStateJpaController getJpaController() {
+
     return jpaController;
   }
 
-  public SelectItem[] getTelephoneItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(getJpaController().findTelephoneEntities(), false);
+  public SelectItem[] getUsStateItemsAvailableSelectMany() {
+    return JsfUtil.getSelectItems(getJpaController().findUsStateEntities(), false);
   }
 
-  public SelectItem[] getTelephoneItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(getJpaController().findTelephoneEntities(), true);
+  public SelectItem[] getUsStateItemsAvailableSelectOne() {
+    return JsfUtil.getSelectItems(getJpaController().findUsStateEntities(), true);
   }
 
-  public Telephone getTelephone() {
-    if (telephone == null) {
-      telephone = (Telephone) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTelephone", converter, null);
+  public UsState getUsState() {
+    if (usState == null) {
+      usState = (UsState) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentUsState", converter, null);
     }
-    if (telephone == null) {
-      telephone = new Telephone();
+    if (usState == null) {
+      usState = new UsState();
     }
-    return telephone;
+    return usState;
   }
 
   public String listSetup() {
     reset(true);
-    return "telephone_list";
+    return "usState_list";
   }
 
   public String createSetup() {
     reset(false);
-    telephone = new Telephone();
-    return "telephone_create";
+    usState = new UsState();
+    return "usState_create";
   }
 
   public String create() {
     try {
-      getJpaController().create(telephone);
-      JsfUtil.addSuccessMessage("Telephone was successfully created.");
+      getJpaController().create(usState);
+      JsfUtil.addSuccessMessage("UsState was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
       return null;
@@ -93,37 +95,37 @@ public class TelephoneController implements Serializable {
   }
 
   public String detailSetup() {
-    return scalarSetup("telephone_detail");
+    return scalarSetup("usState_detail");
   }
 
   public String editSetup() {
-    return scalarSetup("telephone_edit");
+    return scalarSetup("usState_edit");
   }
 
   private String scalarSetup(String destination) {
     reset(false);
-    telephone = (Telephone) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTelephone", converter, null);
-    if (telephone == null) {
-      String requestTelephoneString = JsfUtil.getRequestParameter("jsfcrud.currentTelephone");
-      JsfUtil.addErrorMessage("The telephone with id " + requestTelephoneString + " no longer exists.");
+    usState = (UsState) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentUsState", converter, null);
+    if (usState == null) {
+      String requestUsStateString = JsfUtil.getRequestParameter("jsfcrud.currentUsState");
+      JsfUtil.addErrorMessage("The usState with id " + requestUsStateString + " no longer exists.");
       return relatedOrListOutcome();
     }
     return destination;
   }
 
   public String edit() {
-    String telephoneString = converter.getAsString(FacesContext.getCurrentInstance(), null, telephone);
-    String currentTelephoneString = JsfUtil.getRequestParameter("jsfcrud.currentTelephone");
-    if (telephoneString == null || telephoneString.length() == 0 || !telephoneString.equals(currentTelephoneString)) {
+    String usStateString = converter.getAsString(FacesContext.getCurrentInstance(), null, usState);
+    String currentUsStateString = JsfUtil.getRequestParameter("jsfcrud.currentUsState");
+    if (usStateString == null || usStateString.length() == 0 || !usStateString.equals(currentUsStateString)) {
       String outcome = editSetup();
-      if ("telephone_edit".equals(outcome)) {
-        JsfUtil.addErrorMessage("Could not edit telephone. Try again.");
+      if ("usState_edit".equals(outcome)) {
+        JsfUtil.addErrorMessage("Could not edit usState. Try again.");
       }
       return outcome;
     }
     try {
-      getJpaController().edit(telephone);
-      JsfUtil.addSuccessMessage("Telephone was successfully updated.");
+      getJpaController().edit(usState);
+      JsfUtil.addSuccessMessage("UsState was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
       return listSetup();
@@ -135,11 +137,11 @@ public class TelephoneController implements Serializable {
   }
 
   public String destroy() {
-    String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentTelephone");
+    String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentUsState");
     Integer id = Integer.valueOf(idAsString);
     try {
       getJpaController().destroy(id);
-      JsfUtil.addSuccessMessage("Telephone was successfully deleted.");
+      JsfUtil.addSuccessMessage("UsState was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
       return relatedOrListOutcome();
@@ -158,24 +160,24 @@ public class TelephoneController implements Serializable {
     return listSetup();
   }
 
-  public List<Telephone> getTelephoneItems() {
-    if (telephoneItems == null) {
+  public List<UsState> getUsStateItems() {
+    if (usStateItems == null) {
       getPagingInfo();
-      telephoneItems = getJpaController().findTelephoneEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      usStateItems = getJpaController().findUsStateEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
-    return telephoneItems;
+    return usStateItems;
   }
 
   public String next() {
     reset(false);
     getPagingInfo().nextPage();
-    return "telephone_list";
+    return "usState_list";
   }
 
   public String prev() {
     reset(false);
     getPagingInfo().previousPage();
-    return "telephone_list";
+    return "usState_list";
   }
 
   private String relatedControllerOutcome() {
@@ -202,8 +204,8 @@ public class TelephoneController implements Serializable {
   }
 
   private void reset(boolean resetFirstItem) {
-    telephone = null;
-    telephoneItems = null;
+    usState = null;
+    usStateItems = null;
     pagingInfo.setItemCount(-1);
     if (resetFirstItem) {
       pagingInfo.setFirstItem(0);
@@ -211,10 +213,10 @@ public class TelephoneController implements Serializable {
   }
 
   public void validateCreate(FacesContext facesContext, UIComponent component, Object value) {
-    Telephone newTelephone = new Telephone();
-    String newTelephoneString = converter.getAsString(FacesContext.getCurrentInstance(), null, newTelephone);
-    String telephoneString = converter.getAsString(FacesContext.getCurrentInstance(), null, telephone);
-    if (!newTelephoneString.equals(telephoneString)) {
+    UsState newUsState = new UsState();
+    String newUsStateString = converter.getAsString(FacesContext.getCurrentInstance(), null, newUsState);
+    String usStateString = converter.getAsString(FacesContext.getCurrentInstance(), null, usState);
+    if (!newUsStateString.equals(usStateString)) {
       createSetup();
     }
   }

@@ -1,12 +1,15 @@
-package com.ensode.jakartaeealltogether.faces;
+package com.ensode.jakartaeealltogether.faces.controller;
 
-import com.ensode.jakartaeealltogether.controller.AddressTypeJpaController;
+import com.ensode.jakartaeealltogether.dao.CustomerJpaController;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import jakarta.faces.FacesException;
 import com.ensode.jakartaeealltogether.faces.util.JsfUtil;
-import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
-import com.ensode.jakartaeealltogether.entity.AddressType;
+import com.ensode.jakartaeealltogether.dao.exceptions.NonexistentEntityException;
+import com.ensode.jakartaeealltogether.entity.Address;
+import com.ensode.jakartaeealltogether.entity.Customer;
+import com.ensode.jakartaeealltogether.entity.Telephone;
+import com.ensode.jakartaeealltogether.faces.converter.CustomerConverter;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
@@ -20,71 +23,74 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.transaction.UserTransaction;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-@Named("addressType")
+@Named("customer")
 @SessionScoped
-public class AddressTypeController implements Serializable {
+public class CustomerController implements Serializable {
 
-  public AddressTypeController() {
+  public CustomerController() {
     pagingInfo = new PagingInfo();
-    converter = new AddressTypeConverter();
+    converter = new CustomerConverter();
   }
-  private AddressType addressType = null;
-  private List<AddressType> addressTypeItems = null;
-  @EJB
-  private AddressTypeJpaController jpaController;
-  private AddressTypeConverter converter = null;
+  private Customer customer = null;
+  private List<Customer> customerItems = null;
+  private CustomerConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
   private UserTransaction utx = null;
   @PersistenceUnit(unitName = "customerPersistenceUnit")
   private EntityManagerFactory emf = null;
+  @EJB
+  private CustomerJpaController jpaController;
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(getJpaController().getAddressTypeCount());
+      pagingInfo.setItemCount(jpaController.getCustomerCount());
     }
     return pagingInfo;
   }
 
-  public AddressTypeJpaController getJpaController() {
-    return jpaController;
+  public SelectItem[] getCustomerItemsAvailableSelectMany() {
+    return JsfUtil.getSelectItems(jpaController.findCustomerEntities(), false);
   }
 
-  public SelectItem[] getAddressTypeItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(getJpaController().findAddressTypeEntities(), false);
+  public SelectItem[] getCustomerItemsAvailableSelectOne() {
+    return JsfUtil.getSelectItems(jpaController.findCustomerEntities(), true);
   }
 
-  public SelectItem[] getAddressTypeItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(getJpaController().findAddressTypeEntities(), true);
-  }
-
-  public AddressType getAddressType() {
-    if (addressType == null) {
-      addressType = (AddressType) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentAddressType", converter, null);
+  public Customer getCustomer() {
+    if (customer == null) {
+      customer = (Customer) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentCustomer", converter, null);
     }
-    if (addressType == null) {
-      addressType = new AddressType();
+    if (customer == null) {
+      customer = new Customer();
     }
-    return addressType;
+    return customer;
   }
 
   public String listSetup() {
     reset(true);
-    return "addressType/List";
+    return "/customer/List";
   }
 
   public String createSetup() {
     reset(false);
-    addressType = new AddressType();
-    return "addressType_create";
+    customer = new Customer();
+    List<Address> addressList = new ArrayList<>(1);
+    addressList.add(new Address());
+    List<Telephone> telephoneList = new ArrayList<>(1);
+    telephoneList.add(new Telephone());
+    customer.setAddressList(addressList);
+    customer.setTelephoneList(telephoneList);
+    return "/customer/New";
   }
 
   public String create() {
     try {
-      getJpaController().create(addressType);
-      JsfUtil.addSuccessMessage("AddressType was successfully created.");
+      jpaController.create(customer);
+      JsfUtil.addSuccessMessage("Customer was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
       return null;
@@ -93,37 +99,37 @@ public class AddressTypeController implements Serializable {
   }
 
   public String detailSetup() {
-    return scalarSetup("addressType_detail");
+    return scalarSetup("/customer/Detail");
   }
 
   public String editSetup() {
-    return scalarSetup("addressType_edit");
+    return scalarSetup("/customer/Edit");
   }
 
   private String scalarSetup(String destination) {
     reset(false);
-    addressType = (AddressType) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentAddressType", converter, null);
-    if (addressType == null) {
-      String requestAddressTypeString = JsfUtil.getRequestParameter("jsfcrud.currentAddressType");
-      JsfUtil.addErrorMessage("The addressType with id " + requestAddressTypeString + " no longer exists.");
+    customer = (Customer) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentCustomer", converter, null);
+    if (customer == null) {
+      String requestCustomerString = JsfUtil.getRequestParameter("jsfcrud.currentCustomer");
+      JsfUtil.addErrorMessage("The customer with id " + requestCustomerString + " no longer exists.");
       return relatedOrListOutcome();
     }
     return destination;
   }
 
   public String edit() {
-    String addressTypeString = converter.getAsString(FacesContext.getCurrentInstance(), null, addressType);
-    String currentAddressTypeString = JsfUtil.getRequestParameter("jsfcrud.currentAddressType");
-    if (addressTypeString == null || addressTypeString.length() == 0 || !addressTypeString.equals(currentAddressTypeString)) {
+    String customerString = converter.getAsString(FacesContext.getCurrentInstance(), null, customer);
+    String currentCustomerString = JsfUtil.getRequestParameter("jsfcrud.currentCustomer");
+    if (customerString == null || customerString.length() == 0 || !customerString.equals(currentCustomerString)) {
       String outcome = editSetup();
-      if ("addressType_edit".equals(outcome)) {
-        JsfUtil.addErrorMessage("Could not edit addressType. Try again.");
+      if ("customer_edit".equals(outcome)) {
+        JsfUtil.addErrorMessage("Could not edit customer. Try again.");
       }
       return outcome;
     }
     try {
-      getJpaController().edit(addressType);
-      JsfUtil.addSuccessMessage("AddressType was successfully updated.");
+      jpaController.edit(customer);
+      JsfUtil.addSuccessMessage("Customer was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
       return listSetup();
@@ -135,11 +141,11 @@ public class AddressTypeController implements Serializable {
   }
 
   public String destroy() {
-    String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentAddressType");
+    String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentCustomer");
     Integer id = Integer.valueOf(idAsString);
     try {
-      getJpaController().destroy(id);
-      JsfUtil.addSuccessMessage("AddressType was successfully deleted.");
+      jpaController.destroy(id);
+      JsfUtil.addSuccessMessage("Customer was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
       return relatedOrListOutcome();
@@ -158,24 +164,28 @@ public class AddressTypeController implements Serializable {
     return listSetup();
   }
 
-  public List<AddressType> getAddressTypeItems() {
-    if (addressTypeItems == null) {
+  public List<Customer> getCustomerItems() {
+    if (customerItems == null) {
       getPagingInfo();
-      addressTypeItems = getJpaController().findAddressTypeEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      customerItems = jpaController.findCustomerEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
-    return addressTypeItems;
+    return customerItems;
+  }
+
+  public Customer findCustomer(Integer id) {
+    return jpaController.findCustomer(id);
   }
 
   public String next() {
     reset(false);
     getPagingInfo().nextPage();
-    return "addressType_list";
+    return "customer_list";
   }
 
   public String prev() {
     reset(false);
     getPagingInfo().previousPage();
-    return "addressType_list";
+    return "customer_list";
   }
 
   private String relatedControllerOutcome() {
@@ -202,8 +212,8 @@ public class AddressTypeController implements Serializable {
   }
 
   private void reset(boolean resetFirstItem) {
-    addressType = null;
-    addressTypeItems = null;
+    customer = null;
+    customerItems = null;
     pagingInfo.setItemCount(-1);
     if (resetFirstItem) {
       pagingInfo.setFirstItem(0);
@@ -211,10 +221,10 @@ public class AddressTypeController implements Serializable {
   }
 
   public void validateCreate(FacesContext facesContext, UIComponent component, Object value) {
-    AddressType newAddressType = new AddressType();
-    String newAddressTypeString = converter.getAsString(FacesContext.getCurrentInstance(), null, newAddressType);
-    String addressTypeString = converter.getAsString(FacesContext.getCurrentInstance(), null, addressType);
-    if (!newAddressTypeString.equals(addressTypeString)) {
+    Customer newCustomer = new Customer();
+    String newCustomerString = converter.getAsString(FacesContext.getCurrentInstance(), null, newCustomer);
+    String customerString = converter.getAsString(FacesContext.getCurrentInstance(), null, customer);
+    if (!newCustomerString.equals(customerString)) {
       createSetup();
     }
   }
