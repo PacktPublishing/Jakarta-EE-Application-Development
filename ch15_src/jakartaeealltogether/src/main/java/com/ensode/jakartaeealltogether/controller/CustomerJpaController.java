@@ -91,61 +91,7 @@ public class CustomerJpaController implements Serializable {
     try {
       utx.begin();
       em = getEntityManager();
-      Customer persistentCustomer = em.find(Customer.class, customer.getCustomerId());
-      List<Address> addressListOld = persistentCustomer.getAddressList();
-      List<Address> addressListNew = customer.getAddressList();
-      List<Telephone> telephoneListOld = persistentCustomer.getTelephoneList();
-      List<Telephone> telephoneListNew = customer.getTelephoneList();
-
-      List<Address> attachedAddressListNew = new ArrayList<Address>();
-      for (Address addressListNewAddressToAttach : addressListNew) {
-        addressListNewAddressToAttach = em.getReference(addressListNewAddressToAttach.getClass(), addressListNewAddressToAttach.getAddressId());
-        attachedAddressListNew.add(addressListNewAddressToAttach);
-      }
-      addressListNew = attachedAddressListNew;
-      customer.setAddressList(addressListNew);
-      List<Telephone> attachedTelephoneListNew = new ArrayList<Telephone>();
-      for (Telephone telephoneListNewTelephoneToAttach : telephoneListNew) {
-        telephoneListNewTelephoneToAttach = em.getReference(telephoneListNewTelephoneToAttach.getClass(), telephoneListNewTelephoneToAttach.getTelephoneId());
-        attachedTelephoneListNew.add(telephoneListNewTelephoneToAttach);
-      }
-      telephoneListNew = attachedTelephoneListNew;
-      customer.setTelephoneList(telephoneListNew);
       customer = em.merge(customer);
-      for (Address addressListOldAddress : addressListOld) {
-        if (!addressListNew.contains(addressListOldAddress)) {
-          addressListOldAddress.setCustomerId(null);
-          addressListOldAddress = em.merge(addressListOldAddress);
-        }
-      }
-      for (Address addressListNewAddress : addressListNew) {
-        if (!addressListOld.contains(addressListNewAddress)) {
-          Customer oldCustomerIdOfAddressListNewAddress = addressListNewAddress.getCustomerId();
-          addressListNewAddress.setCustomerId(customer);
-          addressListNewAddress = em.merge(addressListNewAddress);
-          if (oldCustomerIdOfAddressListNewAddress != null && !oldCustomerIdOfAddressListNewAddress.equals(customer)) {
-            oldCustomerIdOfAddressListNewAddress.getAddressList().remove(addressListNewAddress);
-            oldCustomerIdOfAddressListNewAddress = em.merge(oldCustomerIdOfAddressListNewAddress);
-          }
-        }
-      }
-      for (Telephone telephoneListOldTelephone : telephoneListOld) {
-        if (!telephoneListNew.contains(telephoneListOldTelephone)) {
-          telephoneListOldTelephone.setCustomerId(null);
-          telephoneListOldTelephone = em.merge(telephoneListOldTelephone);
-        }
-      }
-      for (Telephone telephoneListNewTelephone : telephoneListNew) {
-        if (!telephoneListOld.contains(telephoneListNewTelephone)) {
-          Customer oldCustomerIdOfTelephoneListNewTelephone = telephoneListNewTelephone.getCustomerId();
-          telephoneListNewTelephone.setCustomerId(customer);
-          telephoneListNewTelephone = em.merge(telephoneListNewTelephone);
-          if (oldCustomerIdOfTelephoneListNewTelephone != null && !oldCustomerIdOfTelephoneListNewTelephone.equals(customer)) {
-            oldCustomerIdOfTelephoneListNewTelephone.getTelephoneList().remove(telephoneListNewTelephone);
-            oldCustomerIdOfTelephoneListNewTelephone = em.merge(oldCustomerIdOfTelephoneListNewTelephone);
-          }
-        }
-      }
       utx.commit();
     } catch (Exception ex) {
       try {

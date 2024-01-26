@@ -1,6 +1,7 @@
 package com.ensode.jakartaeealltogether.entity;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,9 +36,9 @@ public class Customer implements Serializable {
   private String lastName;
   @Column(name = "EMAIL")
   private String email;
-  @OneToMany(mappedBy = "customerId")
+  @OneToMany(mappedBy = "customerId", cascade = CascadeType.ALL)
   private List<Address> addressList;
-  @OneToMany(mappedBy = "customerId")
+  @OneToMany(mappedBy = "customerId", cascade = CascadeType.ALL)
   private List<Telephone> telephoneList;
 
   public Customer() {
