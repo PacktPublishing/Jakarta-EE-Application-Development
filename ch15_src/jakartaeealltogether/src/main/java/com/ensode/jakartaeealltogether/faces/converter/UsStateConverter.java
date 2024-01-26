@@ -16,7 +16,7 @@ public class UsStateConverter implements Converter {
     }
     Integer id = Integer.valueOf(string);
     UsStateController controller = (UsStateController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "usState");
-    return controller.getJpaController().findUsState(id);
+    return controller.getDao().findUsState(id);
   }
 
   public String getAsString(FacesContext facesContext, UIComponent component, Object object) {

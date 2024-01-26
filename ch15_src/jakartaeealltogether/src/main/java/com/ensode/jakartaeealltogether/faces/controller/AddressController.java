@@ -40,25 +40,25 @@ public class AddressController implements Serializable {
   @PersistenceUnit(unitName = "customerPersistenceUnit")
   private EntityManagerFactory emf = null;
   @EJB
-  private AddressDao jpaController;
+  private AddressDao dao;
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(getJpaController().getAddressCount());
+      pagingInfo.setItemCount(getDao().getAddressCount());
     }
     return pagingInfo;
   }
 
-  public AddressDao getJpaController() {
-    return jpaController;
+  public AddressDao getDao() {
+    return dao;
   }
 
   public SelectItem[] getAddressItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(getJpaController().findAddressEntities(), false);
+    return JsfUtil.getSelectItems(getDao().findAddressEntities(), false);
   }
 
   public SelectItem[] getAddressItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(getJpaController().findAddressEntities(), true);
+    return JsfUtil.getSelectItems(getDao().findAddressEntities(), true);
   }
 
   public Address getAddress() {
@@ -84,7 +84,7 @@ public class AddressController implements Serializable {
 
   public String create() {
     try {
-      getJpaController().create(address);
+      getDao().create(address);
       JsfUtil.addSuccessMessage("Address was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
@@ -123,7 +123,7 @@ public class AddressController implements Serializable {
       return outcome;
     }
     try {
-      getJpaController().edit(address);
+      getDao().edit(address);
       JsfUtil.addSuccessMessage("Address was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -139,7 +139,7 @@ public class AddressController implements Serializable {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentAddress");
     Integer id = Integer.valueOf(idAsString);
     try {
-      getJpaController().destroy(id);
+      getDao().destroy(id);
       JsfUtil.addSuccessMessage("Address was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -162,7 +162,7 @@ public class AddressController implements Serializable {
   public List<Address> getAddressItems() {
     if (addressItems == null) {
       getPagingInfo();
-      addressItems = getJpaController().findAddressEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      addressItems = getDao().findAddressEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
     return addressItems;
   }

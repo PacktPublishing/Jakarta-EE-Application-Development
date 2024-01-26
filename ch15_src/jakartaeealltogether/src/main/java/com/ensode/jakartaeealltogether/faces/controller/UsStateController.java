@@ -34,7 +34,7 @@ public class UsStateController implements Serializable {
   private UsState usState = null;
   private List<UsState> usStateItems = null;
   @EJB
-  private UsStateDao jpaController;
+  private UsStateDao dao;
   private UsStateConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
@@ -44,22 +44,22 @@ public class UsStateController implements Serializable {
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(getJpaController().getUsStateCount());
+      pagingInfo.setItemCount(getDao().getUsStateCount());
     }
     return pagingInfo;
   }
 
-  public UsStateDao getJpaController() {
+  public UsStateDao getDao() {
 
-    return jpaController;
+    return dao;
   }
 
   public SelectItem[] getUsStateItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(getJpaController().findUsStateEntities(), false);
+    return JsfUtil.getSelectItems(getDao().findUsStateEntities(), false);
   }
 
   public SelectItem[] getUsStateItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(getJpaController().findUsStateEntities(), true);
+    return JsfUtil.getSelectItems(getDao().findUsStateEntities(), true);
   }
 
   public UsState getUsState() {
@@ -85,7 +85,7 @@ public class UsStateController implements Serializable {
 
   public String create() {
     try {
-      getJpaController().create(usState);
+      getDao().create(usState);
       JsfUtil.addSuccessMessage("UsState was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
@@ -124,7 +124,7 @@ public class UsStateController implements Serializable {
       return outcome;
     }
     try {
-      getJpaController().edit(usState);
+      getDao().edit(usState);
       JsfUtil.addSuccessMessage("UsState was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -140,7 +140,7 @@ public class UsStateController implements Serializable {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentUsState");
     Integer id = Integer.valueOf(idAsString);
     try {
-      getJpaController().destroy(id);
+      getDao().destroy(id);
       JsfUtil.addSuccessMessage("UsState was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -163,7 +163,7 @@ public class UsStateController implements Serializable {
   public List<UsState> getUsStateItems() {
     if (usStateItems == null) {
       getPagingInfo();
-      usStateItems = getJpaController().findUsStateEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      usStateItems = getDao().findUsStateEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
     return usStateItems;
   }

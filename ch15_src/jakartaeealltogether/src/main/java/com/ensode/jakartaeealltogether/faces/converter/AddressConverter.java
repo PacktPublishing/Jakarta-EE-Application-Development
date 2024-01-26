@@ -16,7 +16,7 @@ public class AddressConverter implements Converter {
     }
     Integer id = Integer.valueOf(string);
     AddressController controller = (AddressController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "address");
-    return controller.getJpaController().findAddress(id);
+    return controller.getDao().findAddress(id);
   }
 
   public String getAsString(FacesContext facesContext, UIComponent component, Object object) {

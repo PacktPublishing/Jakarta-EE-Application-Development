@@ -34,7 +34,7 @@ public class TelephoneController implements Serializable {
   private Telephone telephone = null;
   private List<Telephone> telephoneItems = null;
   @EJB
-  private TelephoneDao jpaController;
+  private TelephoneDao dao;
   private TelephoneConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
@@ -44,21 +44,21 @@ public class TelephoneController implements Serializable {
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(getJpaController().getTelephoneCount());
+      pagingInfo.setItemCount(getDao().getTelephoneCount());
     }
     return pagingInfo;
   }
 
-  public TelephoneDao getJpaController() {
-    return jpaController;
+  public TelephoneDao getDao() {
+    return dao;
   }
 
   public SelectItem[] getTelephoneItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(getJpaController().findTelephoneEntities(), false);
+    return JsfUtil.getSelectItems(getDao().findTelephoneEntities(), false);
   }
 
   public SelectItem[] getTelephoneItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(getJpaController().findTelephoneEntities(), true);
+    return JsfUtil.getSelectItems(getDao().findTelephoneEntities(), true);
   }
 
   public Telephone getTelephone() {
@@ -84,7 +84,7 @@ public class TelephoneController implements Serializable {
 
   public String create() {
     try {
-      getJpaController().create(telephone);
+      getDao().create(telephone);
       JsfUtil.addSuccessMessage("Telephone was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
@@ -123,7 +123,7 @@ public class TelephoneController implements Serializable {
       return outcome;
     }
     try {
-      getJpaController().edit(telephone);
+      getDao().edit(telephone);
       JsfUtil.addSuccessMessage("Telephone was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -139,7 +139,7 @@ public class TelephoneController implements Serializable {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentTelephone");
     Integer id = Integer.valueOf(idAsString);
     try {
-      getJpaController().destroy(id);
+      getDao().destroy(id);
       JsfUtil.addSuccessMessage("Telephone was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -162,7 +162,7 @@ public class TelephoneController implements Serializable {
   public List<Telephone> getTelephoneItems() {
     if (telephoneItems == null) {
       getPagingInfo();
-      telephoneItems = getJpaController().findTelephoneEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      telephoneItems = getDao().findTelephoneEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
     return telephoneItems;
   }

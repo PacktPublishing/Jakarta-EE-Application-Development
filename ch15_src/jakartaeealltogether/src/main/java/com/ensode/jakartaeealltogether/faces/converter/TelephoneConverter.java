@@ -16,7 +16,7 @@ public class TelephoneConverter implements Converter {
     }
     Integer id = Integer.valueOf(string);
     TelephoneController controller = (TelephoneController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "telephone");
-    return controller.getJpaController().findTelephone(id);
+    return controller.getDao().findTelephone(id);
   }
 
   public String getAsString(FacesContext facesContext, UIComponent component, Object object) {

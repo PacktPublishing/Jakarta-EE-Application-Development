@@ -43,21 +43,21 @@ public class CustomerController implements Serializable {
   @PersistenceUnit(unitName = "customerPersistenceUnit")
   private EntityManagerFactory emf = null;
   @EJB
-  private CustomerDao jpaController;
+  private CustomerDao dao;
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(jpaController.getCustomerCount());
+      pagingInfo.setItemCount(dao.getCustomerCount());
     }
     return pagingInfo;
   }
 
   public SelectItem[] getCustomerItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(jpaController.findCustomerEntities(), false);
+    return JsfUtil.getSelectItems(dao.findCustomerEntities(), false);
   }
 
   public SelectItem[] getCustomerItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(jpaController.findCustomerEntities(), true);
+    return JsfUtil.getSelectItems(dao.findCustomerEntities(), true);
   }
 
   public Customer getCustomer() {
@@ -89,7 +89,7 @@ public class CustomerController implements Serializable {
 
   public String create() {
     try {
-      jpaController.create(customer);
+      dao.create(customer);
       JsfUtil.addSuccessMessage("Customer was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
@@ -128,7 +128,7 @@ public class CustomerController implements Serializable {
       return outcome;
     }
     try {
-      jpaController.edit(customer);
+      dao.edit(customer);
       JsfUtil.addSuccessMessage("Customer was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -144,7 +144,7 @@ public class CustomerController implements Serializable {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentCustomer");
     Integer id = Integer.valueOf(idAsString);
     try {
-      jpaController.destroy(id);
+      dao.destroy(id);
       JsfUtil.addSuccessMessage("Customer was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -167,13 +167,13 @@ public class CustomerController implements Serializable {
   public List<Customer> getCustomerItems() {
     if (customerItems == null) {
       getPagingInfo();
-      customerItems = jpaController.findCustomerEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      customerItems = dao.findCustomerEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
     return customerItems;
   }
 
   public Customer findCustomer(Integer id) {
-    return jpaController.findCustomer(id);
+    return dao.findCustomer(id);
   }
 
   public String next() {

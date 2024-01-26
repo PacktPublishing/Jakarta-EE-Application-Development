@@ -34,7 +34,7 @@ public class AddressTypeController implements Serializable {
   private AddressType addressType = null;
   private List<AddressType> addressTypeItems = null;
   @EJB
-  private AddressTypeDao jpaController;
+  private AddressTypeDao dao;
   private AddressTypeConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
@@ -44,21 +44,21 @@ public class AddressTypeController implements Serializable {
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(getJpaController().getAddressTypeCount());
+      pagingInfo.setItemCount(getDao().getAddressTypeCount());
     }
     return pagingInfo;
   }
 
-  public AddressTypeDao getJpaController() {
-    return jpaController;
+  public AddressTypeDao getDao() {
+    return dao;
   }
 
   public SelectItem[] getAddressTypeItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(getJpaController().findAddressTypeEntities(), false);
+    return JsfUtil.getSelectItems(getDao().findAddressTypeEntities(), false);
   }
 
   public SelectItem[] getAddressTypeItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(getJpaController().findAddressTypeEntities(), true);
+    return JsfUtil.getSelectItems(getDao().findAddressTypeEntities(), true);
   }
 
   public AddressType getAddressType() {
@@ -84,7 +84,7 @@ public class AddressTypeController implements Serializable {
 
   public String create() {
     try {
-      getJpaController().create(addressType);
+      getDao().create(addressType);
       JsfUtil.addSuccessMessage("AddressType was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
@@ -123,7 +123,7 @@ public class AddressTypeController implements Serializable {
       return outcome;
     }
     try {
-      getJpaController().edit(addressType);
+      getDao().edit(addressType);
       JsfUtil.addSuccessMessage("AddressType was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -139,7 +139,7 @@ public class AddressTypeController implements Serializable {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentAddressType");
     Integer id = Integer.valueOf(idAsString);
     try {
-      getJpaController().destroy(id);
+      getDao().destroy(id);
       JsfUtil.addSuccessMessage("AddressType was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -162,7 +162,7 @@ public class AddressTypeController implements Serializable {
   public List<AddressType> getAddressTypeItems() {
     if (addressTypeItems == null) {
       getPagingInfo();
-      addressTypeItems = getJpaController().findAddressTypeEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      addressTypeItems = getDao().findAddressTypeEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
     return addressTypeItems;
   }

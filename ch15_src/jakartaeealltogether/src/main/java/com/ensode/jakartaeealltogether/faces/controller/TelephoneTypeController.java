@@ -34,7 +34,7 @@ public class TelephoneTypeController implements Serializable {
   private TelephoneType telephoneType = null;
   private List<TelephoneType> telephoneTypeItems = null;
   @EJB
-  private TelephoneTypeDao jpaController;
+  private TelephoneTypeDao dao;
   private TelephoneTypeConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
@@ -44,21 +44,21 @@ public class TelephoneTypeController implements Serializable {
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(getJpaController().getTelephoneTypeCount());
+      pagingInfo.setItemCount(getDao().getTelephoneTypeCount());
     }
     return pagingInfo;
   }
 
-  public TelephoneTypeDao getJpaController() {
-    return jpaController;
+  public TelephoneTypeDao getDao() {
+    return dao;
   }
 
   public SelectItem[] getTelephoneTypeItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(getJpaController().findTelephoneTypeEntities(), false);
+    return JsfUtil.getSelectItems(getDao().findTelephoneTypeEntities(), false);
   }
 
   public SelectItem[] getTelephoneTypeItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(getJpaController().findTelephoneTypeEntities(), true);
+    return JsfUtil.getSelectItems(getDao().findTelephoneTypeEntities(), true);
   }
 
   public TelephoneType getTelephoneType() {
@@ -84,7 +84,7 @@ public class TelephoneTypeController implements Serializable {
 
   public String create() {
     try {
-      getJpaController().create(telephoneType);
+      getDao().create(telephoneType);
       JsfUtil.addSuccessMessage("TelephoneType was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
@@ -123,7 +123,7 @@ public class TelephoneTypeController implements Serializable {
       return outcome;
     }
     try {
-      getJpaController().edit(telephoneType);
+      getDao().edit(telephoneType);
       JsfUtil.addSuccessMessage("TelephoneType was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -139,7 +139,7 @@ public class TelephoneTypeController implements Serializable {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentTelephoneType");
     Integer id = Integer.valueOf(idAsString);
     try {
-      getJpaController().destroy(id);
+      getDao().destroy(id);
       JsfUtil.addSuccessMessage("TelephoneType was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -162,7 +162,7 @@ public class TelephoneTypeController implements Serializable {
   public List<TelephoneType> getTelephoneTypeItems() {
     if (telephoneTypeItems == null) {
       getPagingInfo();
-      telephoneTypeItems = getJpaController().findTelephoneTypeEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      telephoneTypeItems = getDao().findTelephoneTypeEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
     return telephoneTypeItems;
   }
