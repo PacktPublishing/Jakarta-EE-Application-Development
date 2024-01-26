@@ -13,12 +13,13 @@ import com.ensode.jakartaeealltogether.entity.AddressType;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
 import jakarta.ejb.EJBContext;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
-@EJB
+@Stateless
 public class AddressTypeJpaController implements Serializable {
 
   @Resource

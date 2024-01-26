@@ -9,6 +9,7 @@ import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityEx
 import com.ensode.jakartaeealltogether.entity.Telephone;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -31,7 +32,8 @@ public class TelephoneController implements Serializable {
   }
   private Telephone telephone = null;
   private List<Telephone> telephoneItems = null;
-  private TelephoneJpaController jpaController = null;
+  @EJB
+  private TelephoneJpaController jpaController;
   private TelephoneConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
@@ -47,9 +49,6 @@ public class TelephoneController implements Serializable {
   }
 
   public TelephoneJpaController getJpaController() {
-    if (jpaController == null) {
-      jpaController = new TelephoneJpaController(utx, emf);
-    }
     return jpaController;
   }
 

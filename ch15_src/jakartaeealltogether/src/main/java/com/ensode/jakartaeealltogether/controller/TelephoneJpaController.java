@@ -1,4 +1,3 @@
-
 package com.ensode.jakartaeealltogether.controller;
 
 import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
@@ -12,30 +11,24 @@ import jakarta.persistence.criteria.Root;
 import com.ensode.jakartaeealltogether.entity.Customer;
 import com.ensode.jakartaeealltogether.entity.Telephone;
 import com.ensode.jakartaeealltogether.entity.TelephoneType;
+import jakarta.annotation.Resource;
+import jakarta.ejb.EJBContext;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.transaction.UserTransaction;
+import jakarta.persistence.PersistenceContext;
 import java.util.List;
 
-
+@Stateless
 public class TelephoneJpaController implements Serializable {
 
-  public TelephoneJpaController(UserTransaction utx, EntityManagerFactory emf) {
-    this.utx = utx;
-    this.emf = emf;
-  }
-  private UserTransaction utx = null;
-  private EntityManagerFactory emf = null;
+  @Resource
+  private EJBContext ejbContext;
 
-  public EntityManager getEntityManager() {
-    return emf.createEntityManager();
-  }
+  @PersistenceContext
+  private EntityManager em;
 
   public void create(Telephone telephone) throws PreexistingEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       Customer customerId = telephone.getCustomerId();
       if (customerId != null) {
         customerId = em.getReference(customerId.getClass(), customerId.getCustomerId());
@@ -55,10 +48,9 @@ public class TelephoneJpaController implements Serializable {
         telephoneTypeId.getTelephoneList().add(telephone);
         telephoneTypeId = em.merge(telephoneTypeId);
       }
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -66,18 +58,11 @@ public class TelephoneJpaController implements Serializable {
         throw new PreexistingEntityException("Telephone " + telephone + " already exists.", ex);
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
     }
   }
 
   public void edit(Telephone telephone) throws NonexistentEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       Telephone persistentTelephone = em.find(Telephone.class, telephone.getTelephoneId());
       Customer customerIdOld = persistentTelephone.getCustomerId();
       Customer customerIdNew = telephone.getCustomerId();
@@ -108,10 +93,9 @@ public class TelephoneJpaController implements Serializable {
         telephoneTypeIdNew.getTelephoneList().add(telephone);
         telephoneTypeIdNew = em.merge(telephoneTypeIdNew);
       }
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -123,18 +107,12 @@ public class TelephoneJpaController implements Serializable {
         }
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
+
     }
   }
 
   public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       Telephone telephone;
       try {
         telephone = em.getReference(Telephone.class, id);
@@ -153,10 +131,9 @@ public class TelephoneJpaController implements Serializable {
         telephoneTypeId = em.merge(telephoneTypeId);
       }
       em.remove(telephone);
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -177,41 +154,25 @@ public class TelephoneJpaController implements Serializable {
   }
 
   private List<Telephone> findTelephoneEntities(boolean all, int maxResults, int firstResult) {
-    EntityManager em = getEntityManager();
-    try {
-      CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-      cq.select(cq.from(Telephone.class));
-      Query q = em.createQuery(cq);
-      if (!all) {
-        q.setMaxResults(maxResults);
-        q.setFirstResult(firstResult);
-      }
-      return q.getResultList();
-    } finally {
-      em.close();
+    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+    cq.select(cq.from(Telephone.class));
+    Query q = em.createQuery(cq);
+    if (!all) {
+      q.setMaxResults(maxResults);
+      q.setFirstResult(firstResult);
     }
+    return q.getResultList();
   }
 
   public Telephone findTelephone(Integer id) {
-    EntityManager em = getEntityManager();
-    try {
-      return em.find(Telephone.class, id);
-    } finally {
-      em.close();
-    }
+    return em.find(Telephone.class, id);
   }
 
   public int getTelephoneCount() {
-    EntityManager em = getEntityManager();
-    try {
-      CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-      Root<Telephone> rt = cq.from(Telephone.class);
-      cq.select(em.getCriteriaBuilder().count(rt));
-      Query q = em.createQuery(cq);
-      return ((Long) q.getSingleResult()).intValue();
-    } finally {
-      em.close();
-    }
+    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+    Root<Telephone> rt = cq.from(Telephone.class);
+    cq.select(em.getCriteriaBuilder().count(rt));
+    Query q = em.createQuery(cq);
+    return ((Long) q.getSingleResult()).intValue();
   }
-
 }
