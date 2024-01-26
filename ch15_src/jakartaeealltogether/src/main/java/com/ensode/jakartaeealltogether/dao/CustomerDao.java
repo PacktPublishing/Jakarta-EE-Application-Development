@@ -20,7 +20,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @Stateless
-public class CustomerJpaController implements Serializable {
+public class CustomerDao implements Serializable {
 
   @Resource
   private EJBContext ejbContext;

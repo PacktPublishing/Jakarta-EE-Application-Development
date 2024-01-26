@@ -1,6 +1,6 @@
 package com.ensode.jakartaeealltogether.faces.controller;
 
-import com.ensode.jakartaeealltogether.dao.CustomerJpaController;
+import com.ensode.jakartaeealltogether.dao.CustomerDao;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import jakarta.faces.FacesException;
@@ -43,7 +43,7 @@ public class CustomerController implements Serializable {
   @PersistenceUnit(unitName = "customerPersistenceUnit")
   private EntityManagerFactory emf = null;
   @EJB
-  private CustomerJpaController jpaController;
+  private CustomerDao jpaController;
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {

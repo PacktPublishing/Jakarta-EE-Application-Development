@@ -1,6 +1,6 @@
 package com.ensode.jakartaeealltogether.faces.controller;
 
-import com.ensode.jakartaeealltogether.dao.TelephoneJpaController;
+import com.ensode.jakartaeealltogether.dao.TelephoneDao;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import jakarta.faces.FacesException;
@@ -34,7 +34,7 @@ public class TelephoneController implements Serializable {
   private Telephone telephone = null;
   private List<Telephone> telephoneItems = null;
   @EJB
-  private TelephoneJpaController jpaController;
+  private TelephoneDao jpaController;
   private TelephoneConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
@@ -49,7 +49,7 @@ public class TelephoneController implements Serializable {
     return pagingInfo;
   }
 
-  public TelephoneJpaController getJpaController() {
+  public TelephoneDao getJpaController() {
     return jpaController;
   }
 

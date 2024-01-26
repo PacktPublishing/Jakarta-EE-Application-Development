@@ -1,6 +1,6 @@
 package com.ensode.jakartaeealltogether.faces.controller;
 
-import com.ensode.jakartaeealltogether.dao.UsStateJpaController;
+import com.ensode.jakartaeealltogether.dao.UsStateDao;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import jakarta.faces.FacesException;
@@ -34,7 +34,7 @@ public class UsStateController implements Serializable {
   private UsState usState = null;
   private List<UsState> usStateItems = null;
   @EJB
-  private UsStateJpaController jpaController;
+  private UsStateDao jpaController;
   private UsStateConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
@@ -49,7 +49,7 @@ public class UsStateController implements Serializable {
     return pagingInfo;
   }
 
-  public UsStateJpaController getJpaController() {
+  public UsStateDao getJpaController() {
 
     return jpaController;
   }

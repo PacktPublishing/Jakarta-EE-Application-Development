@@ -1,6 +1,6 @@
 package com.ensode.jakartaeealltogether.faces.controller;
 
-import com.ensode.jakartaeealltogether.dao.AddressJpaController;
+import com.ensode.jakartaeealltogether.dao.AddressDao;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import jakarta.faces.FacesException;
@@ -40,7 +40,7 @@ public class AddressController implements Serializable {
   @PersistenceUnit(unitName = "customerPersistenceUnit")
   private EntityManagerFactory emf = null;
   @EJB
-  private AddressJpaController jpaController;
+  private AddressDao jpaController;
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
@@ -49,7 +49,7 @@ public class AddressController implements Serializable {
     return pagingInfo;
   }
 
-  public AddressJpaController getJpaController() {
+  public AddressDao getJpaController() {
     return jpaController;
   }
 

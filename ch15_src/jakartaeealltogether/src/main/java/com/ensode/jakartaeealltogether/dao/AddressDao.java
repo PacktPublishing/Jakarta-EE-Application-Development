@@ -20,7 +20,7 @@ import jakarta.persistence.PersistenceContext;
 import java.util.List;
 
 @Stateless
-public class AddressJpaController implements Serializable {
+public class AddressDao implements Serializable {
 
   @Resource
   private EJBContext ejbContext;

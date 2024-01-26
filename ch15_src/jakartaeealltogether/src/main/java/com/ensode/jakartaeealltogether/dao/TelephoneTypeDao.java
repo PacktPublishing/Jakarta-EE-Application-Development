@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
-public class TelephoneTypeJpaController implements Serializable {
+public class TelephoneTypeDao implements Serializable {
 
   @Resource
   private EJBContext ejbContext;
