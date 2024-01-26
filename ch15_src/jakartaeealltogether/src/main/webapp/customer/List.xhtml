@@ -25,19 +25,13 @@
         <h:dataTable value="#{customer.customerItems}" var="item1" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
           <h:column>
             <f:facet name="header">
-              <h:outputText value="CustomerId"/>
-            </f:facet>
-            <h:outputText value="#{item1.customerId}"/>
-          </h:column>
-          <h:column>
-            <f:facet name="header">
-              <h:outputText value="FirstName"/>
+              <h:outputText value="First Name"/>
             </f:facet>
             <h:outputText value="#{item1.firstName}"/>
           </h:column>
           <h:column>
             <f:facet name="header">
-              <h:outputText value="LastName"/>
+              <h:outputText value="Last Name"/>
             </f:facet>
             <h:outputText value="#{item1.lastName}"/>
           </h:column>
@@ -66,10 +60,7 @@
         </h:dataTable>
       </h:panelGroup>
       <br/>
-      <h:commandLink action="#{customer.createSetup}" value="New Customer"/>
-      <br />
-      <br />
-      <h:commandLink value="Index" action="/index" immediate="true" />
+      <h:commandButton action="#{customer.createSetup}" value="New Customer"/>
     </h:form>
   </body>
 </html>

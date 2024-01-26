@@ -47,22 +47,14 @@
         </h:selectOneMenu>
         <h:outputText id="phoneLbl" value="Telephone Number"/>
         <h:inputText id="phone" value="#{customer.customer.telephoneList[0].telephoneNumber}" required="true"/>
+        <h:panelGroup/>
+        <h:panelGroup>
+          <h:commandButton action="#{customer.edit}" value="Save">
+            <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customer.customer][customer.converter].jsfcrud_invoke}"/>
+          </h:commandButton>
+          <h:commandButton action="#{customer.listSetup}" value="Cancel" immediate="true"/>
+        </h:panelGroup>
       </h:panelGrid>
-      <br />
-      <h:commandLink action="#{customer.edit}" value="Save">
-        <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customer.customer][customer.converter].jsfcrud_invoke}"/>
-      </h:commandLink>
-      <br />
-      <br />
-      <h:commandLink action="#{customer.detailSetup}" value="Show" immediate="true">
-        <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customer.customer][customer.converter].jsfcrud_invoke}"/>
-      </h:commandLink>
-      <br />
-      <h:commandLink action="#{customer.listSetup}" value="Cancel" immediate="true"/>
-      <br />
-      <br />
-      <h:commandLink value="Index" action="/index" immediate="true" />
-
     </h:form>
   </body>
 </html>
