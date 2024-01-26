@@ -13,26 +13,20 @@ import java.util.List;
 import com.ensode.jakartaeealltogether.entity.Address;
 import com.ensode.jakartaeealltogether.entity.Customer;
 import com.ensode.jakartaeealltogether.entity.Telephone;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Named;
+import jakarta.annotation.Resource;
+import jakarta.ejb.EJBContext;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.transaction.UserTransaction;
+import jakarta.persistence.PersistenceContext;
 
-@Named
-@SessionScoped
+@Stateless
 public class CustomerJpaController implements Serializable {
 
-  public CustomerJpaController(UserTransaction utx, EntityManagerFactory emf) {
-    this.utx = utx;
-    this.emf = emf;
-  }
-  private UserTransaction utx = null;
-  private EntityManagerFactory emf = null;
+  @Resource
+  private EJBContext ejbContext;
 
-  public EntityManager getEntityManager() {
-    return emf.createEntityManager();
-  }
+  @PersistenceContext
+  private EntityManager em;
 
   public void create(Customer customer) throws PreexistingEntityException, RollbackFailureException, Exception {
 
@@ -42,10 +36,7 @@ public class CustomerJpaController implements Serializable {
     if (customer.getTelephoneList() == null) {
       customer.setTelephoneList(new ArrayList<>());
     }
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       em.persist(customer.getAddressList().get(0));
       em.persist(customer.getTelephoneList().get(0));
       em.persist(customer);
@@ -68,10 +59,9 @@ public class CustomerJpaController implements Serializable {
           oldCustomerIdOfTelephoneListTelephone = em.merge(oldCustomerIdOfTelephoneListTelephone);
         }
       }
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -79,23 +69,15 @@ public class CustomerJpaController implements Serializable {
         throw new PreexistingEntityException("Customer " + customer + " already exists.", ex);
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
     }
   }
 
   public void edit(Customer customer) throws NonexistentEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       customer = em.merge(customer);
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -107,18 +89,11 @@ public class CustomerJpaController implements Serializable {
         }
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
     }
   }
 
   public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       Customer customer;
       try {
         customer = em.getReference(Customer.class, id);
@@ -137,18 +112,13 @@ public class CustomerJpaController implements Serializable {
         telephoneListTelephone = em.merge(telephoneListTelephone);
       }
       em.remove(customer);
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
     }
   }
 
@@ -162,42 +132,28 @@ public class CustomerJpaController implements Serializable {
 
   private List<Customer> findCustomerEntities(boolean all, int maxResults, int firstResult) {
     List<Customer> customerEntities;
-    EntityManager em = getEntityManager();
-    try {
-      CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-      cq.select(cq.from(Customer.class));
-      Query q = em.createQuery(cq);
-      if (!all) {
-        q.setMaxResults(maxResults);
-        q.setFirstResult(firstResult);
-      }
-      customerEntities = q.getResultList();
-      return customerEntities;
-    } finally {
-      em.close();
+    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+    cq.select(cq.from(Customer.class));
+    Query q = em.createQuery(cq);
+    if (!all) {
+      q.setMaxResults(maxResults);
+      q.setFirstResult(firstResult);
     }
+    customerEntities = q.getResultList();
+    return customerEntities;
+
   }
 
   public Customer findCustomer(Integer id) {
-    EntityManager em = getEntityManager();
-    try {
-      return em.find(Customer.class, id);
-    } finally {
-      em.close();
-    }
+    return em.find(Customer.class, id);
   }
 
   public int getCustomerCount() {
-    EntityManager em = getEntityManager();
-    try {
-      CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-      Root<Customer> rt = cq.from(Customer.class);
-      cq.select(em.getCriteriaBuilder().count(rt));
-      Query q = em.createQuery(cq);
-      return ((Long) q.getSingleResult()).intValue();
-    } finally {
-      em.close();
-    }
+    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+    Root<Customer> rt = cq.from(Customer.class);
+    cq.select(em.getCriteriaBuilder().count(rt));
+    Query q = em.createQuery(cq);
+    return ((Long) q.getSingleResult()).intValue();
   }
 
 }

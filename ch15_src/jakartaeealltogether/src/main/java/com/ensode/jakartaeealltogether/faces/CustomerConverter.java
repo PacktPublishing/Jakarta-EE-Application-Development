@@ -1,4 +1,3 @@
-
 package com.ensode.jakartaeealltogether.faces;
 
 import com.ensode.jakartaeealltogether.entity.Customer;
@@ -16,7 +15,7 @@ public class CustomerConverter implements Converter {
     }
     Integer id = Integer.valueOf(string);
     CustomerController controller = (CustomerController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "customer");
-    return controller.getJpaController().findCustomer(id);
+    return controller.findCustomer(id);
   }
 
   public String getAsString(FacesContext facesContext, UIComponent component, Object object) {

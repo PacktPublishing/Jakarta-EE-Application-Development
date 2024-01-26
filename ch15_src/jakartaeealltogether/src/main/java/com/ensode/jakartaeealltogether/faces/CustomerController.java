@@ -11,6 +11,7 @@ import com.ensode.jakartaeealltogether.entity.Customer;
 import com.ensode.jakartaeealltogether.entity.Telephone;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -34,34 +35,28 @@ public class CustomerController implements Serializable {
   }
   private Customer customer = null;
   private List<Customer> customerItems = null;
-  private CustomerJpaController jpaController = null;
   private CustomerConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
   private UserTransaction utx = null;
   @PersistenceUnit(unitName = "customerPersistenceUnit")
   private EntityManagerFactory emf = null;
+  @EJB
+  private CustomerJpaController jpaController;
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
-      pagingInfo.setItemCount(getJpaController().getCustomerCount());
+      pagingInfo.setItemCount(jpaController.getCustomerCount());
     }
     return pagingInfo;
   }
 
-  public CustomerJpaController getJpaController() {
-    if (jpaController == null) {
-      jpaController = new CustomerJpaController(utx, emf);
-    }
-    return jpaController;
-  }
-
   public SelectItem[] getCustomerItemsAvailableSelectMany() {
-    return JsfUtil.getSelectItems(getJpaController().findCustomerEntities(), false);
+    return JsfUtil.getSelectItems(jpaController.findCustomerEntities(), false);
   }
 
   public SelectItem[] getCustomerItemsAvailableSelectOne() {
-    return JsfUtil.getSelectItems(getJpaController().findCustomerEntities(), true);
+    return JsfUtil.getSelectItems(jpaController.findCustomerEntities(), true);
   }
 
   public Customer getCustomer() {
@@ -93,7 +88,7 @@ public class CustomerController implements Serializable {
 
   public String create() {
     try {
-      getJpaController().create(customer);
+      jpaController.create(customer);
       JsfUtil.addSuccessMessage("Customer was successfully created.");
     } catch (Exception e) {
       JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
@@ -132,7 +127,7 @@ public class CustomerController implements Serializable {
       return outcome;
     }
     try {
-      getJpaController().edit(customer);
+      jpaController.edit(customer);
       JsfUtil.addSuccessMessage("Customer was successfully updated.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -148,7 +143,7 @@ public class CustomerController implements Serializable {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentCustomer");
     Integer id = Integer.valueOf(idAsString);
     try {
-      getJpaController().destroy(id);
+      jpaController.destroy(id);
       JsfUtil.addSuccessMessage("Customer was successfully deleted.");
     } catch (NonexistentEntityException ne) {
       JsfUtil.addErrorMessage(ne.getLocalizedMessage());
@@ -171,9 +166,13 @@ public class CustomerController implements Serializable {
   public List<Customer> getCustomerItems() {
     if (customerItems == null) {
       getPagingInfo();
-      customerItems = getJpaController().findCustomerEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
+      customerItems = jpaController.findCustomerEntities(pagingInfo.getBatchSize(), pagingInfo.getFirstItem());
     }
     return customerItems;
+  }
+
+  public Customer findCustomer(Integer id) {
+    return jpaController.findCustomer(id);
   }
 
   public String next() {

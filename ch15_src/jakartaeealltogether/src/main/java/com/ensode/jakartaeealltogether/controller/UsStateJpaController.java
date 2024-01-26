@@ -4,23 +4,20 @@ package com.ensode.jakartaeealltogether.controller;
 import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
 import com.ensode.jakartaeealltogether.controller.exceptions.PreexistingEntityException;
 import com.ensode.jakartaeealltogether.controller.exceptions.RollbackFailureException;
-import java.io.Serializable;
-import jakarta.persistence.Query;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import com.ensode.jakartaeealltogether.entity.Address;
 import com.ensode.jakartaeealltogether.entity.UsState;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.UserTransaction;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Named
-@SessionScoped
+
 public class UsStateJpaController implements Serializable {
 
   public UsStateJpaController(UserTransaction utx, EntityManagerFactory emf) {

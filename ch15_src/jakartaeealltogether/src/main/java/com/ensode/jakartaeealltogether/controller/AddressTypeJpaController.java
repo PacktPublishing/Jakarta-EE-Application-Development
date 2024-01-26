@@ -11,16 +11,12 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import com.ensode.jakartaeealltogether.entity.Address;
 import com.ensode.jakartaeealltogether.entity.AddressType;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.UserTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
-@Named
-@SessionScoped
 public class AddressTypeJpaController implements Serializable {
 
   public AddressTypeJpaController(UserTransaction utx, EntityManagerFactory emf) {

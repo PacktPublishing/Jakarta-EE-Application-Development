@@ -12,15 +12,12 @@ import jakarta.persistence.criteria.Root;
 import com.ensode.jakartaeealltogether.entity.Customer;
 import com.ensode.jakartaeealltogether.entity.Telephone;
 import com.ensode.jakartaeealltogether.entity.TelephoneType;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.UserTransaction;
 import java.util.List;
 
-@Named
-@SessionScoped
+
 public class TelephoneJpaController implements Serializable {
 
   public TelephoneJpaController(UserTransaction utx, EntityManagerFactory emf) {
