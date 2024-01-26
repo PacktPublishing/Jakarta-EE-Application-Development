@@ -1,4 +1,3 @@
-
 package com.ensode.jakartaeealltogether.controller;
 
 import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
@@ -11,35 +10,30 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import com.ensode.jakartaeealltogether.entity.Telephone;
 import com.ensode.jakartaeealltogether.entity.TelephoneType;
+import jakarta.annotation.Resource;
+import jakarta.ejb.EJBContext;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.transaction.UserTransaction;
+import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Stateless
 public class TelephoneTypeJpaController implements Serializable {
 
-  public TelephoneTypeJpaController(UserTransaction utx, EntityManagerFactory emf) {
-    this.utx = utx;
-    this.emf = emf;
-  }
-  private UserTransaction utx = null;
-  private EntityManagerFactory emf = null;
+  @Resource
+  private EJBContext ejbContext;
 
-  public EntityManager getEntityManager() {
-    return emf.createEntityManager();
-  }
+  @PersistenceContext
+  private EntityManager em;
 
   public void create(TelephoneType telephoneType) throws PreexistingEntityException, RollbackFailureException, Exception {
     if (telephoneType.getTelephoneList() == null) {
       telephoneType.setTelephoneList(new ArrayList<Telephone>());
     }
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
-      List<Telephone> attachedTelephoneList = new ArrayList<Telephone>();
+
+      List<Telephone> attachedTelephoneList = new ArrayList<>();
       for (Telephone telephoneListTelephoneToAttach : telephoneType.getTelephoneList()) {
         telephoneListTelephoneToAttach = em.getReference(telephoneListTelephoneToAttach.getClass(), telephoneListTelephoneToAttach.getTelephoneId());
         attachedTelephoneList.add(telephoneListTelephoneToAttach);
@@ -55,10 +49,9 @@ public class TelephoneTypeJpaController implements Serializable {
           oldTelephoneTypeIdOfTelephoneListTelephone = em.merge(oldTelephoneTypeIdOfTelephoneListTelephone);
         }
       }
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -66,18 +59,11 @@ public class TelephoneTypeJpaController implements Serializable {
         throw new PreexistingEntityException("TelephoneType " + telephoneType + " already exists.", ex);
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
     }
   }
 
   public void edit(TelephoneType telephoneType) throws NonexistentEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       TelephoneType persistentTelephoneType = em.find(TelephoneType.class, telephoneType.getTelephoneTypeId());
       List<Telephone> telephoneListOld = persistentTelephoneType.getTelephoneList();
       List<Telephone> telephoneListNew = telephoneType.getTelephoneList();
@@ -106,10 +92,9 @@ public class TelephoneTypeJpaController implements Serializable {
           }
         }
       }
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -121,18 +106,11 @@ public class TelephoneTypeJpaController implements Serializable {
         }
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
     }
   }
 
   public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       TelephoneType telephoneType;
       try {
         telephoneType = em.getReference(TelephoneType.class, id);
@@ -146,18 +124,13 @@ public class TelephoneTypeJpaController implements Serializable {
         telephoneListTelephone = em.merge(telephoneListTelephone);
       }
       em.remove(telephoneType);
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
     }
   }
 
@@ -170,41 +143,26 @@ public class TelephoneTypeJpaController implements Serializable {
   }
 
   private List<TelephoneType> findTelephoneTypeEntities(boolean all, int maxResults, int firstResult) {
-    EntityManager em = getEntityManager();
-    try {
-      CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-      cq.select(cq.from(TelephoneType.class));
-      Query q = em.createQuery(cq);
-      if (!all) {
-        q.setMaxResults(maxResults);
-        q.setFirstResult(firstResult);
-      }
-      return q.getResultList();
-    } finally {
-      em.close();
+    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+    cq.select(cq.from(TelephoneType.class));
+    Query q = em.createQuery(cq);
+    if (!all) {
+      q.setMaxResults(maxResults);
+      q.setFirstResult(firstResult);
     }
+    return q.getResultList();
   }
 
   public TelephoneType findTelephoneType(Integer id) {
-    EntityManager em = getEntityManager();
-    try {
-      return em.find(TelephoneType.class, id);
-    } finally {
-      em.close();
-    }
+    return em.find(TelephoneType.class, id);
   }
 
   public int getTelephoneTypeCount() {
-    EntityManager em = getEntityManager();
-    try {
-      CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-      Root<TelephoneType> rt = cq.from(TelephoneType.class);
-      cq.select(em.getCriteriaBuilder().count(rt));
-      Query q = em.createQuery(cq);
-      return ((Long) q.getSingleResult()).intValue();
-    } finally {
-      em.close();
-    }
+    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+    Root<TelephoneType> rt = cq.from(TelephoneType.class);
+    cq.select(em.getCriteriaBuilder().count(rt));
+    Query q = em.createQuery(cq);
+    return ((Long) q.getSingleResult()).intValue();
   }
 
 }

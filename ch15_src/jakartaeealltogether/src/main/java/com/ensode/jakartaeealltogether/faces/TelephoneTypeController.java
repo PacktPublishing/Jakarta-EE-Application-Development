@@ -1,4 +1,3 @@
-
 package com.ensode.jakartaeealltogether.faces;
 
 import com.ensode.jakartaeealltogether.controller.TelephoneTypeJpaController;
@@ -10,6 +9,7 @@ import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityEx
 import com.ensode.jakartaeealltogether.entity.TelephoneType;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -24,7 +24,7 @@ import java.util.List;
 
 @Named("telephoneType")
 @SessionScoped
-public class TelephoneTypeController implements Serializable{
+public class TelephoneTypeController implements Serializable {
 
   public TelephoneTypeController() {
     pagingInfo = new PagingInfo();
@@ -32,7 +32,8 @@ public class TelephoneTypeController implements Serializable{
   }
   private TelephoneType telephoneType = null;
   private List<TelephoneType> telephoneTypeItems = null;
-  private TelephoneTypeJpaController jpaController = null;
+  @EJB
+  private TelephoneTypeJpaController jpaController;
   private TelephoneTypeConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
@@ -48,9 +49,6 @@ public class TelephoneTypeController implements Serializable{
   }
 
   public TelephoneTypeJpaController getJpaController() {
-    if (jpaController == null) {
-      jpaController = new TelephoneTypeJpaController(utx, emf);
-    }
     return jpaController;
   }
 

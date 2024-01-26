@@ -9,6 +9,7 @@ import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityEx
 import com.ensode.jakartaeealltogether.entity.AddressType;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -31,7 +32,8 @@ public class AddressTypeController implements Serializable {
   }
   private AddressType addressType = null;
   private List<AddressType> addressTypeItems = null;
-  private AddressTypeJpaController jpaController = null;
+  @EJB
+  private AddressTypeJpaController jpaController;
   private AddressTypeConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource

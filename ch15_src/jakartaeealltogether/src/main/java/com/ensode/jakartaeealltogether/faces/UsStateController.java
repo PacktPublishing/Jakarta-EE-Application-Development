@@ -9,6 +9,7 @@ import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityEx
 import com.ensode.jakartaeealltogether.entity.UsState;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -31,7 +32,8 @@ public class UsStateController implements Serializable {
   }
   private UsState usState = null;
   private List<UsState> usStateItems = null;
-  private UsStateJpaController jpaController = null;
+  @EJB
+  private UsStateJpaController jpaController;
   private UsStateConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
@@ -47,9 +49,7 @@ public class UsStateController implements Serializable {
   }
 
   public UsStateJpaController getJpaController() {
-    if (jpaController == null) {
-      jpaController = new UsStateJpaController(utx, emf);
-    }
+
     return jpaController;
   }
 

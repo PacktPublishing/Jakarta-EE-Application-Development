@@ -11,7 +11,6 @@ import jakarta.persistence.criteria.Root;
 import com.ensode.jakartaeealltogether.entity.Address;
 import com.ensode.jakartaeealltogether.entity.AddressType;
 import jakarta.annotation.Resource;
-import jakarta.ejb.EJB;
 import jakarta.ejb.EJBContext;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
