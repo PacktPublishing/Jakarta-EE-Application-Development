@@ -1,7 +1,9 @@
 package com.ensode.jakartaeealltogether.faces.util;
 
+import jakarta.el.ELContext;
+import jakarta.el.ELException;
+import jakarta.el.ELResolver;
 import java.beans.BeanInfo;
-import java.beans.FeatureDescriptor;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -9,11 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import jakarta.el.ELContext;
-import jakarta.el.ELException;
-import jakarta.el.ELResolver;
 
 public class JsfCrudELResolver extends ELResolver {
 
@@ -27,6 +25,7 @@ public class JsfCrudELResolver extends ELResolver {
   /**
    * {@inheritDoc}
    */
+  @Override
   public Object getValue(ELContext context, Object base, Object property) {
     if (context == null) {
       throw new NullPointerException();
@@ -147,6 +146,7 @@ public class JsfCrudELResolver extends ELResolver {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setValue(ELContext context, Object base, Object property, Object value) {
     if (context == null) {
       throw new NullPointerException();
@@ -180,6 +180,7 @@ public class JsfCrudELResolver extends ELResolver {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean isReadOnly(ELContext context, Object base, Object property) {
     if (context == null) {
       throw new NullPointerException();
@@ -223,6 +224,7 @@ public class JsfCrudELResolver extends ELResolver {
   /**
    * {@inheritDoc}
    */
+  @Override
   public Class<?> getType(ELContext context, Object base, Object property) {
     if (context == null) {
       throw new NullPointerException();
@@ -282,6 +284,7 @@ public class JsfCrudELResolver extends ELResolver {
   /**
    * {@inheritDoc}
    */
+  @Override
   public Class getCommonPropertyType(ELContext context,
       Object base) {
     if (context == null) {
@@ -371,7 +374,7 @@ public class JsfCrudELResolver extends ELResolver {
 
     public JsfCrudParameterizedMethod(JsfCrudMethod method) {
       this.method = method;
-      actualParams = new ArrayList<Object>();
+      actualParams = new ArrayList<>();
     }
 
     public JsfCrudMethod getMethod() {
@@ -409,9 +412,7 @@ public class JsfCrudELResolver extends ELResolver {
       Object[] paramArray = actualParams.toArray();
       try {
         return methodToInvoke.invoke(instance, paramArray);
-      } catch (IllegalAccessException e) {
-        throw new ELException(e);
-      } catch (InvocationTargetException e) {
+      } catch (IllegalAccessException | InvocationTargetException e) {
         throw new ELException(e);
       }
     }
@@ -557,9 +558,7 @@ public class JsfCrudELResolver extends ELResolver {
       Object rawResult;
       try {
         rawResult = readMethod.invoke(base);
-      } catch (IllegalAccessException e) {
-        throw new ELException(e);
-      } catch (InvocationTargetException e) {
+      } catch (IllegalAccessException | InvocationTargetException e) {
         throw new ELException(e);
       }
       return rawResult;
@@ -596,9 +595,7 @@ public class JsfCrudELResolver extends ELResolver {
       Method writeMethod = pd.getWriteMethod();
       try {
         writeMethod.invoke(base, transformedOrUntransformedValue);
-      } catch (IllegalAccessException e) {
-        throw new ELException(e);
-      } catch (InvocationTargetException e) {
+      } catch (IllegalAccessException | InvocationTargetException e) {
         throw new ELException(e);
       }
     }

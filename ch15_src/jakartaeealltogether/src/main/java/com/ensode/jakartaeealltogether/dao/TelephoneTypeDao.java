@@ -3,18 +3,18 @@ package com.ensode.jakartaeealltogether.dao;
 import com.ensode.jakartaeealltogether.dao.exceptions.NonexistentEntityException;
 import com.ensode.jakartaeealltogether.dao.exceptions.PreexistingEntityException;
 import com.ensode.jakartaeealltogether.dao.exceptions.RollbackFailureException;
-import java.io.Serializable;
-import jakarta.persistence.Query;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import com.ensode.jakartaeealltogether.entity.Telephone;
 import com.ensode.jakartaeealltogether.entity.TelephoneType;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJBContext;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class TelephoneTypeDao implements Serializable {
 
   public void create(TelephoneType telephoneType) throws PreexistingEntityException, RollbackFailureException, Exception {
     if (telephoneType.getTelephoneList() == null) {
-      telephoneType.setTelephoneList(new ArrayList<Telephone>());
+      telephoneType.setTelephoneList(new ArrayList<>());
     }
     try {
 
@@ -67,7 +67,7 @@ public class TelephoneTypeDao implements Serializable {
       TelephoneType persistentTelephoneType = em.find(TelephoneType.class, telephoneType.getTelephoneTypeId());
       List<Telephone> telephoneListOld = persistentTelephoneType.getTelephoneList();
       List<Telephone> telephoneListNew = telephoneType.getTelephoneList();
-      List<Telephone> attachedTelephoneListNew = new ArrayList<Telephone>();
+      List<Telephone> attachedTelephoneListNew = new ArrayList<>();
       for (Telephone telephoneListNewTelephoneToAttach : telephoneListNew) {
         telephoneListNewTelephoneToAttach = em.getReference(telephoneListNewTelephoneToAttach.getClass(), telephoneListNewTelephoneToAttach.getTelephoneId());
         attachedTelephoneListNew.add(telephoneListNewTelephoneToAttach);

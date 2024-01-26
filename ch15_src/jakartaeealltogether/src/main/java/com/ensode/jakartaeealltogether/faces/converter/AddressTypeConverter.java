@@ -10,6 +10,7 @@ import jakarta.faces.convert.FacesConverter;
 @FacesConverter(forClass = AddressType.class)
 public class AddressTypeConverter implements Converter {
 
+  @Override
   public Object getAsObject(FacesContext facesContext, UIComponent component, String string) {
     if (string == null || string.length() == 0) {
       return null;
@@ -19,6 +20,7 @@ public class AddressTypeConverter implements Converter {
     return controller.getDao().findAddressType(id);
   }
 
+  @Override
   public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
     if (object == null) {
       return null;

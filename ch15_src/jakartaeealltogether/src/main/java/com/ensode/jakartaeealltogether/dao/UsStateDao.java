@@ -29,11 +29,11 @@ public class UsStateDao implements Serializable {
 
   public void create(UsState usState) throws PreexistingEntityException, RollbackFailureException, Exception {
     if (usState.getAddressList() == null) {
-      usState.setAddressList(new ArrayList<Address>());
+      usState.setAddressList(new ArrayList<>());
     }
     try {
 
-      List<Address> attachedAddressList = new ArrayList<Address>();
+      List<Address> attachedAddressList = new ArrayList<>();
       for (Address addressListAddressToAttach : usState.getAddressList()) {
         addressListAddressToAttach = em.getReference(addressListAddressToAttach.getClass(), addressListAddressToAttach.getAddressId());
         attachedAddressList.add(addressListAddressToAttach);
@@ -72,7 +72,7 @@ public class UsStateDao implements Serializable {
       UsState persistentUsState = em.find(UsState.class, usState.getUsStateId());
       List<Address> addressListOld = persistentUsState.getAddressList();
       List<Address> addressListNew = usState.getAddressList();
-      List<Address> attachedAddressListNew = new ArrayList<Address>();
+      List<Address> attachedAddressListNew = new ArrayList<>();
       for (Address addressListNewAddressToAttach : addressListNew) {
         addressListNewAddressToAttach = em.getReference(addressListNewAddressToAttach.getClass(), addressListNewAddressToAttach.getAddressId());
         attachedAddressListNew.add(addressListNewAddressToAttach);

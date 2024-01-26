@@ -3,18 +3,18 @@ package com.ensode.jakartaeealltogether.dao;
 import com.ensode.jakartaeealltogether.dao.exceptions.NonexistentEntityException;
 import com.ensode.jakartaeealltogether.dao.exceptions.PreexistingEntityException;
 import com.ensode.jakartaeealltogether.dao.exceptions.RollbackFailureException;
-import java.io.Serializable;
-import jakarta.persistence.Query;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import com.ensode.jakartaeealltogether.entity.Address;
 import com.ensode.jakartaeealltogether.entity.AddressType;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJBContext;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +29,11 @@ public class AddressTypeDao implements Serializable {
 
   public void create(AddressType addressType) throws PreexistingEntityException, RollbackFailureException, Exception {
     if (addressType.getAddressList() == null) {
-      addressType.setAddressList(new ArrayList<Address>());
+      addressType.setAddressList(new ArrayList<>());
     }
     try {
 
-      List<Address> attachedAddressList = new ArrayList<Address>();
+      List<Address> attachedAddressList = new ArrayList<>();
       for (Address addressListAddressToAttach : addressType.getAddressList()) {
         addressListAddressToAttach = em.getReference(addressListAddressToAttach.getClass(), addressListAddressToAttach.getAddressId());
         attachedAddressList.add(addressListAddressToAttach);
@@ -67,7 +67,7 @@ public class AddressTypeDao implements Serializable {
       AddressType persistentAddressType = em.find(AddressType.class, addressType.getAddressTypeId());
       List<Address> addressListOld = persistentAddressType.getAddressList();
       List<Address> addressListNew = addressType.getAddressList();
-      List<Address> attachedAddressListNew = new ArrayList<Address>();
+      List<Address> attachedAddressListNew = new ArrayList<>();
       for (Address addressListNewAddressToAttach : addressListNew) {
         addressListNewAddressToAttach = em.getReference(addressListNewAddressToAttach.getClass(), addressListNewAddressToAttach.getAddressId());
         attachedAddressListNew.add(addressListNewAddressToAttach);

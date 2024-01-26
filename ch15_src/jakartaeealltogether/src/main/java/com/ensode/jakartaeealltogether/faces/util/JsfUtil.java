@@ -1,16 +1,16 @@
 package com.ensode.jakartaeealltogether.faces.util;
 
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.model.SelectItem;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.component.UIComponent;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.convert.Converter;
-import jakarta.faces.model.SelectItem;
 
 public class JsfUtil {
 
@@ -64,14 +64,14 @@ public class JsfUtil {
 
   public static <T> List<T> arrayToList(T[] arr) {
     if (arr == null) {
-      return new ArrayList<T>();
+      return new ArrayList<>();
     }
     return Arrays.asList(arr);
   }
 
   public static <T> Set<T> arrayToSet(T[] arr) {
     if (arr == null) {
-      return new HashSet<T>();
+      return new HashSet<>();
     }
     return new HashSet(Arrays.asList(arr));
   }
@@ -84,7 +84,7 @@ public class JsfUtil {
   }
 
   public static <T> List<T> setToList(Set<T> set) {
-    return new ArrayList<T>(set);
+    return new ArrayList<>(set);
   }
 
   public static String getAsConvertedString(Object object, Converter converter) {

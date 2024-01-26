@@ -1,4 +1,3 @@
-
 package com.ensode.jakartaeealltogether.entity;
 
 import jakarta.persistence.Basic;

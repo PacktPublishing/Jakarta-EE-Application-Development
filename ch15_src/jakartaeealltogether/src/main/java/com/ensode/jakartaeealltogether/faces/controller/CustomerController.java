@@ -1,19 +1,17 @@
 package com.ensode.jakartaeealltogether.faces.controller;
 
 import com.ensode.jakartaeealltogether.dao.CustomerDao;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import jakarta.faces.FacesException;
-import com.ensode.jakartaeealltogether.faces.util.JsfUtil;
 import com.ensode.jakartaeealltogether.dao.exceptions.NonexistentEntityException;
 import com.ensode.jakartaeealltogether.entity.Address;
 import com.ensode.jakartaeealltogether.entity.Customer;
 import com.ensode.jakartaeealltogether.entity.Telephone;
 import com.ensode.jakartaeealltogether.faces.converter.CustomerConverter;
+import com.ensode.jakartaeealltogether.faces.util.JsfUtil;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.FacesException;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
@@ -23,6 +21,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.transaction.UserTransaction;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -198,13 +198,7 @@ public class CustomerController implements Serializable {
         Class<?> relatedControllerType = Class.forName(relatedControllerTypeString);
         Method detailSetupMethod = relatedControllerType.getMethod("detailSetup");
         return (String) detailSetupMethod.invoke(relatedController);
-      } catch (ClassNotFoundException e) {
-        throw new FacesException(e);
-      } catch (NoSuchMethodException e) {
-        throw new FacesException(e);
-      } catch (IllegalAccessException e) {
-        throw new FacesException(e);
-      } catch (InvocationTargetException e) {
+      } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
         throw new FacesException(e);
       }
     }
