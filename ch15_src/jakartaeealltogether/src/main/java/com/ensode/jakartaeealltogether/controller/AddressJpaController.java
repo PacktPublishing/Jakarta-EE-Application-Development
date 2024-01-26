@@ -1,4 +1,3 @@
-
 package com.ensode.jakartaeealltogether.controller;
 
 import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
@@ -13,30 +12,25 @@ import jakarta.persistence.criteria.Root;
 import com.ensode.jakartaeealltogether.entity.AddressType;
 import com.ensode.jakartaeealltogether.entity.Customer;
 import com.ensode.jakartaeealltogether.entity.UsState;
+import jakarta.annotation.Resource;
+import jakarta.ejb.EJBContext;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.transaction.UserTransaction;
+import jakarta.persistence.PersistenceContext;
 import java.util.List;
 
-
+@Stateless
 public class AddressJpaController implements Serializable {
 
-  public AddressJpaController(UserTransaction utx, EntityManagerFactory emf) {
-    this.utx = utx;
-    this.emf = emf;
-  }
-  private UserTransaction utx = null;
-  private EntityManagerFactory emf = null;
+  @Resource
+  private EJBContext ejbContext;
 
-  public EntityManager getEntityManager() {
-    return emf.createEntityManager();
-  }
+  @PersistenceContext
+  private EntityManager em;
 
   public void create(Address address) throws PreexistingEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
+
       AddressType addressTypeId = address.getAddressTypeId();
       if (addressTypeId != null) {
         addressTypeId = em.getReference(addressTypeId.getClass(), addressTypeId.getAddressTypeId());
@@ -65,10 +59,9 @@ public class AddressJpaController implements Serializable {
         usStateId.getAddressList().add(address);
         usStateId = em.merge(usStateId);
       }
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -76,18 +69,11 @@ public class AddressJpaController implements Serializable {
         throw new PreexistingEntityException("Address " + address + " already exists.", ex);
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
     }
   }
 
   public void edit(Address address) throws NonexistentEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       Address persistentAddress = em.find(Address.class, address.getAddressId());
       AddressType addressTypeIdOld = persistentAddress.getAddressTypeId();
       AddressType addressTypeIdNew = address.getAddressTypeId();
@@ -132,10 +118,9 @@ public class AddressJpaController implements Serializable {
         usStateIdNew.getAddressList().add(address);
         usStateIdNew = em.merge(usStateIdNew);
       }
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -155,10 +140,7 @@ public class AddressJpaController implements Serializable {
   }
 
   public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       Address address;
       try {
         address = em.getReference(Address.class, id);
@@ -182,10 +164,9 @@ public class AddressJpaController implements Serializable {
         usStateId = em.merge(usStateId);
       }
       em.remove(address);
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -206,41 +187,26 @@ public class AddressJpaController implements Serializable {
   }
 
   private List<Address> findAddressEntities(boolean all, int maxResults, int firstResult) {
-    EntityManager em = getEntityManager();
-    try {
-      CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-      cq.select(cq.from(Address.class));
-      Query q = em.createQuery(cq);
-      if (!all) {
-        q.setMaxResults(maxResults);
-        q.setFirstResult(firstResult);
-      }
-      return q.getResultList();
-    } finally {
-      em.close();
+    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+    cq.select(cq.from(Address.class));
+    Query q = em.createQuery(cq);
+    if (!all) {
+      q.setMaxResults(maxResults);
+      q.setFirstResult(firstResult);
     }
+    return q.getResultList();
   }
 
   public Address findAddress(Integer id) {
-    EntityManager em = getEntityManager();
-    try {
-      return em.find(Address.class, id);
-    } finally {
-      em.close();
-    }
+    return em.find(Address.class, id);
   }
 
   public int getAddressCount() {
-    EntityManager em = getEntityManager();
-    try {
-      CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-      Root<Address> rt = cq.from(Address.class);
-      cq.select(em.getCriteriaBuilder().count(rt));
-      Query q = em.createQuery(cq);
-      return ((Long) q.getSingleResult()).intValue();
-    } finally {
-      em.close();
-    }
+    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+    Root<Address> rt = cq.from(Address.class);
+    cq.select(em.getCriteriaBuilder().count(rt));
+    Query q = em.createQuery(cq);
+    return ((Long) q.getSingleResult()).intValue();
   }
 
 }

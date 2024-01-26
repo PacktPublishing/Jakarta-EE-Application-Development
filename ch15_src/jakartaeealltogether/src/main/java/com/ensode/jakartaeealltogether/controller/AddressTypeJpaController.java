@@ -1,4 +1,3 @@
-
 package com.ensode.jakartaeealltogether.controller;
 
 import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityException;
@@ -11,33 +10,29 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import com.ensode.jakartaeealltogether.entity.Address;
 import com.ensode.jakartaeealltogether.entity.AddressType;
+import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBContext;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.transaction.UserTransaction;
+import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
+@EJB
 public class AddressTypeJpaController implements Serializable {
 
-  public AddressTypeJpaController(UserTransaction utx, EntityManagerFactory emf) {
-    this.utx = utx;
-    this.emf = emf;
-  }
-  private UserTransaction utx = null;
-  private EntityManagerFactory emf = null;
+  @Resource
+  private EJBContext ejbContext;
 
-  public EntityManager getEntityManager() {
-    return emf.createEntityManager();
-  }
+  @PersistenceContext
+  private EntityManager em;
 
   public void create(AddressType addressType) throws PreexistingEntityException, RollbackFailureException, Exception {
     if (addressType.getAddressList() == null) {
       addressType.setAddressList(new ArrayList<Address>());
     }
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
+
       List<Address> attachedAddressList = new ArrayList<Address>();
       for (Address addressListAddressToAttach : addressType.getAddressList()) {
         addressListAddressToAttach = em.getReference(addressListAddressToAttach.getClass(), addressListAddressToAttach.getAddressId());
@@ -54,10 +49,9 @@ public class AddressTypeJpaController implements Serializable {
           oldAddressTypeIdOfAddressListAddress = em.merge(oldAddressTypeIdOfAddressListAddress);
         }
       }
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -65,18 +59,11 @@ public class AddressTypeJpaController implements Serializable {
         throw new PreexistingEntityException("AddressType " + addressType + " already exists.", ex);
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
     }
   }
 
   public void edit(AddressType addressType) throws NonexistentEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
       AddressType persistentAddressType = em.find(AddressType.class, addressType.getAddressTypeId());
       List<Address> addressListOld = persistentAddressType.getAddressList();
       List<Address> addressListNew = addressType.getAddressList();
@@ -105,10 +92,9 @@ public class AddressTypeJpaController implements Serializable {
           }
         }
       }
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -120,18 +106,12 @@ public class AddressTypeJpaController implements Serializable {
         }
       }
       throw ex;
-    } finally {
-      if (em != null) {
-        em.close();
-      }
     }
   }
 
   public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-    EntityManager em = null;
     try {
-      utx.begin();
-      em = getEntityManager();
+
       AddressType addressType;
       try {
         addressType = em.getReference(AddressType.class, id);
@@ -145,10 +125,9 @@ public class AddressTypeJpaController implements Serializable {
         addressListAddress = em.merge(addressListAddress);
       }
       em.remove(addressType);
-      utx.commit();
     } catch (Exception ex) {
       try {
-        utx.rollback();
+        ejbContext.setRollbackOnly();
       } catch (Exception re) {
         throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
       }
@@ -169,41 +148,26 @@ public class AddressTypeJpaController implements Serializable {
   }
 
   private List<AddressType> findAddressTypeEntities(boolean all, int maxResults, int firstResult) {
-    EntityManager em = getEntityManager();
-    try {
-      CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-      cq.select(cq.from(AddressType.class));
-      Query q = em.createQuery(cq);
-      if (!all) {
-        q.setMaxResults(maxResults);
-        q.setFirstResult(firstResult);
-      }
-      return q.getResultList();
-    } finally {
-      em.close();
+    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+    cq.select(cq.from(AddressType.class));
+    Query q = em.createQuery(cq);
+    if (!all) {
+      q.setMaxResults(maxResults);
+      q.setFirstResult(firstResult);
     }
+    return q.getResultList();
   }
 
   public AddressType findAddressType(Integer id) {
-    EntityManager em = getEntityManager();
-    try {
-      return em.find(AddressType.class, id);
-    } finally {
-      em.close();
-    }
+    return em.find(AddressType.class, id);
   }
 
   public int getAddressTypeCount() {
-    EntityManager em = getEntityManager();
-    try {
-      CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-      Root<AddressType> rt = cq.from(AddressType.class);
-      cq.select(em.getCriteriaBuilder().count(rt));
-      Query q = em.createQuery(cq);
-      return ((Long) q.getSingleResult()).intValue();
-    } finally {
-      em.close();
-    }
+    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+    Root<AddressType> rt = cq.from(AddressType.class);
+    cq.select(em.getCriteriaBuilder().count(rt));
+    Query q = em.createQuery(cq);
+    return ((Long) q.getSingleResult()).intValue();
   }
 
 }

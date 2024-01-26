@@ -47,9 +47,6 @@ public class AddressTypeController implements Serializable {
   }
 
   public AddressTypeJpaController getJpaController() {
-    if (jpaController == null) {
-      jpaController = new AddressTypeJpaController(utx, emf);
-    }
     return jpaController;
   }
 

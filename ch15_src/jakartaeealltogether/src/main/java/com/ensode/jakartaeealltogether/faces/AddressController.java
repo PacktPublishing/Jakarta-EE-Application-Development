@@ -9,6 +9,7 @@ import com.ensode.jakartaeealltogether.controller.exceptions.NonexistentEntityEx
 import com.ensode.jakartaeealltogether.entity.Address;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
 import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -31,13 +32,14 @@ public class AddressController implements Serializable {
   }
   private Address address = null;
   private List<Address> addressItems = null;
-  private AddressJpaController jpaController = null;
   private AddressConverter converter = null;
   private PagingInfo pagingInfo = null;
   @Resource
   private UserTransaction utx = null;
   @PersistenceUnit(unitName = "customerPersistenceUnit")
   private EntityManagerFactory emf = null;
+  @EJB
+  private AddressJpaController jpaController;
 
   public PagingInfo getPagingInfo() {
     if (pagingInfo.getItemCount() == -1) {
@@ -47,9 +49,6 @@ public class AddressController implements Serializable {
   }
 
   public AddressJpaController getJpaController() {
-    if (jpaController == null) {
-      jpaController = new AddressJpaController(utx, emf);
-    }
     return jpaController;
   }
 
