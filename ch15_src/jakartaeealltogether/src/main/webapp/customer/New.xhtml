@@ -17,9 +17,9 @@
     <h:form>
       <h:inputHidden id="validateCreateField" validator="#{customer.validateCreate}" value="value"/>
       <h:panelGrid columns="2">
-        <h:outputText value="FirstName:"/>
+        <h:outputText value="First Name:"/>
         <h:inputText id="firstName" value="#{customer.customer.firstName}" title="FirstName" required="true"/>
-        <h:outputText value="LastName:"/>
+        <h:outputText value="Last Name:"/>
         <h:inputText id="lastName" value="#{customer.customer.lastName}" title="LastName" required="true"/>
         <h:outputText value="Email:"/>
         <h:inputText id="email" value="#{customer.customer.email}" title="Email" required="true"/>
@@ -49,16 +49,14 @@
         </h:selectOneMenu>
         <h:outputText id="phoneLbl" value="Telephone Number"/>
         <h:inputText id="phone" value="#{customer.customer.telephoneList[0].telephoneNumber}" required="true"/>
+        <h:panelGroup/><h:panelGroup/>
+        <h:panelGroup/><h:panelGroup/>
+        <h:panelGroup/>
+        <h:panelGroup>
+          <h:commandButton action="#{customer.create}" value="Create"/>
+          <h:commandButton action="#{customer.listSetup}" value="Cancel" immediate="true"/>
+        </h:panelGroup>
       </h:panelGrid>
-      <br />
-      <h:commandLink action="#{customer.create}" value="Create"/>
-      <br />
-      <br />
-      <h:commandLink action="#{customer.listSetup}" value="Show All Customer Items" immediate="true"/>
-      <br />
-      <br />
-      <h:commandLink value="Index" action="/index" immediate="true" />
-
     </h:form>
   </body>
 </html>

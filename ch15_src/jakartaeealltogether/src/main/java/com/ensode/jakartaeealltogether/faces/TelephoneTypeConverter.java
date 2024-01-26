@@ -14,7 +14,7 @@ public class TelephoneTypeConverter implements Converter {
     if (string == null || string.length() == 0) {
       return null;
     }
-    Integer id = new Integer(string);
+    Integer id = Integer.valueOf(string);
     TelephoneTypeController controller = (TelephoneTypeController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "telephoneType");
     return controller.getJpaController().findTelephoneType(id);
   }

@@ -14,7 +14,7 @@ public class AddressTypeConverter implements Converter {
     if (string == null || string.length() == 0) {
       return null;
     }
-    Integer id = new Integer(string);
+    Integer id = Integer.valueOf(string);
     AddressTypeController controller = (AddressTypeController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "addressType");
     return controller.getJpaController().findAddressType(id);
   }

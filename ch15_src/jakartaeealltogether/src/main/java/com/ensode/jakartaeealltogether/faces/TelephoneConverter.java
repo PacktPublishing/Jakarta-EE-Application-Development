@@ -13,7 +13,7 @@ public class TelephoneConverter implements Converter {
     if (string == null || string.length() == 0) {
       return null;
     }
-    Integer id = new Integer(string);
+    Integer id = Integer.valueOf(string);
     TelephoneController controller = (TelephoneController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "telephone");
     return controller.getJpaController().findTelephone(id);
   }

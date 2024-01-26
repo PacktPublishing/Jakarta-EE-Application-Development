@@ -13,7 +13,7 @@ public class UsStateConverter implements Converter {
     if (string == null || string.length() == 0) {
       return null;
     }
-    Integer id = new Integer(string);
+    Integer id = Integer.valueOf(string);
     UsStateController controller = (UsStateController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "usState");
     return controller.getJpaController().findUsState(id);
   }

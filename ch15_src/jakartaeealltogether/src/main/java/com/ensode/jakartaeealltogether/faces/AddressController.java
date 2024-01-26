@@ -137,7 +137,7 @@ public class AddressController implements Serializable {
 
   public String destroy() {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentAddress");
-    Integer id = new Integer(idAsString);
+    Integer id = Integer.valueOf(idAsString);
     try {
       getJpaController().destroy(id);
       JsfUtil.addSuccessMessage("Address was successfully deleted.");

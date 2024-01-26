@@ -6,14 +6,14 @@
       xmlns:f="jakarta.faces.core">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Listing Customer Items</title>
+    <title>Customer List</title>
     <link rel="stylesheet" type="text/css" href="/jakartaeealltogether/faces/jsfcrud.css" />
   </head>
   <body>
     <h:panelGroup id="messagePanel" layout="block">
       <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
     </h:panelGroup>
-    <h1>Listing Customer Items</h1>
+    <h1>Customer List</h1>
     <h:form styleClass="jsfcrud_list_form">
       <h:outputText escape="false" value="(No Customer Items Found)" rendered="#{customer.pagingInfo.itemCount == 0}" />
       <h:panelGroup rendered="#{customer.pagingInfo.itemCount > 0}">
@@ -51,7 +51,7 @@
             <f:facet name="header">
               <h:outputText escape="false" value="&nbsp;"/>
             </f:facet>
-            <h:commandLink value="Show" action="#{customer.detailSetup}">
+            <h:commandLink value="View" action="#{customer.detailSetup}">
               <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customer.converter].jsfcrud_invoke}"/>
             </h:commandLink>
             <h:outputText value=" "/>
@@ -59,11 +59,10 @@
               <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customer.converter].jsfcrud_invoke}"/>
             </h:commandLink>
             <h:outputText value=" "/>
-            <h:commandLink value="Destroy" action="#{customer.destroy}">
+            <h:commandLink value="Delete" action="#{customer.destroy}">
               <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customer.converter].jsfcrud_invoke}"/>
             </h:commandLink>
           </h:column>
-
         </h:dataTable>
       </h:panelGroup>
       <br/>
@@ -71,8 +70,6 @@
       <br />
       <br />
       <h:commandLink value="Index" action="/index" immediate="true" />
-
-
     </h:form>
   </body>
 </html>

@@ -137,7 +137,7 @@ public class AddressTypeController implements Serializable {
 
   public String destroy() {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentAddressType");
-    Integer id = new Integer(idAsString);
+    Integer id = Integer.valueOf(idAsString);
     try {
       getJpaController().destroy(id);
       JsfUtil.addSuccessMessage("AddressType was successfully deleted.");

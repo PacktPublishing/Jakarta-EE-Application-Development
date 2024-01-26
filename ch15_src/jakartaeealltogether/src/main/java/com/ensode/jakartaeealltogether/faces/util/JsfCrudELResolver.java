@@ -282,14 +282,6 @@ public class JsfCrudELResolver extends ELResolver {
   /**
    * {@inheritDoc}
    */
-  public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context, Object base) {
-    //todo: implement
-    return null;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public Class getCommonPropertyType(ELContext context,
       Object base) {
     if (context == null) {

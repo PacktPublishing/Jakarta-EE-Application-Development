@@ -44,7 +44,7 @@
         <h:outputText id="phone" value="#{customer.customer.telephoneList[0].telephoneNumber}"/>
       </h:panelGrid>
       <br />
-      <h:commandLink action="#{customer.destroy}" value="Destroy">
+      <h:commandLink action="#{customer.destroy}" value="Delete">
         <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customer.customer][customer.converter].jsfcrud_invoke}" />
       </h:commandLink>
       <br />

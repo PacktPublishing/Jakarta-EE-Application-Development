@@ -138,7 +138,7 @@ public class TelephoneTypeController implements Serializable{
 
   public String destroy() {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentTelephoneType");
-    Integer id = new Integer(idAsString);
+    Integer id = Integer.valueOf(idAsString);
     try {
       getJpaController().destroy(id);
       JsfUtil.addSuccessMessage("TelephoneType was successfully deleted.");

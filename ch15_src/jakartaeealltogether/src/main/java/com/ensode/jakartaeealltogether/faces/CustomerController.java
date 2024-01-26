@@ -146,7 +146,7 @@ public class CustomerController implements Serializable {
 
   public String destroy() {
     String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentCustomer");
-    Integer id = new Integer(idAsString);
+    Integer id = Integer.valueOf(idAsString);
     try {
       getJpaController().destroy(id);
       JsfUtil.addSuccessMessage("Customer was successfully deleted.");

@@ -14,7 +14,7 @@ public class AddressConverter implements Converter {
     if (string == null || string.length() == 0) {
       return null;
     }
-    Integer id = new Integer(string);
+    Integer id = Integer.valueOf(string);
     AddressController controller = (AddressController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "address");
     return controller.getJpaController().findAddress(id);
   }

@@ -15,11 +15,9 @@
     <h1>Editing Customer</h1>
     <h:form>
       <h:panelGrid columns="2">
-        <h:outputText value="CustomerId:"/>
-        <h:outputText value="#{customer.customer.customerId}" title="CustomerId" />
-        <h:outputText value="FirstName:"/>
+        <h:outputText value="First Name:"/>
         <h:inputText id="firstName" value="#{customer.customer.firstName}" title="FirstName" />
-        <h:outputText value="LastName:"/>
+        <h:outputText value="Last Name:"/>
         <h:inputText id="lastName" value="#{customer.customer.lastName}" title="LastName" />
         <h:outputText value="Email:"/>
         <h:inputText id="email" value="#{customer.customer.email}" title="Email" />
@@ -60,7 +58,7 @@
         <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customer.customer][customer.converter].jsfcrud_invoke}"/>
       </h:commandLink>
       <br />
-      <h:commandLink action="#{customer.listSetup}" value="Show All Customer Items" immediate="true"/>
+      <h:commandLink action="#{customer.listSetup}" value="Cancel" immediate="true"/>
       <br />
       <br />
       <h:commandLink value="Index" action="/index" immediate="true" />
