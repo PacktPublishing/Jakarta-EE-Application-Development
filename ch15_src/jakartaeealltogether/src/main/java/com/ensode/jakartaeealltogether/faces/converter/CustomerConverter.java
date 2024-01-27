@@ -16,7 +16,7 @@ public class CustomerConverter implements Converter {
       return null;
     }
     Integer id = Integer.valueOf(string);
-    CustomerController controller = (CustomerController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "customer");
+    CustomerController controller = (CustomerController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "customerController");
     return controller.findCustomer(id);
   }
 

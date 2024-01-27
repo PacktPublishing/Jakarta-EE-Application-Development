@@ -17,40 +17,40 @@
     <h:form>
       <h:panelGrid columns="2">
         <h:outputText value="CustomerId:"/>
-        <h:outputText value="#{customer.customer.customerId}" title="CustomerId" />
+        <h:outputText value="#{customerController.customer.customerId}" title="CustomerId" />
         <h:outputText value="FirstName:"/>
-        <h:outputText value="#{customer.customer.firstName}" title="FirstName" />
+        <h:outputText value="#{customerController.customer.firstName}" title="FirstName" />
         <h:outputText value="LastName:"/>
-        <h:outputText value="#{customer.customer.lastName}" title="LastName" />
+        <h:outputText value="#{customerController.customer.lastName}" title="LastName" />
         <h:outputText value="Email:"/>
-        <h:outputText value="#{customer.customer.email}" title="Email" />
+        <h:outputText value="#{customerController.customer.email}" title="Email" />
 
         <h:outputText id="addrTypeLbl" value="Address Type"/>
-        <h:outputText id="addrType" value="#{customer.customer.addressList[0].addressTypeId.addressTypeText}"/>
+        <h:outputText id="addrType" value="#{customerController.customer.addressList[0].addressTypeId.addressTypeText}"/>
         <h:outputText id="addrLine1Lbl" value="Line 1"/>
-        <h:outputText id="addrLine1" value="#{customer.customer.addressList[0].addrLine1}"/>
+        <h:outputText id="addrLine1" value="#{customerController.customer.addressList[0].addrLine1}"/>
         <h:outputText id="addrLine2Lbl" value="Line 2"/>
-        <h:outputText id="addrLine2" value="#{customer.customer.addressList[0].addrLine2}"/>
+        <h:outputText id="addrLine2" value="#{customerController.customer.addressList[0].addrLine2}"/>
         <h:outputText id="addrCityLbl" value="City"/>
-        <h:outputText id="addrCity" value="#{customer.customer.addressList[0].city}"/>
+        <h:outputText id="addrCity" value="#{customerController.customer.addressList[0].city}"/>
         <h:outputText id="addrStateLbl" value="State"/>
-        <h:outputText id="state" value="#{customer.customer.addressList[0].usStateId.usStateNm}"/>
+        <h:outputText id="state" value="#{customerController.customer.addressList[0].usStateId.usStateNm}"/>
         <h:outputText id="addrZipLbl" value="Zip Code"/>
-        <h:outputText id="addrZip" value="#{customer.customer.addressList[0].zip}"/>
+        <h:outputText id="addrZip" value="#{customerController.customer.addressList[0].zip}"/>
 
         <h:outputText id="phoneTypeLbl" value="Telephone Type"/>
-        <h:outputText id="selectOnePhoneType" value="#{customer.customer.telephoneList[0].telephoneTypeId.telephoneTypeText}"/>
+        <h:outputText id="selectOnePhoneType" value="#{customerController.customer.telephoneList[0].telephoneTypeId.telephoneTypeText}"/>
         <h:outputText id="phoneLbl" value="Telephone Number"/>
-        <h:outputText id="phone" value="#{customer.customer.telephoneList[0].telephoneNumber}"/>
+        <h:outputText id="phone" value="#{customerController.customer.telephoneList[0].telephoneNumber}"/>
         <h:panelGroup/>
         <h:panelGroup>
-          <h:commandButton action="#{customer.editSetup}" value="Edit">
-            <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customer.customer][customer.converter].jsfcrud_invoke}" />
+          <h:commandButton action="#{customerController.editSetup}" value="Edit">
+            <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customerController.customer][customerController.converter].jsfcrud_invoke}" />
           </h:commandButton>
-          <h:commandButton action="#{customer.destroy}" value="Delete">
-            <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customer.customer][customer.converter].jsfcrud_invoke}" />
+          <h:commandButton action="#{customerController.destroy}" value="Delete">
+            <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customerController.customer][customerController.converter].jsfcrud_invoke}" />
           </h:commandButton>
-          <h:commandButton action="#{customer.listSetup}" value="Back"/>
+          <h:commandButton action="#{customerController.listSetup}" value="Back"/>
         </h:panelGroup>
       </h:panelGrid>
     </h:form>

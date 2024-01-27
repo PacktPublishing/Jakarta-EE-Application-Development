@@ -15,46 +15,46 @@
     </h:panelGroup>
     <h1>New Customer</h1>
     <h:form>
-      <h:inputHidden id="validateCreateField" validator="#{customer.validateCreate}" value="value"/>
+      <h:inputHidden id="validateCreateField" validator="#{customerController.validateCreate}" value="value"/>
       <h:panelGrid columns="2">
         <h:outputText value="First Name:"/>
-        <h:inputText id="firstName" value="#{customer.customer.firstName}" title="FirstName" required="true"/>
+        <h:inputText id="firstName" value="#{customerController.customer.firstName}" title="FirstName" required="true"/>
         <h:outputText value="Last Name:"/>
-        <h:inputText id="lastName" value="#{customer.customer.lastName}" title="LastName" required="true"/>
+        <h:inputText id="lastName" value="#{customerController.customer.lastName}" title="LastName" required="true"/>
         <h:outputText value="Email:"/>
-        <h:inputText id="email" value="#{customer.customer.email}" title="Email" required="true"/>
+        <h:inputText id="email" value="#{customerController.customer.email}" title="Email" required="true"/>
         <h2>Address</h2>
         <h:panelGroup/>
         <h:outputText id="addrType" value="Address Type"/>
-        <h:selectOneMenu id="selectOneAddr" value="#{customer.customer.addressList[0].addressTypeId}" required="true">
+        <h:selectOneMenu id="selectOneAddr" value="#{customerController.customer.addressList[0].addressTypeId}" required="true">
           <f:selectItems id="selectOneAddrOpts" value="#{addressType.addressTypeItemsAvailableSelectOne}"/>
         </h:selectOneMenu>
         <h:outputText id="addrLine1Lbl" value="Line 1"/>
-        <h:inputText id="addrLine1" value="#{customer.customer.addressList[0].addrLine1}" required="true"/>
+        <h:inputText id="addrLine1" value="#{customerController.customer.addressList[0].addrLine1}" required="true"/>
         <h:outputText id="addrLine2Lbl" value="Line 2"/>
-        <h:inputText id="addrLine2" value="#{customer.customer.addressList[0].addrLine2}"/>
+        <h:inputText id="addrLine2" value="#{customerController.customer.addressList[0].addrLine2}"/>
         <h:outputText id="addrCityLbl" value="City"/>
-        <h:inputText id="addrCity" value="#{customer.customer.addressList[0].city}" required="true"/>
+        <h:inputText id="addrCity" value="#{customerController.customer.addressList[0].city}" required="true"/>
         <h:outputText id="addrState" value="State"/>
-        <h:selectOneMenu id="selectOneState" value="#{customer.customer.addressList[0].usStateId}" required="true">
+        <h:selectOneMenu id="selectOneState" value="#{customerController.customer.addressList[0].usStateId}" required="true">
           <f:selectItems id="selectOneStateOpts" value="#{usState.usStateItemsAvailableSelectOne}"/>
         </h:selectOneMenu>
         <h:outputText id="addrZipLbl" value="Zip Code"/>
-        <h:inputText id="addrZip" value="#{customer.customer.addressList[0].zip}" required="true"/>
+        <h:inputText id="addrZip" value="#{customerController.customer.addressList[0].zip}" required="true"/>
         <h2>Telephone</h2>
         <h:panelGroup/>
         <h:outputText id="phoneTypeLbl" value="Telephone Type"/>
-        <h:selectOneMenu id="selectOnePhoneType" value="#{customer.customer.telephoneList[0].telephoneTypeId}" required="true">
+        <h:selectOneMenu id="selectOnePhoneType" value="#{customerController.customer.telephoneList[0].telephoneTypeId}" required="true">
           <f:selectItems id="selectOnePhoneTypeOpts" value="#{telephoneType.telephoneTypeItemsAvailableSelectOne}"/>
         </h:selectOneMenu>
         <h:outputText id="phoneLbl" value="Telephone Number"/>
-        <h:inputText id="phone" value="#{customer.customer.telephoneList[0].telephoneNumber}" required="true"/>
+        <h:inputText id="phone" value="#{customerController.customer.telephoneList[0].telephoneNumber}" required="true"/>
         <h:panelGroup/><h:panelGroup/>
         <h:panelGroup/><h:panelGroup/>
         <h:panelGroup/>
         <h:panelGroup>
-          <h:commandButton action="#{customer.create}" value="Save"/>
-          <h:commandButton action="#{customer.listSetup}" value="Cancel" immediate="true"/>
+          <h:commandButton action="#{customerController.create}" value="Save"/>
+          <h:commandButton action="#{customerController.listSetup}" value="Cancel" immediate="true"/>
         </h:panelGroup>
       </h:panelGrid>
     </h:form>

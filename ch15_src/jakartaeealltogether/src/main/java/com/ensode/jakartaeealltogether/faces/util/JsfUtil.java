@@ -92,10 +92,10 @@ public class JsfUtil {
   }
 
   public static String getCollectionAsString(Collection<?> collection) {
-    if (collection == null || collection.size() == 0) {
+    if (collection == null || collection.isEmpty()) {
       return "(No Items)";
     }
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     int i = 0;
     for (Object item : collection) {
       if (i > 0) {

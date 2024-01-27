@@ -8,7 +8,6 @@ import com.ensode.jakartaeealltogether.entity.Telephone;
 import com.ensode.jakartaeealltogether.faces.converter.CustomerConverter;
 import com.ensode.jakartaeealltogether.faces.util.JsfUtil;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
-import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.FacesException;
@@ -17,16 +16,13 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.model.SelectItem;
 import jakarta.inject.Named;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceUnit;
-import jakarta.transaction.UserTransaction;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-@Named("customer")
+@Named
 @SessionScoped
 public class CustomerController implements Serializable {
 
@@ -38,7 +34,7 @@ public class CustomerController implements Serializable {
   private List<Customer> customerItems = null;
   private CustomerConverter converter = null;
   private PagingInfo pagingInfo = null;
-  
+
   @EJB
   private CustomerDao dao;
 

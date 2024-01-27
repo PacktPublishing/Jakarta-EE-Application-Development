@@ -15,14 +15,14 @@
     </h:panelGroup>
     <h1>Customer List</h1>
     <h:form styleClass="jsfcrud_list_form">
-      <h:outputText escape="false" value="(No Customer Items Found)" rendered="#{customer.pagingInfo.itemCount == 0}" />
-      <h:panelGroup rendered="#{customer.pagingInfo.itemCount > 0}">
-        <h:outputText value="Item #{customer.pagingInfo.firstItem + 1}..#{customer.pagingInfo.lastItem} of #{customer.pagingInfo.itemCount}"/>&nbsp;
-        <h:commandLink action="#{customer.prev}" value="Previous #{customer.pagingInfo.batchSize}" rendered="#{customer.pagingInfo.firstItem >= customer.pagingInfo.batchSize}"/>&nbsp;
-        <h:commandLink action="#{customer.next}" value="Next #{customer.pagingInfo.batchSize}" rendered="#{customer.pagingInfo.lastItem + customer.pagingInfo.batchSize le customer.pagingInfo.itemCount}"/>&nbsp;
-        <h:commandLink action="#{customer.next}" value="Remaining #{customer.pagingInfo.itemCount - customer.pagingInfo.lastItem}"
-                       rendered="#{customer.pagingInfo.lastItem lt customer.pagingInfo.itemCount and customer.pagingInfo.lastItem + customer.pagingInfo.batchSize > customer.pagingInfo.itemCount}"/>
-        <h:dataTable value="#{customer.customerItems}" var="item1" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+      <h:outputText escape="false" value="(No Customer Items Found)" rendered="#{customerController.pagingInfo.itemCount == 0}" />
+      <h:panelGroup rendered="#{customerController.pagingInfo.itemCount > 0}">
+        <h:outputText value="Item #{customerController.pagingInfo.firstItem + 1}..#{customerController.pagingInfo.lastItem} of #{customerController.pagingInfo.itemCount}"/>&nbsp;
+        <h:commandLink action="#{customerController.prev}" value="Previous #{customerController.pagingInfo.batchSize}" rendered="#{customerController.pagingInfo.firstItem >= customerControllere.pagingInfo.batchSize}"/>&nbsp;
+        <h:commandLink action="#{customerController.next}" value="Next #{customerController.pagingInfo.batchSize}" rendered="#{customerController.pagingInfo.lastItem + customerController.pagingInfo.batchSize le customerController.pagingInfo.itemCount}"/>&nbsp;
+        <h:commandLink action="#{customerController.next}" value="Remaining #{customerController.pagingInfo.itemCount - customerController.pagingInfo.lastItem}"
+                       rendered="#{customerController.pagingInfo.lastItem lt customerController.pagingInfo.itemCount and customerController.pagingInfo.lastItem + customerController.pagingInfo.batchSize > customerController.pagingInfo.itemCount}"/>
+        <h:dataTable value="#{customerController.customerItems}" var="item1" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
           <h:column>
             <f:facet name="header">
               <h:outputText value="First Name"/>
@@ -45,22 +45,22 @@
             <f:facet name="header">
               <h:outputText escape="false" value="&nbsp;"/>
             </f:facet>
-            <h:commandLink value="View" action="#{customer.detailSetup}">
-              <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customer.converter].jsfcrud_invoke}"/>
+            <h:commandLink value="View" action="#{customerController.detailSetup}">
+              <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customerController.converter].jsfcrud_invoke}"/>
             </h:commandLink>
             <h:outputText value=" "/>
-            <h:commandLink value="Edit" action="#{customer.editSetup}">
-              <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customer.converter].jsfcrud_invoke}"/>
+            <h:commandLink value="Edit" action="#{customerController.editSetup}">
+              <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customerController.converter].jsfcrud_invoke}"/>
             </h:commandLink>
             <h:outputText value=" "/>
-            <h:commandLink value="Delete" action="#{customer.destroy}">
-              <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customer.converter].jsfcrud_invoke}"/>
+            <h:commandLink value="Delete" action="#{customerController.destroy}">
+              <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][item1][customerController.converter].jsfcrud_invoke}"/>
             </h:commandLink>
           </h:column>
         </h:dataTable>
       </h:panelGroup>
       <br/>
-      <h:commandButton action="#{customer.createSetup}" value="New Customer"/>
+      <h:commandButton action="#{customerController.createSetup}" value="New Customer"/>
     </h:form>
   </body>
 </html>
