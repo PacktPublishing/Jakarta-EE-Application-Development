@@ -8,7 +8,7 @@ import jakarta.faces.model.SelectItem;
 import jakarta.inject.Named;
 import java.io.Serializable;
 
-@Named("telephoneType")
+@Named
 @SessionScoped
 public class TelephoneTypeController implements Serializable {
 

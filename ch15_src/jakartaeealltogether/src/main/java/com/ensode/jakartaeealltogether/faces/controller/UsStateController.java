@@ -10,7 +10,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import java.io.Serializable;
 
-@Named("usState")
+@Named
 @SessionScoped
 public class UsStateController implements Serializable {
 

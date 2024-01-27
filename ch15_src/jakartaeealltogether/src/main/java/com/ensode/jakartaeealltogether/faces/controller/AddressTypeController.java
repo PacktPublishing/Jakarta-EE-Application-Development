@@ -9,7 +9,7 @@ import jakarta.inject.Named;
 import jakarta.persistence.PersistenceUnit;
 import java.io.Serializable;
 
-@Named("addressType")
+@Named
 @SessionScoped
 public class AddressTypeController implements Serializable {
 
