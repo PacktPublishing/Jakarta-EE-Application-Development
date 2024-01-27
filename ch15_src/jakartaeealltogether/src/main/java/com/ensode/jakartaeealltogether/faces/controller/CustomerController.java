@@ -38,10 +38,7 @@ public class CustomerController implements Serializable {
   private List<Customer> customerItems = null;
   private CustomerConverter converter = null;
   private PagingInfo pagingInfo = null;
-  @Resource
-  private UserTransaction utx = null;
-  @PersistenceUnit(unitName = "customerPersistenceUnit")
-  private EntityManagerFactory emf = null;
+  
   @EJB
   private CustomerDao dao;
 
