@@ -16,7 +16,7 @@ public class TelephoneTypeConverter implements Converter {
       return null;
     }
     Integer id = Integer.valueOf(string);
-    TelephoneTypeController controller = (TelephoneTypeController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "telephoneType");
+    TelephoneTypeController controller = (TelephoneTypeController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "telephoneTypeController");
     return controller.getDao().findTelephoneType(id);
   }
 

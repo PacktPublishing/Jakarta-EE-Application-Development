@@ -29,7 +29,7 @@ public class AddressType implements Serializable {
   private Character addressTypeCode;
   @Column(name = "ADDRESS_TYPE_TEXT")
   private String addressTypeText;
-  @OneToMany(mappedBy = "addressTypeId")
+  @OneToMany(mappedBy = "addressType")
   private List<Address> addressList;
 
   public AddressType() {

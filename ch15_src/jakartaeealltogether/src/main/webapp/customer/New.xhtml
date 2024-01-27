@@ -26,7 +26,7 @@
         <h2>Address</h2>
         <h:panelGroup/>
         <h:outputText id="addrType" value="Address Type"/>
-        <h:selectOneMenu id="selectOneAddr" value="#{customerController.customer.addressList[0].addressTypeId}" required="true">
+        <h:selectOneMenu id="selectOneAddr" value="#{customerController.customer.addressList[0].addressType}" required="true">
           <f:selectItems id="selectOneAddrOpts" value="#{addressTypeController.addressTypeItemsAvailableSelectOne}"/>
         </h:selectOneMenu>
         <h:outputText id="addrLine1Lbl" value="Line 1"/>
@@ -36,7 +36,7 @@
         <h:outputText id="addrCityLbl" value="City"/>
         <h:inputText id="addrCity" value="#{customerController.customer.addressList[0].city}" required="true"/>
         <h:outputText id="addrState" value="State"/>
-        <h:selectOneMenu id="selectOneState" value="#{customerController.customer.addressList[0].usStateId}" required="true">
+        <h:selectOneMenu id="selectOneState" value="#{customerController.customer.addressList[0].usState}" required="true">
           <f:selectItems id="selectOneStateOpts" value="#{usStateController.usStateItemsAvailableSelectOne}"/>
         </h:selectOneMenu>
         <h:outputText id="addrZipLbl" value="Zip Code"/>
@@ -44,7 +44,7 @@
         <h2>Telephone</h2>
         <h:panelGroup/>
         <h:outputText id="phoneTypeLbl" value="Telephone Type"/>
-        <h:selectOneMenu id="selectOnePhoneType" value="#{customerController.customer.telephoneList[0].telephoneTypeId}" required="true">
+        <h:selectOneMenu id="selectOnePhoneType" value="#{customerController.customer.telephoneList[0].telephoneType}" required="true">
           <f:selectItems id="selectOnePhoneTypeOpts" value="#{telephoneTypeController.telephoneTypeItemsAvailableSelectOne}"/>
         </h:selectOneMenu>
         <h:outputText id="phoneLbl" value="Telephone Number"/>

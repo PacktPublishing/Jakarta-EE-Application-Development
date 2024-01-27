@@ -31,10 +31,10 @@ public class Telephone implements Serializable {
   private String telephoneNumber;
   @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "CUSTOMER_ID")
   @ManyToOne
-  private Customer customerId;
+  private Customer customer;
   @JoinColumn(name = "TELEPHONE_TYPE_ID", referencedColumnName = "TELEPHONE_TYPE_ID")
   @ManyToOne
-  private TelephoneType telephoneTypeId;
+  private TelephoneType telephoneType;
 
   public Telephone() {
   }
@@ -59,20 +59,20 @@ public class Telephone implements Serializable {
     this.telephoneNumber = telephoneNumber;
   }
 
-  public Customer getCustomerId() {
-    return customerId;
+  public Customer getCustomer() {
+    return customer;
   }
 
-  public void setCustomerId(Customer customerId) {
-    this.customerId = customerId;
+  public void setCustomer(Customer customer) {
+    this.customer = customer;
   }
 
-  public TelephoneType getTelephoneTypeId() {
-    return telephoneTypeId;
+  public TelephoneType getTelephoneType() {
+    return telephoneType;
   }
 
-  public void setTelephoneTypeId(TelephoneType telephoneTypeId) {
-    this.telephoneTypeId = telephoneTypeId;
+  public void setTelephoneType(TelephoneType telephoneType) {
+    this.telephoneType = telephoneType;
   }
 
   @Override

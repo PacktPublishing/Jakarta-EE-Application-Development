@@ -29,7 +29,7 @@ public class TelephoneType implements Serializable {
   private Character telephoneTypeCd;
   @Column(name = "TELEPHONE_TYPE_TEXT")
   private String telephoneTypeText;
-  @OneToMany(mappedBy = "telephoneTypeId")
+  @OneToMany(mappedBy = "telephoneType")
   private List<Telephone> telephoneList;
 
   public TelephoneType() {

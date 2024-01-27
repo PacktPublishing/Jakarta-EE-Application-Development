@@ -36,9 +36,9 @@ public class Customer implements Serializable {
   private String lastName;
   @Column(name = "EMAIL")
   private String email;
-  @OneToMany(mappedBy = "customerId", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
   private List<Address> addressList;
-  @OneToMany(mappedBy = "customerId", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
   private List<Telephone> telephoneList;
 
   public Customer() {

@@ -31,7 +31,7 @@ public class UsState implements Serializable {
   @Basic(optional = false)
   @Column(name = "US_STATE_NM")
   private String usStateNm;
-  @OneToMany(mappedBy = "usStateId")
+  @OneToMany(mappedBy = "usState")
   private List<Address> addressList;
 
   public UsState() {

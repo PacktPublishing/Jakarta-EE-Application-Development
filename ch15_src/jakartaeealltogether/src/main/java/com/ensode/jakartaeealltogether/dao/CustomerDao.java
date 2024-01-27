@@ -42,8 +42,8 @@ public class CustomerDao implements Serializable {
       em.persist(customer);
 
       for (Address addressListAddress : customer.getAddressList()) {
-        Customer oldCustomerIdOfAddressListAddress = addressListAddress.getCustomerId();
-        addressListAddress.setCustomerId(customer);
+        Customer oldCustomerIdOfAddressListAddress = addressListAddress.getCustomer();
+        addressListAddress.setCustomer(customer);
         addressListAddress = em.merge(addressListAddress);
         if (oldCustomerIdOfAddressListAddress != null) {
           oldCustomerIdOfAddressListAddress.getAddressList().remove(addressListAddress);
@@ -51,8 +51,8 @@ public class CustomerDao implements Serializable {
         }
       }
       for (Telephone telephoneListTelephone : customer.getTelephoneList()) {
-        Customer oldCustomerIdOfTelephoneListTelephone = telephoneListTelephone.getCustomerId();
-        telephoneListTelephone.setCustomerId(customer);
+        Customer oldCustomerIdOfTelephoneListTelephone = telephoneListTelephone.getCustomer();
+        telephoneListTelephone.setCustomer(customer);
         telephoneListTelephone = em.merge(telephoneListTelephone);
         if (oldCustomerIdOfTelephoneListTelephone != null) {
           oldCustomerIdOfTelephoneListTelephone.getTelephoneList().remove(telephoneListTelephone);
@@ -103,12 +103,12 @@ public class CustomerDao implements Serializable {
       }
       List<Address> addressList = customer.getAddressList();
       for (Address addressListAddress : addressList) {
-        addressListAddress.setCustomerId(null);
+        addressListAddress.setCustomer(null);
         addressListAddress = em.merge(addressListAddress);
       }
       List<Telephone> telephoneList = customer.getTelephoneList();
       for (Telephone telephoneListTelephone : telephoneList) {
-        telephoneListTelephone.setCustomerId(null);
+        telephoneListTelephone.setCustomer(null);
         telephoneListTelephone = em.merge(telephoneListTelephone);
       }
       em.remove(customer);

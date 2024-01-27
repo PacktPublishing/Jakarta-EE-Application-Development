@@ -16,7 +16,7 @@ public class UsStateConverter implements Converter {
       return null;
     }
     Integer id = Integer.valueOf(string);
-    UsStateController controller = (UsStateController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "usState");
+    UsStateController controller = (UsStateController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "usStateController");
     return controller.getDao().findUsState(id);
   }
 

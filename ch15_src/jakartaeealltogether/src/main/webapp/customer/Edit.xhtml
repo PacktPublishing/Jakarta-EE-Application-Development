@@ -24,7 +24,7 @@
         <h2>Address</h2>
         <h:panelGroup/>
         <h:outputText id="addrType" value="Address Type"/>
-        <h:selectOneMenu id="selectOneAddr" value="#{customerController.customer.addressList[0].addressTypeId}">
+        <h:selectOneMenu id="selectOneAddr" value="#{customerController.customer.addressList[0].addressType}">
           <f:selectItems id="selectOneAddrOpts" value="#{addressTypeController.addressTypeItemsAvailableSelectOne}" />
         </h:selectOneMenu>
         <h:outputText id="addrLine1Lbl" value="Line 1"/>
@@ -34,7 +34,7 @@
         <h:outputText id="addrCityLbl" value="City"/>
         <h:inputText id="addrCity" value="#{customerController.customer.addressList[0].city}" required="true"/>
         <h:outputText id="addrState" value="State"/>
-        <h:selectOneMenu id="selectOneState" value="#{customerController.customer.addressList[0].usStateId}" required="true">
+        <h:selectOneMenu id="selectOneState" value="#{customerController.customer.addressList[0].usState}" required="true">
           <f:selectItems id="selectOneStateOpts" value="#{usStateController.usStateItemsAvailableSelectOne}"/>
         </h:selectOneMenu>
         <h:outputText id="addrZipLbl" value="Zip Code"/>
@@ -42,7 +42,7 @@
         <h2>Telephone</h2>
         <h:panelGroup/>
         <h:outputText id="phoneTypeLbl" value="Telephone Type"/>
-        <h:selectOneMenu id="selectOnePhoneType" value="#{customerController.customer.telephoneList[0].telephoneTypeId}" required="true">
+        <h:selectOneMenu id="selectOnePhoneType" value="#{customerController.customer.telephoneList[0].telephoneType}" required="true">
           <f:selectItems id="selectOnePhoneTypeOpts" value="#{telephoneTypeController.telephoneTypeItemsAvailableSelectOne}"/>
         </h:selectOneMenu>
         <h:outputText id="phoneLbl" value="Telephone Number"/>
@@ -50,7 +50,7 @@
         <h:panelGroup/>
         <h:panelGroup>
           <h:commandButton action="#{customerController.edit}" value="Save">
-            <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customer.customer][customer.converter].jsfcrud_invoke}"/>
+            <f:param name="jsfcrud.currentCustomer" value="#{jsfcrud_class['com.ensode.jakartaeealltogether.faces.util.JsfUtil'].jsfcrud_method['getAsConvertedString'][customerController.customer][customerController.converter].jsfcrud_invoke}"/>
           </h:commandButton>
           <h:commandButton action="#{customerController.listSetup}" value="Cancel" immediate="true"/>
         </h:panelGroup>

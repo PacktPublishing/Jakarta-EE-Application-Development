@@ -16,7 +16,7 @@ public class AddressTypeConverter implements Converter {
       return null;
     }
     Integer id = Integer.valueOf(string);
-    AddressTypeController controller = (AddressTypeController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "addressType");
+    AddressTypeController controller = (AddressTypeController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "addressTypeController");
     return controller.getDao().findAddressType(id);
   }
 

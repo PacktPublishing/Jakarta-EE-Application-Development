@@ -16,8 +16,6 @@
     <h1>Customer Detail</h1>
     <h:form>
       <h:panelGrid columns="2">
-        <h:outputText value="CustomerId:"/>
-        <h:outputText value="#{customerController.customer.customerId}" title="CustomerId" />
         <h:outputText value="FirstName:"/>
         <h:outputText value="#{customerController.customer.firstName}" title="FirstName" />
         <h:outputText value="LastName:"/>
@@ -26,7 +24,7 @@
         <h:outputText value="#{customerController.customer.email}" title="Email" />
 
         <h:outputText id="addrTypeLbl" value="Address Type"/>
-        <h:outputText id="addrType" value="#{customerController.customer.addressList[0].addressTypeId.addressTypeText}"/>
+        <h:outputText id="addrType" value="#{customerController.customer.addressList[0].addressType.addressTypeText}"/>
         <h:outputText id="addrLine1Lbl" value="Line 1"/>
         <h:outputText id="addrLine1" value="#{customerController.customer.addressList[0].addrLine1}"/>
         <h:outputText id="addrLine2Lbl" value="Line 2"/>
@@ -34,12 +32,12 @@
         <h:outputText id="addrCityLbl" value="City"/>
         <h:outputText id="addrCity" value="#{customerController.customer.addressList[0].city}"/>
         <h:outputText id="addrStateLbl" value="State"/>
-        <h:outputText id="state" value="#{customerController.customer.addressList[0].usStateId.usStateNm}"/>
+        <h:outputText id="state" value="#{customerController.customer.addressList[0].usState.usStateNm}"/>
         <h:outputText id="addrZipLbl" value="Zip Code"/>
         <h:outputText id="addrZip" value="#{customerController.customer.addressList[0].zip}"/>
 
         <h:outputText id="phoneTypeLbl" value="Telephone Type"/>
-        <h:outputText id="selectOnePhoneType" value="#{customerController.customer.telephoneList[0].telephoneTypeId.telephoneTypeText}"/>
+        <h:outputText id="selectOnePhoneType" value="#{customerController.customer.telephoneList[0].telephoneType.telephoneTypeText}"/>
         <h:outputText id="phoneLbl" value="Telephone Number"/>
         <h:outputText id="phone" value="#{customerController.customer.telephoneList[0].telephoneNumber}"/>
         <h:panelGroup/>

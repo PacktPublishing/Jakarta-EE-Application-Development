@@ -40,13 +40,13 @@ public class Address implements Serializable {
   private String zip;
   @JoinColumn(name = "ADDRESS_TYPE_ID", referencedColumnName = "ADDRESS_TYPE_ID")
   @ManyToOne
-  private AddressType addressTypeId;
+  private AddressType addressType;
   @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "CUSTOMER_ID")
   @ManyToOne
-  private Customer customerId;
+  private Customer customer;
   @JoinColumn(name = "US_STATE_ID", referencedColumnName = "US_STATE_ID")
   @ManyToOne
-  private UsState usStateId;
+  private UsState usState;
 
   public Address() {
   }
@@ -95,29 +95,31 @@ public class Address implements Serializable {
     this.zip = zip;
   }
 
-  public AddressType getAddressTypeId() {
-    return addressTypeId;
+  public AddressType getAddressType() {
+    return addressType;
   }
 
-  public void setAddressTypeId(AddressType addressTypeId) {
-    this.addressTypeId = addressTypeId;
+  public void setAddressType(AddressType addressType) {
+    this.addressType = addressType;
   }
 
-  public Customer getCustomerId() {
-    return customerId;
+  public Customer getCustomer() {
+    return customer;
   }
 
-  public void setCustomerId(Customer customerId) {
-    this.customerId = customerId;
+  public void setCustomer(Customer customer) {
+    this.customer = customer;
   }
 
-  public UsState getUsStateId() {
-    return usStateId;
+  public UsState getUsState() {
+    return usState;
   }
 
-  public void setUsStateId(UsState usStateId) {
-    this.usStateId = usStateId;
+  public void setUsState(UsState usState) {
+    this.usState = usState;
   }
+
+ 
 
   @Override
   public int hashCode() {
