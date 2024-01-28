@@ -41,7 +41,9 @@ public class PagingInfo {
 
   public int getLastItem() {
     getFirstItem();
-    return firstItem + batchSize > itemCount ? itemCount : firstItem + batchSize;
+    int lastItem = firstItem + batchSize > itemCount ? itemCount : firstItem + batchSize;
+
+    return lastItem;
   }
 
   public void nextPage() {

@@ -390,7 +390,7 @@ public class JsfCrudELResolver extends ELResolver {
 
     @Override
     public String toString() {
-      StringBuffer sb = new StringBuffer("JsfCrudParameterizedMethod[method=");
+      StringBuilder sb = new StringBuilder("JsfCrudParameterizedMethod[method=");
       sb.append(method);
       sb.append(",params=List[");
       int i = 0;

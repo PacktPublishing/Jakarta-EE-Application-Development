@@ -8,6 +8,7 @@ import com.ensode.jakartaeealltogether.entity.Telephone;
 import com.ensode.jakartaeealltogether.faces.converter.CustomerConverter;
 import com.ensode.jakartaeealltogether.faces.util.JsfUtil;
 import com.ensode.jakartaeealltogether.faces.util.PagingInfo;
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.FacesException;
@@ -26,7 +27,8 @@ import java.util.List;
 @SessionScoped
 public class CustomerController implements Serializable {
 
-  public CustomerController() {
+  @PostConstruct
+  public void init() {
     pagingInfo = new PagingInfo();
     converter = new CustomerConverter();
   }
@@ -34,6 +36,7 @@ public class CustomerController implements Serializable {
   private List<Customer> customerItems = null;
   private CustomerConverter converter = null;
   private PagingInfo pagingInfo = null;
+  private boolean renderPrevLink;
 
   @EJB
   private CustomerDao dao;
@@ -169,16 +172,22 @@ public class CustomerController implements Serializable {
     return dao.findCustomer(id);
   }
 
+  public boolean getRenderPrevLink(){
+    return renderPrevLink;
+  }
+
   public String next() {
     reset(false);
     getPagingInfo().nextPage();
-    return "customer_list";
+    renderPrevLink = getPagingInfo().getFirstItem() >= getPagingInfo().getBatchSize();
+    return "List";
   }
 
   public String prev() {
     reset(false);
     getPagingInfo().previousPage();
-    return "customer_list";
+    renderPrevLink = getPagingInfo().getFirstItem() >= getPagingInfo().getBatchSize();
+    return "List";
   }
 
   private String relatedControllerOutcome() {

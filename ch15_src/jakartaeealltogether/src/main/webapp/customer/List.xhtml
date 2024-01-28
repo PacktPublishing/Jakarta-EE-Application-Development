@@ -18,7 +18,7 @@
       <h:outputText escape="false" value="(No Customer Items Found)" rendered="#{customerController.pagingInfo.itemCount == 0}" />
       <h:panelGroup rendered="#{customerController.pagingInfo.itemCount > 0}">
         <h:outputText value="Item #{customerController.pagingInfo.firstItem + 1}..#{customerController.pagingInfo.lastItem} of #{customerController.pagingInfo.itemCount}"/>&nbsp;
-        <h:commandLink action="#{customerController.prev}" value="Previous #{customerController.pagingInfo.batchSize}" rendered="#{customerController.pagingInfo.firstItem >= customerControllere.pagingInfo.batchSize}"/>&nbsp;
+        <h:commandLink action="#{customerController.prev}" value="Previous #{customerController.pagingInfo.batchSize}" rendered="#{customerController.renderPrevLink}"/>&nbsp;
         <h:commandLink action="#{customerController.next}" value="Next #{customerController.pagingInfo.batchSize}" rendered="#{customerController.pagingInfo.lastItem + customerController.pagingInfo.batchSize le customerController.pagingInfo.itemCount}"/>&nbsp;
         <h:commandLink action="#{customerController.next}" value="Remaining #{customerController.pagingInfo.itemCount - customerController.pagingInfo.lastItem}"
                        rendered="#{customerController.pagingInfo.lastItem lt customerController.pagingInfo.itemCount and customerController.pagingInfo.lastItem + customerController.pagingInfo.batchSize > customerController.pagingInfo.itemCount}"/>
