@@ -40,25 +40,6 @@ public class CustomerDao implements Serializable {
       em.persist(customer.getAddressList().get(0));
       em.persist(customer.getTelephoneList().get(0));
       em.persist(customer);
-
-      for (Address addressListAddress : customer.getAddressList()) {
-        Customer oldCustomerIdOfAddressListAddress = addressListAddress.getCustomer();
-        addressListAddress.setCustomer(customer);
-        addressListAddress = em.merge(addressListAddress);
-        if (oldCustomerIdOfAddressListAddress != null) {
-          oldCustomerIdOfAddressListAddress.getAddressList().remove(addressListAddress);
-          oldCustomerIdOfAddressListAddress = em.merge(oldCustomerIdOfAddressListAddress);
-        }
-      }
-      for (Telephone telephoneListTelephone : customer.getTelephoneList()) {
-        Customer oldCustomerIdOfTelephoneListTelephone = telephoneListTelephone.getCustomer();
-        telephoneListTelephone.setCustomer(customer);
-        telephoneListTelephone = em.merge(telephoneListTelephone);
-        if (oldCustomerIdOfTelephoneListTelephone != null) {
-          oldCustomerIdOfTelephoneListTelephone.getTelephoneList().remove(telephoneListTelephone);
-          oldCustomerIdOfTelephoneListTelephone = em.merge(oldCustomerIdOfTelephoneListTelephone);
-        }
-      }
     } catch (Exception ex) {
       try {
         ejbContext.setRollbackOnly();
