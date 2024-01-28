@@ -6,7 +6,6 @@ import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.model.SelectItem;
 import jakarta.inject.Named;
-import jakarta.persistence.PersistenceUnit;
 import java.io.Serializable;
 
 @Named
@@ -16,7 +15,6 @@ public class AddressTypeController implements Serializable {
   @EJB
   private AddressTypeDao dao;
 
-  @PersistenceUnit(unitName = "customerPersistenceUnit")
   public SelectItem[] getAddressTypeItemsAvailableSelectOne() {
     return JsfUtil.getSelectItems(dao.findAddressTypeEntities(), true);
   }

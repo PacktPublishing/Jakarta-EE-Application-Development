@@ -1,8 +1,6 @@
 package com.ensode.jakartaeealltogether.dao;
 
 import com.ensode.jakartaeealltogether.entity.AddressType;
-import jakarta.annotation.Resource;
-import jakarta.ejb.EJBContext;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
