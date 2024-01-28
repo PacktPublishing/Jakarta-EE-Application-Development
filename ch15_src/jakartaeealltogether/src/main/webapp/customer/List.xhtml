@@ -15,7 +15,7 @@
     </h:panelGroup>
     <h1>Customer List</h1>
     <h:form styleClass="jsfcrud_list_form">
-      <h:outputText escape="false" value="(No Customer Items Found)" rendered="#{customerController.pagingInfo.itemCount == 0}" />
+      <h:outputText escape="false" value="(No customers found)" rendered="#{customerController.pagingInfo.itemCount == 0}" />
       <h:panelGroup rendered="#{customerController.pagingInfo.itemCount > 0}">
         <h:outputText value="Item #{customerController.pagingInfo.firstItem + 1}..#{customerController.pagingInfo.lastItem} of #{customerController.pagingInfo.itemCount}"/>&nbsp;
         <h:commandLink action="#{customerController.prev}" value="Previous #{customerController.pagingInfo.batchSize}" rendered="#{customerController.renderPrevLink}"/>&nbsp;
