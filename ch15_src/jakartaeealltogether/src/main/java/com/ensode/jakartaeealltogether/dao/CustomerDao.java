@@ -82,16 +82,7 @@ public class CustomerDao implements Serializable {
       } catch (EntityNotFoundException enfe) {
         throw new NonexistentEntityException("The customer with id " + id + " no longer exists.", enfe);
       }
-      List<Address> addressList = customer.getAddressList();
-      for (Address addressListAddress : addressList) {
-        addressListAddress.setCustomer(null);
-        addressListAddress = em.merge(addressListAddress);
-      }
-      List<Telephone> telephoneList = customer.getTelephoneList();
-      for (Telephone telephoneListTelephone : telephoneList) {
-        telephoneListTelephone.setCustomer(null);
-        telephoneListTelephone = em.merge(telephoneListTelephone);
-      }
+
       em.remove(customer);
     } catch (Exception ex) {
       try {

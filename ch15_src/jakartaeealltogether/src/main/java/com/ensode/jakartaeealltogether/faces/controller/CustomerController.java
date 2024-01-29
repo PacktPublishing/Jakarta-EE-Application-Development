@@ -75,9 +75,13 @@ public class CustomerController implements Serializable {
     reset(false);
     customer = new Customer();
     List<Address> addressList = new ArrayList<>(1);
-    addressList.add(new Address());
+    Address address = new Address();
     List<Telephone> telephoneList = new ArrayList<>(1);
-    telephoneList.add(new Telephone());
+    Telephone telephone = new Telephone();
+    address.setCustomer(customer);
+    addressList.add(address);
+    telephone.setCustomer(customer);
+    telephoneList.add(telephone);
     customer.setAddressList(addressList);
     customer.setTelephoneList(telephoneList);
     return "/customer/New";
@@ -172,7 +176,7 @@ public class CustomerController implements Serializable {
     return dao.findCustomer(id);
   }
 
-  public boolean getRenderPrevLink(){
+  public boolean getRenderPrevLink() {
     return renderPrevLink;
   }
 
