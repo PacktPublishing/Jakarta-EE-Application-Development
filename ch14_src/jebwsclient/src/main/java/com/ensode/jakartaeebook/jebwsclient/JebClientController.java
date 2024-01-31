@@ -10,25 +10,25 @@ import jakarta.xml.ws.WebServiceRef;
 @RequestScoped
 public class JebClientController {
 
-    @WebServiceRef(wsdlLocation = "http://localhost:8080/DecToHexBeanService/DecToHexBean?wsdl")
-    private DecToHexBeanService decToHexBeanService;
+  @WebServiceRef(wsdlLocation = "http://localhost:8080/DecToHexBeanService/DecToHexBean?wsdl")
+  private DecToHexBeanService decToHexBeanService;
 
-    @Inject
-    private JebClientModel jebClientModel;
+  @Inject
+  private JebClientModel jebClientModel;
 
-    private String hexVal;
+  private String hexVal;
 
-    public void convertIntToHex() {
-        hexVal = decToHexBeanService.getDecToHexBeanPort().
-                convertDecToHex(jebClientModel.getIntVal());
-    }
+  public void convertIntToHex() {
+    hexVal = decToHexBeanService.getDecToHexBeanPort().
+        convertDecToHex(jebClientModel.getIntVal());
+  }
 
-    public String getHexVal() {
-        return hexVal;
-    }
+  public String getHexVal() {
+    return hexVal;
+  }
 
-    public void setHexVal(String hexVal) {
-        this.hexVal = hexVal;
-    }
+  public void setHexVal(String hexVal) {
+    this.hexVal = hexVal;
+  }
 
 }
