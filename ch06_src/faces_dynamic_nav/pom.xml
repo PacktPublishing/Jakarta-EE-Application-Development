@@ -18,7 +18,7 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>facesdynamicnav</finalName>
+    <finalName>faces_dynamic_nav</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
