@@ -86,7 +86,9 @@ public class CustomerDao implements Serializable {
       try {
         ejbContext.setRollbackOnly();
       } catch (Exception re) {
-        throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
+        throw new RollbackFailureException("An error "
+            + "occurred attempting to roll back the transaction.",
+            re);
       }
       throw ex;
     }
