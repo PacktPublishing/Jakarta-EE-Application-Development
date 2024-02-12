@@ -39,6 +39,8 @@
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
+          <finalName>simplesessionbeanclient</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
           <archive>
             <manifest>
               <mainClass>com.ensode.jakartaeebook.SessionBeanClient</mainClass>
