@@ -29,6 +29,7 @@ public class H2DatabaseWrapper {
 
       server = Server.createTcpServer("-tcpAllowOthers").start();
 
+      System.setProperty("h2.bindAddress", "127.0.0.1");
       tcpJdbcUrl = String.format("jdbc:h2:%s/mem:customerdb", server.getURL());
       Class.forName("org.h2.Driver");
 
