@@ -1,6 +1,6 @@
-# Jakarta EE Application Development
+# Jakarta EE Application Development - Second Edition
 
-<a href="https://www.packtpub.com/product/clean-code-with-c-second-edition/9781837635191"> <img src="https://content.packt.com/B21231/cover_image_small.jpg" alt="Jakarta EE Application Development - Second Edition" itemprop="url" height="256px" align="right">
+<a href="https://www.packtpub.com/product/jakarta-ee-application-development-second-edition/9781835085264"> <img src="https://content.packt.com/B21231/cover_image_small.jpg" alt="Jakarta EE Application Development - Second Edition" itemprop="url" height="256px" align="right">
 
 This is the code repository for [Jakarta EE Application Development](https://www.packtpub.com/product/jakarta-ee-application-development-second-edition/9781835085264), published by Packt.
 
