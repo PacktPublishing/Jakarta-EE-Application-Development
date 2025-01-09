@@ -54,6 +54,9 @@ With the following software and hardware list you can run all code files present
 | Java IDE such as Eclipse IDE, IntelliJ IDEA or NetBeans recommended | Windows, macOS, or Linux |
 | A Jakarta EE 10 compliant implementation such as GlassFish, WildFly, or Apache TomEE required | Windows, macOS, or Linux |
 
+## Errata
+* Page 146 (Paragraph 1, line 5): **Customer instance** _should be_ **Order instance**
+
 ## Related products
 * Cloud-Native Development and Migration to Jakarta EE [[Packt]](https://www.packtpub.com/product/cloud-native-development-and-migration-to-jakarta-ee/9781837639625) [[Amazon]](https://a.co/d/46nuKqW)
 * Developer Career Masterplan [[Packt]](https://www.packtpub.com/product/developer-career-masterplan/9781801818704) [[Amazon]](https://a.co/d/1JhgDOe)
